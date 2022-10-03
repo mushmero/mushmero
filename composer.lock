@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "599accdb9f916b1fff439ca573780d10",
+    "content-hash": "fbf162d5be9500ca096009b078e5a63d",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -5466,6 +5466,81 @@
                 }
             ],
             "time": "2022-03-08T17:03:00+00:00"
+        },
+        {
+            "name": "wadeshuler/laravel-flashmessages",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WadeShuler/laravel-flashmessages.git",
+                "reference": "63ef7ee32adee814cedbc1f813416614994f7d69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WadeShuler/laravel-flashmessages/zipball/63ef7ee32adee814cedbc1f813416614994f7d69",
+                "reference": "63ef7ee32adee814cedbc1f813416614994f7d69",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.9|^7.0|^8.0|^9.0",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^4.0|^5.0|^6.17",
+                "phpunit/phpunit": "^8.5|^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "wadeshuler\\FlashMessages\\FlashMessagesProvider"
+                    ],
+                    "aliases": {
+                        "FlashMessages": "wadeshuler\\FlashMessages\\Facades\\FlashMessages"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/flash-messages-helpers.php"
+                ],
+                "psr-4": {
+                    "wadeshuler\\FlashMessages\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wade Shuler",
+                    "email": "wadeshuler@users.noreply.github.com"
+                }
+            ],
+            "description": "Laravel flash messages",
+            "homepage": "https://github.com/WadeShuler/laravel-flashmessages",
+            "keywords": [
+                "alert",
+                "alerts",
+                "bootstrap",
+                "flash",
+                "flashMessages",
+                "laravel",
+                "messages"
+            ],
+            "support": {
+                "issues": "https://github.com/WadeShuler/laravel-flashmessages/issues",
+                "source": "https://github.com/laravel/laravel-flashmessages"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/wadeshuler",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-08-06T21:50:57+00:00"
         },
         {
             "name": "webmozart/assert",
