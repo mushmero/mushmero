@@ -18,5 +18,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth' => 'user-access:admin'])->group(static function () {
+    Route::namespace('App\Http\Controllers')->group(static function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    });
+});
