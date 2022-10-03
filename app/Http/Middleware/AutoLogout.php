@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
+use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class AutoLogout
 {
@@ -36,7 +37,10 @@ class AutoLogout
             $cookie = cookie('intend', $is_logged_in ? url()->current() : 'home');
             
             auth()->logout();
-            $this->session->flash('status', 'Due to inactivity you have been logged out');
+            FlashMessages::addFlashMessage(
+                'error',
+                'Due to inactivity you have been logged out',
+            );
         }
 
         $is_logged_in ? $this->session->put('last_active', time()) : $this->session->forget('last_active');

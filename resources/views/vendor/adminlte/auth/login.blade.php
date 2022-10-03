@@ -21,6 +21,7 @@
 @section('auth_header', __('adminlte::adminlte.login_message'))
 
 @section('auth_body')
+    <x-flashmessages-container />
     <form action="{{ $login_url }}" method="post">
         @csrf
 
