@@ -8,6 +8,8 @@
     @endif
     {!! $getMessage() !!}
     @if ($isDismissable())
-    <a data-dismiss="alert" aria-label="Close"><i class="fas fa-times"></i></a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
     @endif
 </div>
