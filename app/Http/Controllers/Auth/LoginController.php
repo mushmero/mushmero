@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class LoginController extends Controller
 {
@@ -50,14 +51,13 @@ class LoginController extends Controller
 
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
-            if (auth()->user()->is_admin == 'admin') {
-                return redirect()->route('home');
-            }else{
-                return redirect()->route('home');
-            }
+            return redirect()->route('home');
         }else{
-            return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+            FlashMessages::addFlashMessage(
+                'error',
+                'Invalid Email or Password. Please try again',
+            );
+            return redirect()->route('login');
         }
     }
 }
