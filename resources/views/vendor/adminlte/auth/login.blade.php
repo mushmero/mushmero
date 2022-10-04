@@ -82,9 +82,7 @@
         </div>
 
     </form>
-@stop
 
-@section('auth_footer')
     {{-- Password reset link --}}
     @if($password_reset_url)
         <p class="my-0">
@@ -102,4 +100,8 @@
             </a>
         </p>
     @endif
+@stop
+
+@section('auth_footer')
+    <div class="text-center"><span><strong>{{ date('Y') .' '.config('app.name').' '.env('APP_VERSION') }}</strong> by <a href="https://mushmero.com" target="_blank">Mushmero</a></span></div>
 @stop
