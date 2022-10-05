@@ -1,0 +1,23 @@
+.dashboard-quote {
+    padding-bottom: 10px;
+}
+
+.dashboard-quote blockquote {
+    font-family: Georgia, serif;
+    font-style: italic;
+    max-width: 100%;
+    margin: 0.25em 0;
+    padding: 0.25em 0 0.35em 40px;
+    line-height: 1.45;
+    position: relative;
+    color: #383838;
+}
+
+.dashboard-quote blockquote cite {
+    color: #999999;
+    margin-top: 10px;
+}
+
+.dashboard-quote blockquote cite:before {
+    content: "— ";
+}

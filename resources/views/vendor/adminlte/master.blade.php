@@ -50,6 +50,7 @@
 
     {{-- Custom Stylesheets (post AdminLTE) --}}
     @yield('adminlte_css')
+    @vite(['resources/js/app.js'])
 
     {{-- Favicon --}}
     @if(config('adminlte.use_ico_only'))
