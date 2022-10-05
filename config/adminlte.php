@@ -359,6 +359,11 @@ return [
             'icon'  =>  'fas fa-fw fa-cog',
             'submenu'   =>  [
                 [
+                    'text'  =>  'settings_users',
+                    'url'   =>  '#',
+                    'icon'  =>  'fas fa-fw fa-user',
+                ],
+                [
                     'text'  =>  'settings_social',
                     'url'   =>  '#',
                     'icon'  =>  'fas fa-fw fa-wrench',

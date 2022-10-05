@@ -36,4 +36,5 @@ return [
     'settings_admin'                => 'Admin',
     'logs'                          => 'Logs',
     'user_access'                   => 'User Access',
+    'settings_users'                => 'Users',
 ];
