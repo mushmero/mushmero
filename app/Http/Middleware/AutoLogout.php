@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use wadeshuler\FlashMessages\Facades\FlashMessages;
+use Redirect;
 
 class AutoLogout
 {
@@ -37,10 +38,12 @@ class AutoLogout
             $cookie = cookie('intend', $is_logged_in ? url()->current() : 'home');
             
             auth()->logout();
+            $is_logged_in ? $this->session->put('last_active', time()) : $this->session->forget('last_active');
             FlashMessages::addFlashMessage(
                 'error',
                 'Due to inactivity you have been logged out',
             );
+            return Redirect::To('login');
         }
 
         $is_logged_in ? $this->session->put('last_active', time()) : $this->session->forget('last_active');
