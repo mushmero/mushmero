@@ -47,7 +47,7 @@ class User extends Authenticatable
     protected function isAdmin(): Attribute
     {
         return new Attribute(
-            get: fn ($value) =>  ["user", "admin"][$value],
+            get: fn ($value) =>  ["user", "superadmin"][$value],
         );
     }
 }
