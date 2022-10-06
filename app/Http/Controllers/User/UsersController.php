@@ -37,12 +37,21 @@ class UsersController extends Controller
         ];
 
         foreach($users as $user){
-            $data[] = array(
-                $user->name,
-                $user->email,
-                Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
-            );
+            if($user->id == 1){
+                $data[] = array(
+                    $user->name,
+                    $user->email,
+                    Carbon::parse($user->created_at)->format('d F Y'),
+                    '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                );
+            }else{
+                $data[] = array(
+                    $user->name,
+                    $user->email,
+                    Carbon::parse($user->created_at)->format('d F Y'),
+                    '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                );
+            }
         }
         
         $config = [
