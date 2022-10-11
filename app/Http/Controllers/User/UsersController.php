@@ -9,14 +9,19 @@ use Carbon\Carbon;
 use wadeshuler\FlashMessages\Facades\FlashMessages;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
     /**
      * Declare default template for button edit, button delete & button view
      */
-    public function __construct()
+    function __construct()
     {
+        $this->middleware('permission:all-list|all-create|all-edit|all-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:all-create', ['only' => ['create','store']]);
+        $this->middleware('permission:all-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:all-delete', ['only' => ['destroy']]);
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
@@ -28,6 +33,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $data = array();
         $users = User::all();
         $heads = [
             'Name',
@@ -41,7 +47,7 @@ class UsersController extends Controller
                 $user->name,
                 $user->email,
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.($user->is_admin == 'superadmin' ? 'disabled' : '').'" href="'.url('users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) ? 'disabled' : '').'" href="'.url('users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
@@ -64,7 +70,12 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::pluck('name','name')->all();
+        $config = [
+            "placeholder" => "Select required roles",
+            "allowClear" => true,
+        ];
+        return view('users.create', compact('roles','config'));
     }
 
     /**
@@ -80,6 +91,7 @@ class UsersController extends Controller
             'email' => 'required|email|unique:users',
             'password'=>'required|min:6|same:password_confirmation',
             'password_confirmation' => 'required|min:6',
+            'roles' => 'required',
         ]);
 
         $data = $request->all();
@@ -89,6 +101,12 @@ class UsersController extends Controller
             'email' =>  $data['email'],
             'password'  =>  Hash::make($data['password']),
         ]);
+
+        if(is_array($data['roles'])){
+            foreach($data['roles'] as $role){
+                $store->assignRole($role);
+            }
+        }
 
         if($store){
             FlashMessages::addFlashMessage(
@@ -126,9 +144,15 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $config = [
+            "placeholder" => "Select required roles",
+            "allowClear" => true,
+        ];
         $user = User::where('id', $id)->firstOrFail();
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
 
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user','roles','userRole','config'));
     }
 
     /**
@@ -144,6 +168,7 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'same:password_confirmation',
+            'roles' => 'required',
         ]);
 
         $data['name'] = $request->name;
@@ -160,6 +185,14 @@ class UsersController extends Controller
         }
 
         $user = User::find($id)->update($data);
+
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+        if(is_array($data['roles'])){
+            foreach($data['roles'] as $role){
+                $store->assignRole($role);
+            }
+        }
 
         if($user){
             FlashMessages::addFlashMessage(

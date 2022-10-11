@@ -18,6 +18,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
+                <x-adminlte-input name="roles" label="Roles" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ implode(',',$user->getRoleNames()->toArray()) }}" readonly/>
                 <x-slot name="footerSlot">
                     <a href="{{ route('users') }}">
                         <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>
