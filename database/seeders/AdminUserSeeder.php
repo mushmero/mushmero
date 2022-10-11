@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminUserSeeder extends Seeder
 {
@@ -17,12 +19,39 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        $this->adminRoles();
+        $this->createAdminUser();
+    }
+
+    public function adminRoles()
+    {
+        $permissions = [
+            'all-create',
+            'all-edit',
+            'all-delete',
+            'all-index',
+        ];
+
+        foreach($permissions as $permission){
+            Permission::create(['name' => $permission]);
+        }
+    }
+
+    public function createAdminUser()
+    {
+        $user = User::create([
             'name' => 'Super Admin',
             'email' => 'admin@resumed.com',
             'password' => Hash::make('Sup3r@dm!n'),
             'created_at' => Carbon::now(),
-            'is_admin' => 1,
-        ]);
+        ]);    
+
+        $role = Role::create(['name' => 'Superadmin']);   
+
+        $permissions = Permission::pluck('id','id')->all();   
+
+        $role->syncPermissions($permissions);    
+
+        $user->assignRole([$role->id]);
     }
 }
