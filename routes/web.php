@@ -33,4 +33,15 @@ Route::middleware(['auth'])->group(static function () {
             Route::get('/{id}/delete', 'UsersController@destroy')->name('users.delete');
         });        
     });
+    Route::namespace('App\Http\Controllers\User')->group(static function(){
+        Route::prefix('/roles')->group(static function(){
+            Route::get('/', 'RolesController@index')->name('roles');
+            Route::post('/', 'RolesController@store')->name('roles.store');
+            Route::get('/create', 'RolesController@create')->name('roles.create');
+            Route::get('/{id}/edit', 'RolesController@edit')->name('roles.edit');
+            Route::put('/{id}', 'RolesController@update')->name('roles.update');
+            Route::get('/{id}/show', 'RolesController@show')->name('roles.show');
+            Route::get('/{id}/delete', 'RolesController@destroy')->name('roles.delete');
+        });        
+    });
 });

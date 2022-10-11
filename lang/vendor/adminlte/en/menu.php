@@ -37,4 +37,5 @@ return [
     'logs'                          => 'Logs',
     'user_access'                   => 'User Access',
     'settings_users'                => 'Users',
+    'settings_roles'                => 'Roles',
 ];
