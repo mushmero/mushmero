@@ -11,8 +11,7 @@
         <div class="col-12">
             <x-adminlte-card title="Permission {{ $permission->name }}" theme="default" icon="fas fa-sm fa-user-shield" collapsible>
                 <x-adminlte-input name="name" label="Name" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $permission->name }}" readonly/>
-                <x-adminlte-input name="module" label="Module" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ explode('-',$permission->name)[0] }}" readonly/>
-                <x-adminlte-input name="permission" label="Permission" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ explode('-',$permission->name)[1] }}" readonly/>
+                <x-adminlte-input name="module" label="Module" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ explode('.',$permission->name)[0] }}" readonly/>
                 <x-slot name="footerSlot">
                     <a href="{{ route('permissions') }}">
                         <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>

@@ -15,7 +15,7 @@ class PermissionsController extends Controller
     
     function __construct()
     {
-        $this->btnEdit = config('adminlte.btn-edit');
+        //$this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
     }
@@ -38,8 +38,8 @@ class PermissionsController extends Controller
         foreach($permissions as $permission){
             $data[] = array(
                 $permission->name,
-                explode('-',$permission->name)[0],
-                '<nobr><a class="'.(explode('-',$permission->name)[0] == 'all' ? 'disabled' : '').'" href="'.url('settings_permissions/'.$permission->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(explode('-',$permission->name)[0] == 'all' ? 'disabled' : '').'" href="'.url('settings_permissions/'.$permission->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_permissions/'.$permission->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                explode('.',$permission->name)[0],
+                '<nobr><a href="'.url('settings_permissions/'.$permission->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
@@ -62,7 +62,7 @@ class PermissionsController extends Controller
      */
     public function create()
     {
-        $modules = Helper::getModulesFromMenu();
+        $modules = Helper::getModulesFromRoute();
         $config = [
             "placeholder" => "Select module",
             "allowClear" => true,
@@ -82,41 +82,25 @@ class PermissionsController extends Controller
             'modules' => 'required',
         ]);
 
-        $input = $request->all();
-        if(isset($input['create'])){
-            $permissions[] = $input['modules'].'-create';
-        }
-        if(isset($input['edit'])){
-            $permissions[] = $input['modules'].'-edit';
-        }
-        if(isset($input['index'])){
-            $permissions[] = $input['modules'].'-index';
-        }
-        if(isset($input['delete'])){
-            $permissions[] = $input['modules'].'-delete';
-        }
+        if(!Permission::where(['name' => $request->input('modules')])->exists()){
+            $store = Permission::create(['name' => $request->input('modules')]);
 
-        foreach($permissions as $permission){
-            if(!Permission::where(['name' => $permission])->exists()){
-                $store = Permission::create(['name' => $permission]);
-
-                if($store){
-                    FlashMessages::addFlashMessage(
-                        'success',
-                        'Permission created successfully',
-                    );
-                }else{
-                    FlashMessages::addFlashMessage(
-                        'error',
-                        'Unable to create permission',
-                    );
-                }
+            if($store){
+                FlashMessages::addFlashMessage(
+                    'success',
+                    'Permission created successfully',
+                );
             }else{
                 FlashMessages::addFlashMessage(
                     'error',
-                    'Permission "'.$permission.'" exists',
+                    'Unable to create permission',
                 );
             }
+        }else{
+            FlashMessages::addFlashMessage(
+                'error',
+                'Permission "'.$request->input('modules').'" exists',
+            );
         }
 
         return back();
@@ -143,7 +127,7 @@ class PermissionsController extends Controller
      */
     public function edit($id)
     {
-        $modules = Helper::getModulesFromMenu();
+        $modules = Helper::getModulesFromRoute();
         $permission = Permission::where('id', $id)->firstOrFail();
         $config = [
             "placeholder" => "Select module",
@@ -165,22 +149,8 @@ class PermissionsController extends Controller
         $this->validate($request, [
             'modules' => 'required',
         ]);
-        
-        $input = $request->all();
-        if(isset($input['create'])){
-            $permissions['name'] = $input['modules'].'-create';
-        }
-        if(isset($input['edit'])){
-            $permissions['name'] = $input['modules'].'-edit';
-        }
-        if(isset($input['index'])){
-            $permissions['name'] = $input['modules'].'-index';
-        }
-        if(isset($input['delete'])){
-            $permissions['name'] = $input['modules'].'-delete';
-        }
 
-        $update = Permission::where('id', $id)->update($permissions);
+        $update = Permission::where('id', $id)->update($request->input('modules'));
         if($update){
             FlashMessages::addFlashMessage(
                 'success',
@@ -202,8 +172,14 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        FlashMessages::addFlashMessage(
+            'success',
+            'Permission delete successfully',
+        );
+        return back();
+
     }
 }

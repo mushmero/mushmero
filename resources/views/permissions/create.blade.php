@@ -20,36 +20,6 @@
                             <option value="{{ $module }}">{{ $module }}</option>
                         @endforeach
                     </x-adminlte-select2>
-                    <div class="form-group row">
-                        <div class="icheck-primary col-md-1" title="{{ __('adminlte::adminlte.create') }}">
-                            <input type="checkbox" class="" name="create" id="create" {{ old('create') ? 'checked' : '' }}>
-
-                            <label for="create" class="control-label">
-                                {{ __('adminlte::adminlte.create') }}
-                            </label>
-                        </div>
-                        <div class="icheck-primary col-md-1" title="{{ __('adminlte::adminlte.edit') }}">
-                            <input type="checkbox" class="" name="edit" id="edit" {{ old('edit') ? 'checked' : '' }}>
-
-                            <label for="edit" class="control-label">
-                                {{ __('adminlte::adminlte.edit') }}
-                            </label>
-                        </div>
-                        <div class="icheck-primary col-md-1" title="{{ __('adminlte::adminlte.index') }}">
-                            <input type="checkbox" class="" name="index" id="index" {{ old('index') ? 'checked' : '' }}>
-
-                            <label for="index" class="control-label">
-                                {{ __('adminlte::adminlte.index') }}
-                            </label>
-                        </div>
-                        <div class="icheck-primary col-md-1" title="{{ __('adminlte::adminlte.delete') }}">
-                            <input type="checkbox" class="" name="delete" id="delete" {{ old('delete') ? 'checked' : '' }}>
-
-                            <label for="delete" class="control-label">
-                                {{ __('adminlte::adminlte.delete') }}
-                            </label>
-                        </div>
-                    </div>
                     <x-slot name="footerSlot">
                         <a href="{{ route('permissions') }}">
                             <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>
