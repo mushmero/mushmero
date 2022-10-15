@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 class Helper
 {    
-
     public static function getModulesFromMenu()
     {
         $menu = config('adminlte.menu');
@@ -23,5 +22,12 @@ class Helper
         }
         
         return $modules;
+    }
+
+    public static function getCurrentRoutePrefix()
+    {
+        $prefix = explode('/',Request()->route()->getPrefix())[1];
+        
+        return $prefix;
     }
 }
