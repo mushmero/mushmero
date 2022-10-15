@@ -8,18 +8,19 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
 use Auth;    
+use wadeshuler\FlashMessages\Facades\FlashMessages;
+use Helper;
 
 class RolesController extends Controller
 {
+    protected $btnEdit, $btnDelete, $btnDetails;
+    
     function __construct()
     {
-         $this->middleware('permission:all-list|all-create|all-edit|all-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:all-create', ['only' => ['create','store']]);
-         $this->middleware('permission:all-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:all-delete', ['only' => ['destroy']]);
-         $this->btnEdit = config('adminlte.btn-edit');
-         $this->btnDelete = config('adminlte.btn-delete');
-         $this->btnDetails = config('adminlte.btn-view');
+
+        $this->btnEdit = config('adminlte.btn-edit');
+        $this->btnDelete = config('adminlte.btn-delete');
+        $this->btnDetails = config('adminlte.btn-view');
     }
 
     /**
@@ -40,7 +41,7 @@ class RolesController extends Controller
         foreach($roles as $role){
             $data[] = array(
                 $role->name,
-                '<nobr><a href="'.url('roles/'.$role->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) ? 'disabled' : '').'" href="'.url('roles/'.$role->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('roles/'.$role->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('settings_roles/'.$role->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(!in_array('Superadmin', $user->getRoleNames()->toArray()) && $role->name == 'Superadmin' ? 'disabled' : '').'" href="'.url('settings_roles/'.$role->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_roles/'.$role->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
@@ -126,6 +127,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
         $role = Role::find($id);
         $permissions = Permission::get();
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
@@ -135,8 +137,13 @@ class RolesController extends Controller
             "placeholder" => "Select required permissions",
             "allowClear" => true,
         ];
+        if(in_array('Superadmin', $user->getRoleNames()->toArray())){
+            $status = 'disabled';
+        }else{
+            $status = '';
+        }
 
-        return view('roles.edit',compact('role','permissions','rolePermissions', 'config'));
+        return view('roles.edit',compact('role','permissions','rolePermissions', 'config','status'));
     }
 
     /**
@@ -156,7 +163,7 @@ class RolesController extends Controller
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
-        $role->syncPermissions($request->input('permission'));   
+        $role->syncPermissions($request->input('permissions'));   
 
         if($role){
             FlashMessages::addFlashMessage(

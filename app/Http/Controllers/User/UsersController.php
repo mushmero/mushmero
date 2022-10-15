@@ -10,22 +10,22 @@ use wadeshuler\FlashMessages\Facades\FlashMessages;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use DB;
 
 class UsersController extends Controller
 {
+    protected $btnEdit, $btnDelete, $btnDetails;
+
     /**
      * Declare default template for button edit, button delete & button view
      */
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:all-list|all-create|all-edit|all-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:all-create', ['only' => ['create','store']]);
-        $this->middleware('permission:all-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:all-delete', ['only' => ['destroy']]);
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,6 +38,7 @@ class UsersController extends Controller
         $heads = [
             'Name',
             'Email',
+            'Roles',
             'Member Since',
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
@@ -46,8 +47,9 @@ class UsersController extends Controller
             $data[] = array(
                 $user->name,
                 $user->email,
+                implode(',',$user->getRoleNames()->toArray()),
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) ? 'disabled' : '').'" href="'.url('users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
