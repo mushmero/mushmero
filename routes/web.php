@@ -18,12 +18,12 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::middleware(['auth'])->group(static function () {
+Route::middleware(['auth','permission'])->group(static function () {
     Route::namespace('App\Http\Controllers')->group(static function () {
         Route::get('/home', 'HomeController@index')->name('home');
     });
     Route::namespace('App\Http\Controllers\User')->group(static function(){
-        Route::prefix('/users')->group(static function(){
+        Route::prefix('/settings_users')->group(static function(){
             Route::get('/', 'UsersController@index')->name('users');
             Route::post('/', 'UsersController@store')->name('users.store');
             Route::get('/create', 'UsersController@create')->name('users.create');
@@ -32,9 +32,7 @@ Route::middleware(['auth'])->group(static function () {
             Route::get('/{id}/show', 'UsersController@show')->name('users.show');
             Route::get('/{id}/delete', 'UsersController@destroy')->name('users.delete');
         });        
-    });
-    Route::namespace('App\Http\Controllers\User')->group(static function(){
-        Route::prefix('/roles')->group(static function(){
+        Route::prefix('/settings_roles')->group(static function(){
             Route::get('/', 'RolesController@index')->name('roles');
             Route::post('/', 'RolesController@store')->name('roles.store');
             Route::get('/create', 'RolesController@create')->name('roles.create');
@@ -42,6 +40,17 @@ Route::middleware(['auth'])->group(static function () {
             Route::put('/{id}', 'RolesController@update')->name('roles.update');
             Route::get('/{id}/show', 'RolesController@show')->name('roles.show');
             Route::get('/{id}/delete', 'RolesController@destroy')->name('roles.delete');
-        });        
+        });   
+        Route::prefix('/settings_permissions')->group(static function(){
+            Route::get('/', 'PermissionsController@index')->name('permissions');
+            Route::post('/', 'PermissionsController@store')->name('permissions.store');
+            Route::get('/create', 'PermissionsController@create')->name('permissions.create');
+            Route::get('/{id}/edit', 'PermissionsController@edit')->name('permissions.edit');
+            Route::put('/{id}', 'PermissionsController@update')->name('permissions.update');
+            Route::get('/{id}/show', 'PermissionsController@show')->name('permissions.show');
+            Route::get('/{id}/delete', 'PermissionsController@destroy')->name('permissions.delete');
+        });   
+    });
+    Route::namespace('App\Http\Controllers')->group(static function(){     
     });
 });

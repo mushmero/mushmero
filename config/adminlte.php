@@ -360,13 +360,18 @@ return [
             'submenu'   =>  [
                 [
                     'text'  =>  'settings_users',
-                    'url'   =>  'users',
+                    'url'   =>  'settings_users',
                     'icon'  =>  'fas fa-fw fa-user',
                 ],
                 [
                     'text'  =>  'settings_roles',
-                    'url'   =>  'roles',
+                    'url'   =>  'settings_roles',
                     'icon'  =>  'fas fa-fw fa-user-cog',
+                ],
+                [
+                    'text'  =>  'settings_permissions',
+                    'url'   =>  'settings_permissions',
+                    'icon'  =>  'fas fa-fw fa-user-shield',
                 ],
                 [
                     'text'  =>  'settings_social',
@@ -521,6 +526,16 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'icheckBootstrap' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/icheck-bootstrap/icheck-bootstrap.min.css',
                 ],
             ],
         ],

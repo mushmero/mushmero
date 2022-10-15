@@ -38,4 +38,5 @@ return [
     'user_access'                   => 'User Access',
     'settings_users'                => 'Users',
     'settings_roles'                => 'Roles',
+    'settings_permissions'          => 'Permissions',
 ];
