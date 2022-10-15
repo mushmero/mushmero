@@ -28,4 +28,8 @@ return [
     'remember_me_hint'            => 'Keep me authenticated indefinitely or until I manually logout',
     'add_new'                     => 'Add New',
     'back'                        => 'Back',
+    'create'                      => 'Create',
+    'edit'                        => 'Edit',
+    'index'                       => 'Index',
+    'delete'                      => 'Delete',
 ];
