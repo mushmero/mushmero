@@ -19,22 +19,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
-        $this->adminRoles();
         $this->createAdminUser();
-    }
-
-    public function adminRoles()
-    {
-        $permissions = [
-            'all-create',
-            'all-edit',
-            'all-delete',
-            'all-index',
-        ];
-
-        foreach($permissions as $permission){
-            Permission::create(['name' => $permission]);
-        }
     }
 
     public function createAdminUser()
