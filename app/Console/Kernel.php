@@ -8,7 +8,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        Commands\GenerateRoutePermissions::class
+        Commands\GenerateRoutePermissions::class,
+        Commands\SocialIconsRefresh::class,
     ];
     /**
      * Define the application's command schedule.
