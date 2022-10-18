@@ -61,5 +61,14 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/show', 'SocialsController@show')->name('settings_social.show');
             Route::get('/{id}/delete', 'SocialsController@destroy')->name('settings_social.delete');
         }); 
+        Route::prefix('/settings_education')->group(static function(){
+            Route::get('/', 'EducationsController@index')->name('settings_education');
+            Route::post('/', 'EducationsController@store')->name('settings_education.store');
+            Route::get('/create', 'EducationsController@create')->name('settings_education.create');
+            Route::get('/{id}/edit', 'EducationsController@edit')->name('settings_education.edit');
+            Route::put('/{id}', 'EducationsController@update')->name('settings_education.update');
+            Route::get('/{id}/show', 'EducationsController@show')->name('settings_education.show');
+            Route::get('/{id}/delete', 'EducationsController@destroy')->name('settings_education.delete');
+        }); 
     });
 });

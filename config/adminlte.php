@@ -380,7 +380,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_education',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_education',
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
                 [
