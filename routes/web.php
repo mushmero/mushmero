@@ -51,6 +51,15 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/delete', 'PermissionsController@destroy')->name('permissions.delete');
         });   
     });
-    Route::namespace('App\Http\Controllers')->group(static function(){     
+    Route::namespace('App\Http\Controllers\Settings')->group(static function(){     
+        Route::prefix('/settings_social')->group(static function(){
+            Route::get('/', 'SocialsController@index')->name('settings_social');
+            Route::post('/', 'SocialsController@store')->name('settings_social.store');
+            Route::get('/create', 'SocialsController@create')->name('settings_social.create');
+            Route::get('/{id}/edit', 'SocialsController@edit')->name('settings_social.edit');
+            Route::put('/{id}', 'SocialsController@update')->name('settings_social.update');
+            Route::get('/{id}/show', 'SocialsController@show')->name('settings_social.show');
+            Route::get('/{id}/delete', 'SocialsController@destroy')->name('settings_social.delete');
+        }); 
     });
 });

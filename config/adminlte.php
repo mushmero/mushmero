@@ -375,7 +375,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_social',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_social',
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
                 [
