@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\GenerateRoutePermissions::class,
         Commands\SocialIconsRefresh::class,
+        Commands\SyncAdminPermission::class,
     ];
     /**
      * Define the application's command schedule.
