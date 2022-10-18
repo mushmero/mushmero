@@ -64,10 +64,14 @@ class SocialIconsRefresh extends Command
     function createRecord($icons)
     {
         foreach($icons as $icon){
-            $iconExist = SettingsSocial::where('name', $icon->class)->first();
+            $iconExist = SettingsSocial::where('name', $icon->name)->first();
 
             if(is_null($iconExist)){
-                SettingsSocial::create(['name' => $icon->class, 'type' => $icon->label]);
+                SettingsSocial::create([
+                    'fullname' => $icon->type.' fa-'.$icon->name,
+                    'name' => $icon->name, 
+                    'type' => $icon->type,
+                ]);
             }
         }
 
