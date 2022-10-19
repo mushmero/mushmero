@@ -79,5 +79,14 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/show', 'LanguagesController@show')->name('settings_language.show');
             Route::get('/{id}/delete', 'LanguagesController@destroy')->name('settings_language.delete');
         }); 
+        Route::prefix('/settings_project')->group(static function(){
+            Route::get('/', 'ProjectsController@index')->name('settings_project');
+            Route::post('/', 'ProjectsController@store')->name('settings_project.store');
+            Route::get('/create', 'ProjectsController@create')->name('settings_project.create');
+            Route::get('/{id}/edit', 'ProjectsController@edit')->name('settings_project.edit');
+            Route::put('/{id}', 'ProjectsController@update')->name('settings_project.update');
+            Route::get('/{id}/show', 'ProjectsController@show')->name('settings_project.show');
+            Route::get('/{id}/delete', 'ProjectsController@destroy')->name('settings_project.delete');
+        }); 
     });
 });

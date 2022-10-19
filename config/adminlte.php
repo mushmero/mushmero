@@ -390,7 +390,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_project',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_project',
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
                 [
