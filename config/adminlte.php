@@ -385,7 +385,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_language',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_language',
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
                 [
