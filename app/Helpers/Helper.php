@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Route;
+use Carbon\Carbon;
 
 class Helper
 {    
@@ -44,5 +45,10 @@ class Helper
             }
         }
         return $modules;
+    }
+
+    public static function formatDate($data, $timezone = 'Asia/Kuala_Lumpur')
+    {
+        return Carbon::parse($data)->setTimezone($timezone);
     }
 }
