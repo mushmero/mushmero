@@ -87,7 +87,7 @@ class RolesController extends Controller
 
         $role = Role::create(['name' => $request->input('name')]);
         
-        $role->syncPermissions($request->input('permission'));
+        $role->syncPermissions($request->input('permissions'));
 
         if($role){
             FlashMessages::addFlashMessage(
