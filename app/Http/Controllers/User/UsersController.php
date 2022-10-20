@@ -190,9 +190,11 @@ class UsersController extends Controller
 
         DB::table('model_has_roles')->where('model_id',$id)->delete();
 
+        $data['roles'] = $request->roles;
+
         if(is_array($data['roles'])){
             foreach($data['roles'] as $role){
-                $store->assignRole($role);
+                User::find($id)->assignRole($role);
             }
         }
 
