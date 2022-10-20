@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
         Commands\GenerateRoutePermissions::class,
         Commands\SocialIconsRefresh::class,
         Commands\SyncAdminPermission::class,
+        Commands\SyncRoleToUser::class,
     ];
     /**
      * Define the application's command schedule.
