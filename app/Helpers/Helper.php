@@ -47,8 +47,8 @@ class Helper
         return $modules;
     }
 
-    public static function formatDate($data, $timezone = 'Asia/Kuala_Lumpur')
+    public static function formatDate($date, $timezone = 'Asia/Kuala_Lumpur', $format = 'd-m-Y H:i:s')
     {
-        return Carbon::parse($data)->setTimezone($timezone);
+        return Carbon::parse($date)->setTimezone($timezone)->format($format);
     }
 }
