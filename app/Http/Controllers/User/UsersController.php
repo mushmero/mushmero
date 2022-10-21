@@ -55,8 +55,8 @@ class UsersController extends Controller
         
         $config = [
             'data' => $data,
-            'order' => [[1, 'asc']],
-            'columns' => [null, null, null, ['orderable' => false]],
+            'order' => [[0, 'asc']],
+            'columns' => [null, null, null, null, null],
         ];
 
         return view('users.list', [

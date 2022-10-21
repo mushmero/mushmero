@@ -16,15 +16,7 @@
                     </a>
                 </x-slot>
                 <x-flashmessages-container />
-                <x-adminlte-datatable id="table1" :heads="$heads" head-theme="dark" striped hoverable compressed>
-                    @foreach($config['data'] as $row)
-                        <tr>
-                            @foreach($row as $cell)
-                                <td>{!! $cell !!}</td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </x-adminlte-datatable>
+                <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark" striped hoverable compressed />
             </x-adminlte-card>
         </div>
     </div>
