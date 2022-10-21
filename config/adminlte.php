@@ -406,7 +406,7 @@ return [
             'submenu'   =>  [
                 [
                     'text'  =>  'user_access',
-                    'url'   =>  '#',
+                    'url'   =>  'user_access',
                     'icon'  =>  'fas fa-fw fa-file-alt',
                 ]
             ],
