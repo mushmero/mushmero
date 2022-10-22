@@ -394,7 +394,12 @@ return [
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
                 [
-                    'text'  =>  'settings_admin',
+                    'text'  =>  'settings_template',
+                    'url'   =>  '#',
+                    'icon'  =>  'fas fa-fw fa-wrench',
+                ],
+                [
+                    'text'  =>  'settings_pdf',
                     'url'   =>  '#',
                     'icon'  =>  'fas fa-fw fa-wrench',
                 ],
