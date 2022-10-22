@@ -39,4 +39,6 @@ return [
     'settings_users'                => 'Users',
     'settings_roles'                => 'Roles',
     'settings_permissions'          => 'Permissions',
+    'settings_template'             => 'Templates',
+    'settings_pdf'                  => 'PDF',
 ];
