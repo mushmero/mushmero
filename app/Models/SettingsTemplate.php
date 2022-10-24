@@ -14,7 +14,7 @@ class SettingsTemplate extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->useLogName('SettingsSocial')
+        ->useLogName('SettingsTemplate')
         ->logOnly([
             'name',
             'design',
