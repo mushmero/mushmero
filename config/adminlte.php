@@ -395,7 +395,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_template',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_template',
                     'icon'  =>  'fas fa-fw fa-file',
                 ],
                 [
@@ -541,6 +541,21 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/icheck-bootstrap/icheck-bootstrap.min.css',
+                ],
+            ],
+        ],
+        'Summernote' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.css',
                 ],
             ],
         ],

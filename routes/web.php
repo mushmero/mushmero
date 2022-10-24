@@ -92,5 +92,14 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/show', 'ProjectsController@show')->name('settings_project.show');
             Route::get('/{id}/delete', 'ProjectsController@destroy')->name('settings_project.delete');
         }); 
+        Route::prefix('/settings_template')->group(static function(){
+            Route::get('/', 'TemplatesController@index')->name('settings_template');
+            Route::post('/', 'TemplatesController@store')->name('settings_template.store');
+            Route::get('/create', 'TemplatesController@create')->name('settings_template.create');
+            Route::get('/{id}/edit', 'TemplatesController@edit')->name('settings_template.edit');
+            Route::put('/{id}', 'TemplatesController@update')->name('settings_template.update');
+            Route::get('/{id}/show', 'TemplatesController@show')->name('settings_template.show');
+            Route::get('/{id}/delete', 'TemplatesController@destroy')->name('settings_template.delete');
+        }); 
     });
 });
