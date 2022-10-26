@@ -42,7 +42,7 @@ class ActivityLogController extends Controller
 
         foreach($array as $arr){
             $data[] = array(
-                User::find($arr->causer_id)->name,
+                !empty($arr->causer_id) ? User::find($arr->causer_id)->name : 'System',
                 $arr->log_name,
                 $arr->description,
                 Helper::formatDate($arr->created_at),
