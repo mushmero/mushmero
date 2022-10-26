@@ -101,5 +101,14 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/show', 'TemplatesController@show')->name('settings_template.show');
             Route::get('/{id}/delete', 'TemplatesController@destroy')->name('settings_template.delete');
         }); 
+        Route::prefix('/settings_pdf')->group(static function(){
+            Route::get('/', 'PDFSettingsController@index')->name('settings_pdf');
+            Route::post('/', 'PDFSettingsController@store')->name('settings_pdf.store');
+            Route::get('/create', 'PDFSettingsController@create')->name('settings_pdf.create');
+            Route::get('/{id}/edit', 'PDFSettingsController@edit')->name('settings_pdf.edit');
+            Route::put('/{id}', 'PDFSettingsController@update')->name('settings_pdf.update');
+            Route::get('/{id}/show', 'PDFSettingsController@show')->name('settings_pdf.show');
+            Route::get('/{id}/delete', 'PDFSettingsController@destroy')->name('settings_pdf.delete');
+        }); 
     });
 });

@@ -400,7 +400,7 @@ return [
                 ],
                 [
                     'text'  =>  'settings_pdf',
-                    'url'   =>  '#',
+                    'url'   =>  'settings_pdf',
                     'icon'  =>  'fas fa-fw fa-file-pdf',
                 ],
             ],
