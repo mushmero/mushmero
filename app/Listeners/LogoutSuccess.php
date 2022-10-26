@@ -31,12 +31,23 @@ class LogoutSuccess
         $event->subject = 'Logout';
         $event->description = 'Logout successful';
 
-        activity($event->subject)->by($event->user)->withProperties([
-            'attributes' => [
-                'name' => $event->user->name,
-                'email' => $event->user->email,
-                'logged_out' => Carbon::now(),
-            ],
-        ])->log($event->description);
+        if(!empty($event->user)){
+            $attributes = [
+                'attributes' => [
+                    'name' => $event->user->name,
+                    'email' => $event->user->email,
+                    'logged_out' => Carbon::now(),
+                ],
+            ];
+        }else{
+            $attributes = [
+                'attributes' => [
+                    'name' => 'System auto logout',
+                    'logged_out' => Carbon::now(),
+                ],
+            ];
+        }
+
+        activity($event->subject)->by($event->user)->withProperties($attributes)->log($event->description);
     }
 }
