@@ -103,8 +103,8 @@ class ActivityLogController extends Controller
 
         if(!empty($oldChanges) && !empty($newChanges)){
             if(is_array($newChanges) && is_array($oldChanges)){
-                $new = array_diff($newChanges, $oldChanges);
-                $old = array_diff($oldChanges, $newChanges);
+                $new = array_diff_assoc($newChanges, $oldChanges);
+                $old = array_diff_assoc($oldChanges, $newChanges);
             }        
         }else{
             $new = $newChanges;
