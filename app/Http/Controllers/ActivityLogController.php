@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use App\Models\User;
 use Carbon\Carbon;
-use Helper;
+use App\Helpers\Helper;
 
 class ActivityLogController extends Controller
 {
@@ -30,7 +30,7 @@ class ActivityLogController extends Controller
     public function index()
     {
         $data = array();
-        $array = Activity::all();
+        $array = Activity::all()->sortByDesc("created_at");
 
         $heads = [
             'User',
@@ -52,7 +52,6 @@ class ActivityLogController extends Controller
 
         $config = [
             'data' => $data,
-            'order' => [[3,'desc']],
             'columns' => [null, null, null, null, null],
         ];
 
