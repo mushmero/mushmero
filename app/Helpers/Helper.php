@@ -47,6 +47,23 @@ class Helper
         return $modules;
     }
 
+	public static function getSystemModules()
+	{
+		$systemModules = [
+			'adminlte.darkmode.toggle',
+			'sanctum.csrf-cookie',
+			'login',
+			'logout',
+			'register',
+			'password.request',
+			'password.email',
+			'password.reset',
+			'password.update',
+			'password.confirm',
+		];
+		return $systemModules;
+	}
+
     public static function formatDate($date, $timezone = 'Asia/Kuala_Lumpur', $format = 'd-m-Y H:i:s')
     {
         return Carbon::parse($date)->setTimezone($timezone)->format($format);

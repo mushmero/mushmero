@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Auth;    
 use wadeshuler\FlashMessages\Facades\FlashMessages;
-use Helper;
+use App\Helpers\Helper;
 
 class RolesController extends Controller
 {
@@ -64,12 +64,13 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get();
+        $permissions = $this->customModules();
+        $systemPermissions = $this->systemModules();
         $config = [
             "placeholder" => "Select required permissions",
             "allowClear" => true,
         ];
-        return view('roles.create',compact('permissions','config'));
+        return view('roles.create',compact('systemPermissions','permissions','config'));
     }
 
     /**
@@ -82,12 +83,15 @@ class RolesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
+            'systemPermissions' => 'required',
             'permissions' => 'required',
         ]);
+        $selectedPermissions = array_merge($request->input('systemPermissions'), $request->input('permissions'));
+        $permissions = $this->getSelectedPermissionsId($selectedPermissions);
 
         $role = Role::create(['name' => $request->input('name')]);
         
-        $role->syncPermissions($request->input('permissions'));
+        $role->syncPermissions($permissions);
 
         if($role){
             FlashMessages::addFlashMessage(
@@ -113,10 +117,19 @@ class RolesController extends Controller
     public function show($id)
     {
         $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-        ->where("role_has_permissions.role_id",$id)->get()->pluck('name')->all();
+        $permissions = $this->customModules();
+        $systemPermissions = $this->systemModules();
 
-        return view('roles.show',compact('role','rolePermissions'));
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
+            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+            ->all();
+
+        $permittedPermissions = [];
+        foreach($rolePermissions as $rolePermission){
+            $permittedPermissions[] = Permission::findById($rolePermission)->name;
+        }
+
+        return view('roles.show',compact('role','permissions','systemPermissions','permittedPermissions'));
     }
 
     /**
@@ -129,21 +142,19 @@ class RolesController extends Controller
     {
         $user = Auth::user();
         $role = Role::find($id);
-        $permissions = Permission::get();
+        $permissions = $this->customModules();
+        $systemPermissions = $this->systemModules();
+
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all(); 
-        $config = [
-            "placeholder" => "Select required permissions",
-            "allowClear" => true,
-        ];
-        if(in_array('Superadmin', $user->getRoleNames()->toArray())){
-            $status = 'disabled';
-        }else{
-            $status = '';
+            ->all();
+
+        $permittedPermissions = [];
+        foreach($rolePermissions as $rolePermission){
+            $permittedPermissions[] = Permission::findById($rolePermission)->name;
         }
 
-        return view('roles.edit',compact('role','permissions','rolePermissions', 'config','status'));
+        return view('roles.edit',compact('role','permissions','systemPermissions','permittedPermissions'));
     }
 
     /**
@@ -157,13 +168,17 @@ class RolesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'systemPermissions' => 'required',
             'permissions' => 'required',
         ]);
+
+        $selectedPermissions = array_merge($request->input('systemPermissions'), $request->input('permissions'));
+        $permissions = $this->getSelectedPermissionsId($selectedPermissions);
     
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
-        $role->syncPermissions($request->input('permissions'));   
+        $role->syncPermissions($permissions);   
 
         if($role){
             FlashMessages::addFlashMessage(
@@ -194,5 +209,54 @@ class RolesController extends Controller
             'Role deleted successfully',
         );
         return redirect()->route('roles');
+    }
+    private function systemModules()
+    {
+        $systemModules = Helper::getSystemModules();
+
+        $system = [];
+
+        foreach($systemModules as $systemModule){
+            $system['system'][] = $systemModule;
+        }
+
+        return $system;
+
+    }
+    private function customModules()
+    {
+        $allModules = Helper::getModulesFromRoute();
+        $systemModules = Helper::getSystemModules();
+
+        $structuredModules = [];
+
+        foreach(array_diff($allModules, $systemModules) as $module){
+            if(strpos($module,'.')){
+                $explode = explode('.', $module);
+                $structuredModules[$explode[0]][] = $explode[1];
+            }else{
+                $structuredModules[$module][] = $module;
+            }
+        }
+
+        return $structuredModules;
+    }
+
+    private function getSelectedPermissionsId($permissions)
+    {
+        $permissionID = [];
+        foreach($permissions as $permission){
+            $explodePermission = explode('.', $permission);
+            if(count($explodePermission) == 2){
+                if($explodePermission[0] == $explodePermission[1]){
+                    $permissionID[] = Permission::findByName($explodePermission[1]);
+                }else{
+                    $permissionID[] = Permission::findByName($permission);
+                }
+            }else{
+                $permissionID[] = Permission::findByName($permission);
+            }
+        }
+        return $permissionID;
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Auth;
-use Helper;
+use App\Helpers\Helper;
 use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class PermissionsController extends Controller
