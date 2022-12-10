@@ -52,6 +52,7 @@ class ActivityLogController extends Controller
 
         $config = [
             'data' => $data,
+            'order' => [],
             'columns' => [null, null, null, null, null],
         ];
 
