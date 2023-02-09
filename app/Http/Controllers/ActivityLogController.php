@@ -113,7 +113,7 @@ class ActivityLogController extends Controller
 
         if(isset($activity)){
             $data = array(
-                'user' => User::find($activity->causer_id)->name,
+                'user' => !empty($activity->causer_id) ? User::find($activity->causer_id)->name : 'System',
                 'action' => $activity->log_name,
                 'description' => $activity->description,
                 'target' => isset($activity->subject_id) ? User::find($activity->subject_id)->name : '',
