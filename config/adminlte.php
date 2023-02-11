@@ -335,7 +335,7 @@ return [
         ['header' => 'info'],
         [
             'text'  =>  'objectives',
-            'url'   =>  '#',
+            'url'   =>  'objectives',
             'icon'  =>  'fas fa-fw fa-bullseye',
         ],
         [
@@ -556,6 +556,21 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/summernote/summernote-bs4.min.css',
+                ],
+            ],
+        ],
+        'bootstrapSwitch' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css',
                 ],
             ],
         ],

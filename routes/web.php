@@ -111,4 +111,15 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/delete', 'PDFSettingsController@destroy')->name('settings_pdf.delete');
         }); 
     });
+    Route::namespace('App\Http\Controllers\Modules')->group(static function(){
+        Route::prefix('/objectives')->group(static function(){
+            Route::get('/', 'ObjectivesController@index')->name('objectives');
+            Route::post('/', 'ObjectivesController@store')->name('objectives.store');
+            Route::get('/create', 'ObjectivesController@create')->name('objectives.create');
+            Route::get('/{id}/edit', 'ObjectivesController@edit')->name('objectives.edit');
+            Route::put('/{id}', 'ObjectivesController@update')->name('objectives.update');
+            Route::get('/{id}/show', 'ObjectivesController@show')->name('objectives.show');
+            Route::get('/{id}/delete', 'ObjectivesController@destroy')->name('objectives.delete');            
+        });
+    });
 });
