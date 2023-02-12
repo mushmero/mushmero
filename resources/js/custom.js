@@ -42,4 +42,30 @@ $(document).ready(function() {
               }
           });
       }
+
+      experiences();
 });
+
+function experiences()
+{
+    $('#startDate').on('blur', function(){
+        $('#startDate').datetimepicker('hide');
+    });
+    $('#endDate').on('blur', function(){
+        $('#endDate').datetimepicker('hide');
+    });
+
+    $('#current').on('change', function(e){
+        if($('#current:checked').length > 0){
+            $('#endDate').parent().hide();
+        }else{
+            $('#endDate').parent().show();
+        }
+    });
+    
+    if($('#current:checked').length > 0){
+        $('#endDate').parent().hide();
+    }else{
+        $('#endDate').parent().show();
+    }
+}

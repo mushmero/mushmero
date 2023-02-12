@@ -340,7 +340,7 @@ return [
         ],
         [
             'text'  =>  'experiences',
-            'url'   =>  '#',
+            'url'   =>  'experiences',
             'icon'  =>  'fas fa-fw fa-briefcase',
         ],
         [
@@ -571,6 +571,26 @@ return [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css',
+                ],
+            ],
+        ],
+        'TempusDominusBs4' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/moment/moment.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
                 ],
             ],
         ],

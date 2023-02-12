@@ -121,5 +121,14 @@ Route::middleware(['auth','permission'])->group(static function () {
             Route::get('/{id}/show', 'ObjectivesController@show')->name('objectives.show');
             Route::get('/{id}/delete', 'ObjectivesController@destroy')->name('objectives.delete');            
         });
+        Route::prefix('/experiences')->group(static function(){
+            Route::get('/', 'ExperiencesController@index')->name('experiences');
+            Route::post('/', 'ExperiencesController@store')->name('experiences.store');
+            Route::get('/create', 'ExperiencesController@create')->name('experiences.create');
+            Route::get('/{id}/edit', 'ExperiencesController@edit')->name('experiences.edit');
+            Route::put('/{id}', 'ExperiencesController@update')->name('experiences.update');
+            Route::get('/{id}/show', 'ExperiencesController@show')->name('experiences.show');
+            Route::get('/{id}/delete', 'ExperiencesController@destroy')->name('experiences.delete');            
+        });
     });
 });
