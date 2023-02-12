@@ -148,7 +148,7 @@ class ObjectivesController extends Controller
         ]);
 
         $data['name'] = $request->input('name');
-        $data['is_active'] = $request->input('is_active');
+        $data['is_active'] = $request->input('is_active') == true ? 1 : 0;
         $data['user_id'] = auth()->user()->id;
 
         $update = Objectives::find($id)->update($data);
