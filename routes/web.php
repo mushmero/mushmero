@@ -129,6 +129,15 @@ Route::middleware(['auth','permission'])->group(static function () {
                 Route::get('/{id}/show', 'ExperiencesController@show')->name('experiences.show');
                 Route::get('/{id}/delete', 'ExperiencesController@destroy')->name('experiences.delete');            
             });
+            Route::prefix('/projects')->group(static function(){
+                Route::get('/', 'ProjectsController@index')->name('projects');
+                Route::post('/', 'ProjectsController@store')->name('projects.store');
+                Route::get('/create', 'ProjectsController@create')->name('projects.create');
+                Route::get('/{id}/edit', 'ProjectsController@edit')->name('projects.edit');
+                Route::put('/{id}', 'ProjectsController@update')->name('projects.update');
+                Route::get('/{id}/show', 'ProjectsController@show')->name('projects.show');
+                Route::get('/{id}/delete', 'ProjectsController@destroy')->name('projects.delete');            
+            });
         });
     });
 });

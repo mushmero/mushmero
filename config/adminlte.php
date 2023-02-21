@@ -345,7 +345,7 @@ return [
         ],
         [
             'text'  =>  'projects',
-            'url'   =>  '#',
+            'url'   =>  'projects',
             'icon'  =>  'fas fa-fw fa-archive',
         ],
         [
