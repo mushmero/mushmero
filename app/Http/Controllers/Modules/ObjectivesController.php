@@ -17,6 +17,7 @@ class ObjectivesController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('autologout');
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
