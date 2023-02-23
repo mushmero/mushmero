@@ -324,7 +324,7 @@ return [
         ],
         [
             'text'  =>  'languages',
-            'url'   =>  '#',
+            'url'   =>  'languages',
             'icon'  =>  'fas fa-fw fa-language',
         ],
         [

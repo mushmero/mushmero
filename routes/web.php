@@ -156,6 +156,15 @@ Route::middleware(['auth','permission'])->group(static function () {
                 Route::get('/{id}/show', 'InterestsController@show')->name('interests.show');
                 Route::get('/{id}/delete', 'InterestsController@destroy')->name('interests.delete');            
             });
+            Route::prefix('/languages')->group(static function(){
+                Route::get('/', 'LanguagesController@index')->name('languages');
+                Route::post('/', 'LanguagesController@store')->name('languages.store');
+                Route::get('/create', 'LanguagesController@create')->name('languages.create');
+                Route::get('/{id}/edit', 'LanguagesController@edit')->name('languages.edit');
+                Route::put('/{id}', 'LanguagesController@update')->name('languages.update');
+                Route::get('/{id}/show', 'LanguagesController@show')->name('languages.show');
+                Route::get('/{id}/delete', 'LanguagesController@destroy')->name('languages.delete');            
+            });
         });
     });
 });
