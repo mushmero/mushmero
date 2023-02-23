@@ -319,7 +319,7 @@ return [
         ],
         [
             'text'  =>  'educations',
-            'url'   =>  '#',
+            'url'   =>  'educations',
             'icon'  =>  'fas fa-fw fa-university',
         ],
         [
