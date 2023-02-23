@@ -14,7 +14,7 @@
                 @method('put')
                 @csrf
                 <x-adminlte-card title="Edit Skill {{ $data->name }}" theme="default" icon="fas fa-sm fa-rocket" collapsible>
-                    <x-adminlte-input name="name" label="Project Name" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $data->name }}" required enable-old-support/>
+                    <x-adminlte-input name="name" label="Skill Name" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $data->name }}" required enable-old-support/>
                 <x-adminlte-input name="percentage" label="Percentage" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" placeholder="Percentage" type="number" required enable-old-support igroup-size="md" min=1 max=100 value="{{ $data->percentage }}" >
                     <x-slot name="appendSlot">
                         <div class="input-group-text bg-dark">
