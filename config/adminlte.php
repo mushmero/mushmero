@@ -329,7 +329,7 @@ return [
         ],
         [
             'text'  =>  'interests',
-            'url'   =>  '#',
+            'url'   =>  'interests',
             'icon'  =>  'fas fa-fw fa-thumbs-up',
         ],
         ['header' => 'info'],
