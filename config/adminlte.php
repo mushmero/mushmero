@@ -350,7 +350,7 @@ return [
         ],
         [
             'text'  =>  'skills',
-            'url'   =>  '#',
+            'url'   =>  'skills',
             'icon'  =>  'fas fa-fw fa-rocket',
         ],
         ['header'   =>  'admin_setting'],

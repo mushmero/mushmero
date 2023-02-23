@@ -138,6 +138,15 @@ Route::middleware(['auth','permission'])->group(static function () {
                 Route::get('/{id}/show', 'ProjectsController@show')->name('projects.show');
                 Route::get('/{id}/delete', 'ProjectsController@destroy')->name('projects.delete');            
             });
+            Route::prefix('/skills')->group(static function(){
+                Route::get('/', 'SkillsController@index')->name('skills');
+                Route::post('/', 'SkillsController@store')->name('skills.store');
+                Route::get('/create', 'SkillsController@create')->name('skills.create');
+                Route::get('/{id}/edit', 'SkillsController@edit')->name('skills.edit');
+                Route::put('/{id}', 'SkillsController@update')->name('skills.update');
+                Route::get('/{id}/show', 'SkillsController@show')->name('skills.show');
+                Route::get('/{id}/delete', 'SkillsController@destroy')->name('skills.delete');            
+            });
         });
     });
 });
