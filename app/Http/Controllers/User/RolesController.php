@@ -41,7 +41,7 @@ class RolesController extends Controller
         foreach($roles as $role){
             $data[] = array(
                 $role->name,
-                '<nobr><a href="'.url('settings_roles/'.$role->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(!in_array('Superadmin', $user->getRoleNames()->toArray()) && $role->name == 'Superadmin' ? 'disabled' : '').'" href="'.url('settings_roles/'.$role->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_roles/'.$role->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('settings_roles/'.$role->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.($role->name == 'Superadmin' ? 'disabled' : '').'" href="'.url('settings_roles/'.$role->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_roles/'.$role->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
