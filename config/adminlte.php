@@ -314,7 +314,7 @@ return [
         ],
         [
             'text'  =>  'socials',
-            'url'   =>  '#',
+            'url'   =>  'socials',
             'icon'  =>  'fas fa-fw fa-user-friends',
         ],
         [

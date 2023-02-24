@@ -44,6 +44,7 @@ $(document).ready(function() {
       }
 
       experiences();
+      socials();
 });
 
 function experiences()
@@ -68,4 +69,18 @@ function experiences()
     }else{
         $('#endDate').parent().show();
     }
+}
+
+function socials()
+{
+    function formatIcon (icon) {
+        return $('<span><i class="fa-fw ' + $(icon.element).data('icon') + '"></i> ' + icon.text + '</span>');
+    };
+    
+    $('.icon_select').select2({
+        placeholder : "Select icon",
+        allowClear : true,
+        templateSelection: formatIcon,
+        templateResult: formatIcon
+    });
 }
