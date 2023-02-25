@@ -112,12 +112,14 @@ class ActivityLogController extends Controller
             $old = '';
         }
 
+        $name = $activity->subject_type::find($activity->subject_id)->getFillable()[0];
+
         if(isset($activity)){
             $data = array(
                 'user' => !empty($activity->causer_id) ? User::find($activity->causer_id)->name : 'System',
                 'action' => $activity->log_name,
                 'description' => $activity->description,
-                'target' => isset($activity->subject_id) ? User::find($activity->subject_id)->name : '',
+                'target' => isset($activity->subject_id) ? $activity->subject_type::find($activity->subject_id)->$name : '',
                 'event' => isset($activity->event) ? $activity->event : '',
                 'new' => $new,
                 'old' => $old,
