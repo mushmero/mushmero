@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use File;
 use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 
@@ -156,5 +157,12 @@ class Helper
 			'text-color-secondary' => 'text-color-secondary',
 		);
 		return $fields;
+	}
+
+	public static function createDirectory($dir)
+	{
+		if(!File::exists($dir)){
+			mkdir($dir, 0755,true);
+		}
 	}
 }
