@@ -112,7 +112,9 @@ class ActivityLogController extends Controller
             $old = '';
         }
 
-        $name = $activity->subject_type::find($activity->subject_id)->getFillable()[0];
+        if(!empty($activity->subject_type)){
+            $name = $activity->subject_type::find($activity->subject_id)->getFillable()[0];
+        }
 
         if(isset($activity)){
             $data = array(
