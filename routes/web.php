@@ -26,6 +26,10 @@ Route::middleware(['auth','permission'])->group(static function () {
                 Route::get('/', 'ActivityLogController@index')->name('user_access');
                 Route::get('/{id}/show', 'ActivityLogController@show')->name('user_access.show');
             });
+            Route::prefix('/visitors')->group(static function(){
+                Route::get('/', 'VisitorsLogController@index')->name('visitors');
+                Route::get('/{id}/show', 'VisitorsLogController@show')->name('visitors.show');
+            });
             Route::namespace('User')->group(static function(){
                 Route::prefix('/settings_users')->group(static function(){
                     Route::get('/', 'UsersController@index')->name('users');

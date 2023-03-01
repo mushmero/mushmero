@@ -165,4 +165,57 @@ class Helper
 			mkdir($dir, 0755,true);
 		}
 	}
+	
+	public static function getVisitor($ip = NULL, $deepdetect = TRUE){
+		if(filter_var($ip,FILTER_VALIDATE_IP) === FALSE){
+			$ip = $_SERVER['REMOTE_ADDR'];
+			if($deepdetect){
+				if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)){
+                	$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				}
+	            if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)){
+	                $ip = $_SERVER['HTTP_CLIENT_IP'];
+	            }
+			}
+		}
+		if(isset($_SERVER['HTTP_REFERER'])){
+			$data = array(
+				'ip'	=>	$ip,
+				'referrer'	=> $_SERVER['HTTP_REFERER'],
+				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'timestamp'	=> Carbon::now('Y-m-d H:i:s')->timezone('Asia/Kuala_Lumpur'),
+			);
+		}else{
+			$data = array(
+				'ip'	=>	$ip,
+				'referrer'	=> '',
+				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'timestamp'	=> Carbon::now('Y-m-d H:i:s')->timezone('Asia/Kuala_Lumpur'),
+			);
+		}
+		
+		return $data;
+	}
+
+	public static function ipLocation($ip){
+		$geoip = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$ip));
+		$location = array(
+			'userip' => $geoip['geoplugin_request'],
+			'city' => $geoip['geoplugin_city'],
+			'country' => $geoip['geoplugin_countryName'],
+			'countryCode' => $geoip['geoplugin_countryCode'],
+			'continent'	=> $geoip['geoplugin_continentName'],
+			'continentCode' => $geoip['geoplugin_continentCode'],
+			'timezone'	=> $geoip['geoplugin_timezone'],
+			'latitude' => $geoip['geoplugin_latitude'],
+			'longitude' => $geoip['geoplugin_longitude'],
+		);
+		return $location;
+	}
+	public static function visitor(){
+		$visitor = Helper::getVisitor($_SERVER['REMOTE_ADDR']);
+		$geoip = Helper::ipLocation($visitor['ip']);
+		$data = array_merge($visitor,$geoip);
+		return $data;
+	}
 }

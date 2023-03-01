@@ -40,4 +40,5 @@ return [
     'delete'                        => 'Delete',
     'index'                         => 'Index',
     'store'                         => 'Store',
+    'visitors'                      => 'Visitors',
 ];

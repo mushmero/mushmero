@@ -41,4 +41,5 @@ return [
     'settings_permissions'          => 'Permissions',
     'settings_template'             => 'Templates',
     'settings_pdf'                  => 'PDF',
+    'visitors'                      => 'Visitors',
 ];

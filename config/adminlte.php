@@ -413,6 +413,11 @@ return [
                     'text'  =>  'user_access',
                     'url'   =>  'user_access',
                     'icon'  =>  'fas fa-fw fa-file-alt',
+                ],
+                [
+                    'text'  =>  'visitors',
+                    'url'   =>  'visitors',
+                    'icon'  =>  'fas fa-fw fa-user-secret',
                 ]
             ],
         ],
