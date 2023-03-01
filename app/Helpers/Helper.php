@@ -183,14 +183,14 @@ class Helper
 				'ip'	=>	$ip,
 				'referrer'	=> $_SERVER['HTTP_REFERER'],
 				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
-				'timestamp'	=> Carbon::now('Y-m-d H:i:s')->timezone('Asia/Kuala_Lumpur'),
+				'timestamp'	=> Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s e'),
 			);
 		}else{
 			$data = array(
 				'ip'	=>	$ip,
 				'referrer'	=> '',
 				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
-				'timestamp'	=> Carbon::now('Y-m-d H:i:s')->timezone('Asia/Kuala_Lumpur'),
+				'timestamp'	=> Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s e'),
 			);
 		}
 		
