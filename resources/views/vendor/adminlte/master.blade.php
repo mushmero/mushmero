@@ -78,6 +78,8 @@
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
+@section('plugins.RaphaelJS', true)
+@section('plugins.MapaelJS', true)
 
     {{-- Body Content --}}
     @yield('body')

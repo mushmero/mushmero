@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Educations;
 use App\Models\Experiences;
 use App\Models\Interests;
@@ -11,9 +12,12 @@ use App\Models\Personal;
 use App\Models\Projects;
 use App\Models\Skills;
 use App\Models\Socials;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Inspiring;
 use Carbon\Carbon;
+use Nette\Utils\Json;
+use PragmaRX\Countries\Package\Countries;
 
 class HomeController extends Controller
 {
@@ -55,7 +59,7 @@ class HomeController extends Controller
 
     public function getProfile()
     {
-        $profile = Personal::where('user_id',auth()->user()->id)->firstOrFail();
+        $profile = Personal::where(['user_id' => auth()->user()->id, 'status' => 1])->firstOrFail();
         $data = array(
             'fullname' => isset($profile->fullname) ? $profile->fullname : '',
             'tagline' => isset($profile->tagline) ? $profile->tagline : '',
@@ -161,5 +165,76 @@ class HomeController extends Controller
         }
         $data['count'] = isset($socials) ? $socials->count() : 0;
         return $data;
+    }
+
+    function getCountryList()
+    {
+        $countries = Countries::all()
+            ->map(function ($country) {
+                $commonName = $country->name->common;
+            
+                $languages = $country->languages ?? collect();
+            
+                $language = $languages->keys()->first() ?? null;
+            
+                $nativeNames = $country->name->native ?? null;
+            
+                if (
+                    filled($language) &&
+                        filled($nativeNames) &&
+                        filled($nativeNames[$language]) ?? null
+                ) {
+                    $native = $nativeNames[$language]['common'] ?? null;
+                }
+            
+                if (blank($native ?? null) && filled($nativeNames)) {
+                    $native = $nativeNames->first()['common'] ?? null;
+                }
+            
+                $native = $native ?? $commonName;
+            
+                if ($native !== $commonName && filled($native)) {
+                    $native = "$native ($commonName)";
+                }
+            
+                return [$country->cca2 => $native];
+            })
+            ->values()->toArray();
+            $countries = Helper::transformArray($countries);
+        return Json::encode($countries);
+    }
+
+    function getVisitorByCountry()
+    {
+        $visitors = DB::table('visitors')
+        ->selectRaw('count(*) as visitor, country, countryCode, MIN(latitude) as latitude, MIN(longitude) as longitude')
+        ->whereNotNull('country')
+        ->whereNotNull('countryCode')
+        ->whereNotNull('latitude')
+        ->whereNotNull('longitude')
+        ->groupBy('country', 'countryCode')
+        ->get();
+
+        foreach($visitors as $key => $value){
+            $visitor[] = (int)$value->visitor;
+            $country[] = $value->country;
+            $countryCode[] = $value->countryCode;
+            $latitude[] = $value->latitude;
+            $longitude[] = $value->longitude;
+        }
+        
+        $data = array(
+            'data' => Json::encode($visitors),
+            'info' => Json::encode(
+                array(
+                    'visitor' => $visitor,
+                    'country' => $country,
+                    'countryCode' => $countryCode,
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                )
+            ),
+        );
+        return Json::encode($data);
     }
 }

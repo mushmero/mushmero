@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\WelcomeController@index')->name('welcome');
+Route::get('/auth/check',function(){
+    return (Auth::check()) ? True : False;
+});
 
 Auth::routes();
-Route::middleware(['auth','permission'])->group(static function () {
+Route::middleware(['auth'])->group(static function () {
     Route::middleware('permission')->group(static function () {
         Route::namespace('App\Http\Controllers')->group(static function () {
             Route::get('/home', 'HomeController@index')->name('home');
@@ -206,5 +209,7 @@ Route::middleware(['auth','permission'])->group(static function () {
                 Route::post('/updateStatusById/{id}', 'PersonalController@updateStatusById');
             });
         });
+        Route::get('/getAllCountries', 'HomeController@getCountryList')->name('home.getallcountry');
+        Route::get('/getVisitorByCountry', 'HomeController@getVisitorByCountry')->name('home.getvisitorbycountry');
     });
 });

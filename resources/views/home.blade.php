@@ -59,6 +59,12 @@
     <div class="row">
         <div class="col-12">
             <x-adminlte-card title="Visitor Map" theme="gray" icon="fas fa-lg fa-moon" collapsible>
+            <div class="container visitor_map">
+                <div class="worldmap">
+                    <div class="map"></div>
+                    <div class="plotLegend"></div>
+                </div>
+            </div>
                 <x-slot name="toolsSlot"></x-slot>
                 <x-slot name="footerSlot"></x-slot>
             </x-adminlte-card>
