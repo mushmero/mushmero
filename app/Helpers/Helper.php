@@ -218,4 +218,17 @@ class Helper
 		$data = array_merge($visitor,$geoip);
 		return $data;
 	}
+
+	public static function transformArray($old_array)
+	{
+		if(empty($old_array)) return;
+		$new_array = array();
+		foreach($old_array as $key => $value){
+			foreach($value as $k => $v){
+				$new_array[$k] = $v;
+			}
+			unset($old_array[$key]);
+		}
+		return $new_array;
+	}
 }
