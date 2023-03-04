@@ -121,6 +121,7 @@ class EducationsController extends Controller
             'end' => $data['endDate'],
             'level_id' => $data['level'],
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -209,6 +210,7 @@ class EducationsController extends Controller
         $data['end'] = $request->input('endDate');
         $data['level_id'] = $request->input('level');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Educations::find($id)->update($data);
 

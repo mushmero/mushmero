@@ -20,6 +20,7 @@ class Interests extends Model
             'user_id',
             'created_at',
             'updated_at',
+            'personal_id',
         ]);
     } 
     protected $table = 'interests';
@@ -32,5 +33,11 @@ class Interests extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'personal_id',
     ];
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Models\Personal','id','personal_id');
+    }
 }

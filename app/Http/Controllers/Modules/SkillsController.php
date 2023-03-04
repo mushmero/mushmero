@@ -98,6 +98,7 @@ class SkillsController extends Controller
             'name' => $data['name'],
             'percentage' => $data['percentage'],
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -168,6 +169,7 @@ class SkillsController extends Controller
         $data['name'] = $request->input('name');
         $data['percentage'] = $request->input('percentage');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Skills::find($id)->update($data);
 

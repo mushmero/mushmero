@@ -24,6 +24,7 @@ class Educations extends Model
             'user_id',
             'created_at',
             'updated_at',
+            'personal_id',
         ]);
     } 
     protected $table = 'educations';
@@ -40,10 +41,16 @@ class Educations extends Model
         'end',
         'level_id',
         'user_id',
+        'personal_id',
     ];
 
     public function alllevel()
     {
         return $this->hasOne('App\Models\SettingsEducations','id','level_id');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Models\Personal','id','personal_id');
     }
 }

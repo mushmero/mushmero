@@ -94,6 +94,7 @@ class InterestsController extends Controller
         $store = Interests::create([
             'name' => $data['name'],
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -162,6 +163,7 @@ class InterestsController extends Controller
 
         $data['name'] = $request->input('name');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Interests::find($id)->update($data);
 

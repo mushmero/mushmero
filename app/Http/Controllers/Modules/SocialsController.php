@@ -103,6 +103,7 @@ class SocialsController extends Controller
             'link' => $data['link'],
             'icon_id' => $data['icon'],
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -175,6 +176,7 @@ class SocialsController extends Controller
         $data['link'] = $request->input('link');
         $data['icon_id'] = $request->input('icon');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Socials::find($id)->update($data);
 

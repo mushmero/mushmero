@@ -123,6 +123,7 @@ class ProjectsController extends Controller
             'status_id' => $data['status'],
             'user_id' => auth()->user()->id,
             'description' => $data['description'],
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -231,6 +232,7 @@ class ProjectsController extends Controller
         $data['status_id'] = $request->input('status');
         $data['description'] = $request->input('description');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Projects::find($id)->update($data);
 

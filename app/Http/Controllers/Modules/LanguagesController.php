@@ -104,6 +104,7 @@ class LanguagesController extends Controller
             'name' => $data['name'],
             'proficiency_id' => $data['proficiency'],
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -179,6 +180,7 @@ class LanguagesController extends Controller
         $data['name'] = $request->input('name');
         $data['proficiency_id'] = $request->input('proficiency');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Languages::find($id)->update($data);
 

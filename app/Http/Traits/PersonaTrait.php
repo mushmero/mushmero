@@ -2,6 +2,7 @@
 
 namespace App\Http\Traits;
 use App\Http\Controllers\Modules\PersonalController;
+use App\Models\Personal;
 
 trait PersonaTrait {
     public static function checkPersona()
@@ -12,5 +13,11 @@ trait PersonaTrait {
         }else{
             return false;
         }
+    }
+
+    public static function getActivePersonaByAuthUser()
+    {
+        $persona = Personal::where(['status' => 1, 'user_id' => auth()->user()->id])->first();
+        return $persona;
     }
 }

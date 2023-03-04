@@ -98,6 +98,7 @@ class ObjectivesController extends Controller
             'content' => $data['content'],
             'is_active' => $data['is_active'] == true ? 1 : 0,
             'user_id' => auth()->user()->id,
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -168,6 +169,7 @@ class ObjectivesController extends Controller
         $data['name'] = $request->input('name');
         $data['is_active'] = $request->input('is_active') == true ? 1 : 0;
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Objectives::find($id)->update($data);
 

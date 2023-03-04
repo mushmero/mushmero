@@ -50,4 +50,44 @@ class Personal extends Model
     {
         return $this->hasOne('App\Models\Attachments','id','attachment_id');
     }
+
+    public function educations()
+    {
+        return $this->hasMany(Educations::class, 'personal_id','id');
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany(Experiences::class,'personal_id','id');
+    }
+
+    public function interests()
+    {
+        return $this->hasMany(Interests::class,'personal_id','id');
+    }
+
+    public function languages()
+    {
+        return $this->hasMany(Languages::class,'personal_id','id');
+    }
+
+    public function objectives()
+    {
+        return $this->hasMany(Objectives::class,'personal_id','id');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Projects::class,'personal_id','id');
+    }
+
+    public function skills()
+    {
+        return $this->hasMany(Skills::class,'personal_id','id');
+    }
+
+    public function socials()
+    {
+        return $this->hasMany(Socials::class,'personal_id','id');
+    }
 }

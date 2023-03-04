@@ -22,6 +22,7 @@ class Projects extends Model
             'user_id',
             'created_at',
             'updated_at',
+            'personal_id',
         ]);
     } 
     protected $table = 'projects';
@@ -36,10 +37,16 @@ class Projects extends Model
         'description',
         'status_id',
         'user_id',
+        'personal_id',
     ];
 
     public function allstatus()
     {
         return $this->hasOne('App\Models\SettingsProject','id','status_id');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Models\Personal','id','personal_id');
     }
 }

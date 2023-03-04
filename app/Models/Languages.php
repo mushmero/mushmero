@@ -21,6 +21,7 @@ class Languages extends Model
             'user_id',
             'created_at',
             'updated_at',
+            'personal_id',
         ]);
     } 
     protected $table = 'languages';
@@ -34,10 +35,16 @@ class Languages extends Model
         'name',
         'proficiency_id',
         'user_id',
+        'personal_id',
     ];
 
     public function allproficiency()
     {
         return $this->hasOne('App\Models\SettingsLanguage','id','proficiency_id');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Models\Personal','id','personal_id');
     }
 }

@@ -128,6 +128,7 @@ class ExperiencesController extends Controller
             'employer' => $data['employer'],
             'user_id' => auth()->user()->id,
             'description' => $data['description'],
+            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
         if($store){
@@ -242,6 +243,7 @@ class ExperiencesController extends Controller
         $data['end'] = !empty($request->input('current')) ? $request->input('current') : $request->input('endDate');
         $data['description'] = $request->input('description');
         $data['user_id'] = auth()->user()->id;
+        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Experiences::find($id)->update($data);
 
