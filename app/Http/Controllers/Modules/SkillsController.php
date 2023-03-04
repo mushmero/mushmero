@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Skills;
 use App\Models\User;
@@ -54,10 +55,14 @@ class SkillsController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        return view('modules.skills.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.skills.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -66,8 +71,12 @@ class SkillsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('modules.skills.create');
+    {        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.skills.create');
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -117,8 +126,12 @@ class SkillsController extends Controller
         $data = Skills::where('id', $id)->firstOrFail();
 
         $user = User::find($data->user_id)->firstOrFail();
-
-        return view('modules.skills.show', compact('data','user'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.skills.show', compact('data','user'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -130,8 +143,12 @@ class SkillsController extends Controller
     public function edit($id)
     {
         $data = Skills::where('id', $id)->firstOrFail();
-
-        return view('modules.skills.edit', compact('data'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.skills.edit', compact('data'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

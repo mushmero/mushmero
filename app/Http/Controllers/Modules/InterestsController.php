@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Interests;
 use App\Models\User;
@@ -52,10 +53,14 @@ class InterestsController extends Controller
             'columns' => [null, null, null],
         ];
 
-        return view('modules.interests.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.interests.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -65,7 +70,11 @@ class InterestsController extends Controller
      */
     public function create()
     {
-        return view('modules.interests.create');
+        if(PersonaTrait::checkPersona()){
+            return view('modules.interests.create');
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -113,8 +122,12 @@ class InterestsController extends Controller
         $data = Interests::where('id', $id)->firstOrFail();
 
         $user = User::find($data->user_id)->firstOrFail();
-
-        return view('modules.interests.show', compact('data','user'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.interests.show', compact('data','user'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -126,8 +139,12 @@ class InterestsController extends Controller
     public function edit($id)
     {
         $data = Interests::where('id', $id)->firstOrFail();
-
-        return view('modules.interests.edit', compact('data'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.interests.edit', compact('data'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

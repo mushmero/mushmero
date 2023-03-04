@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use App\Models\SettingsProject;
 use Illuminate\Http\Request;
 use App\Models\Projects;
@@ -57,10 +58,14 @@ class ProjectsController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        return view('modules.projects.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.projects.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -91,8 +96,12 @@ class ProjectsController extends Controller
             "placeholder" => "Select status",
             "allowClear" => true,
         ];
-
-        return view('modules.projects.create', compact('configTE','status','configStatus'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.projects.create', compact('configTE','status','configStatus')); 
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -158,8 +167,12 @@ class ProjectsController extends Controller
                 ['view', ['fullscreen', 'codeview', 'help']],
             ],
         ];
-
-        return view('modules.projects.show', compact('data','user','configTE'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.projects.show', compact('data','user','configTE'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -193,8 +206,12 @@ class ProjectsController extends Controller
             "placeholder" => "Select status",
             "allowClear" => true,
         ];
-
-        return view('modules.projects.edit', compact('data','status','configStatus','configTE'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.projects.edit', compact('data','status','configStatus','configTE'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

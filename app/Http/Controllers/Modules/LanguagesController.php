@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Languages;
 use App\Models\SettingsLanguage;
@@ -55,10 +56,14 @@ class LanguagesController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        return view('modules.languages.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.languages.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -73,8 +78,12 @@ class LanguagesController extends Controller
             "placeholder" => "Select proficiency",
             "allowClear" => true,
         ];
-
-        return view('modules.languages.create', compact('proficiency','configProficiency'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.languages.create', compact('proficiency','configProficiency'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -123,8 +132,12 @@ class LanguagesController extends Controller
         $data = Languages::where('id', $id)->firstOrFail();
 
         $user = User::find($data->user_id)->firstOrFail();
-
-        return view('modules.languages.show', compact('data','user'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.languages.show', compact('data','user'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -142,8 +155,12 @@ class LanguagesController extends Controller
             "placeholder" => "Select proficiency",
             "allowClear" => true,
         ];
-
-        return view('modules.languages.edit', compact('data','proficiency','configProficiency'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.languages.edit', compact('data','proficiency','configProficiency'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

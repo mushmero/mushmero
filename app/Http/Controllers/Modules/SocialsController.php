@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Socials;
 use App\Models\SettingsSocial;
@@ -57,10 +58,14 @@ class SocialsController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        return view('modules.socials.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.socials.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -72,7 +77,11 @@ class SocialsController extends Controller
     {
         $icons = SettingsSocial::all();
 
-        return view('modules.socials.create', compact('icons'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.socials.create', compact('icons'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -123,7 +132,11 @@ class SocialsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
 
-        return view('modules.socials.show', compact('data','user'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.socials.show', compact('data','user'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -138,7 +151,11 @@ class SocialsController extends Controller
 
         $icons = SettingsSocial::all();
 
-        return view('modules.socials.edit', compact('data','icons'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.socials.edit', compact('data','icons'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

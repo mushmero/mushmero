@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Experiences;
 use App\Models\User;
@@ -56,10 +57,14 @@ class ExperiencesController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        return view('modules.experiences.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.experiences.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -95,7 +100,11 @@ class ExperiencesController extends Controller
             'useCurrent' => false,
         ];
 
-        return view('modules.experiences.create', compact('configTE', 'startDate', 'endDate'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.experiences.create', compact('configTE', 'startDate', 'endDate'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -164,7 +173,11 @@ class ExperiencesController extends Controller
             ],
         ];
 
-        return view('modules.experiences.show', compact('data','user','configTE'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.experiences.show', compact('data','user','configTE'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -203,7 +216,11 @@ class ExperiencesController extends Controller
             'useCurrent' => false,
         ];
 
-        return view('modules.experiences.edit', compact('data','startDate','endDate','configTE'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.experiences.edit', compact('data','startDate','endDate','configTE'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

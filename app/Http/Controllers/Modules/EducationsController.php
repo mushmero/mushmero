@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Educations;
 use App\Models\SettingsEducations;
@@ -59,10 +60,14 @@ class EducationsController extends Controller
             'columns' => [null, null, null, null, null, null],
         ];
 
-        return view('modules.educations.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.educations.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -88,7 +93,11 @@ class EducationsController extends Controller
             'useCurrent' => false,
         ];
 
-        return view('modules.educations.create', compact('educations','configEducations', 'startDate', 'endDate'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.educations.create', compact('educations','configEducations', 'startDate', 'endDate'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -141,7 +150,11 @@ class EducationsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
 
-        return view('modules.educations.show', compact('data','user'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.educations.show', compact('data','user'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -170,7 +183,11 @@ class EducationsController extends Controller
             'useCurrent' => false,
         ];
 
-        return view('modules.educations.edit', compact('data','educations','configEducations', 'startDate', 'endDate'));
+        if(PersonaTrait::checkPersona()){
+            return view('modules.educations.edit', compact('data','educations','configEducations', 'startDate', 'endDate'));
+        }else{
+            return view('no-access');
+        }
     }
 
     /**

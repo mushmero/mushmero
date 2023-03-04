@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Objectives;
 use App\Models\User;
@@ -54,10 +55,14 @@ class ObjectivesController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        return view('modules.objectives.list', [
-            'heads' => $heads,
-            'config' => $config,
-        ]);
+        if(PersonaTrait::checkPersona()){
+            return view('modules.objectives.list', [
+                'heads' => $heads,
+                'config' => $config,
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -66,8 +71,12 @@ class ObjectivesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('modules.objectives.create');
+    {        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.objectives.create');
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -116,9 +125,13 @@ class ObjectivesController extends Controller
     {
         $data = Objectives::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
-
-        return view('modules.objectives.show', compact('data','user'));
+        $user = User::find($data->user_id)->firstOrFail(); 
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.objectives.show', compact('data','user'));   
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
@@ -130,8 +143,12 @@ class ObjectivesController extends Controller
     public function edit($id)
     {
         $data = Objectives::where('id', $id)->firstOrFail();
-
-        return view('modules.objectives.edit', compact('data'));
+        
+        if(PersonaTrait::checkPersona()){
+            return view('modules.objectives.edit', compact('data'));  
+        }else{
+            return view('no-access');
+        }
     }
 
     /**
