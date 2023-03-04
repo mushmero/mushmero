@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\PersonaTrait;
+use App\Models\SettingsSocial;
 use Illuminate\Http\Request;
 use App\Models\Skills;
 use App\Models\User;
@@ -71,9 +72,10 @@ class SkillsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
+    {      
+        $icons = SettingsSocial::all();  
         if(PersonaTrait::checkPersona()){
-            return view('modules.skills.create');
+            return view('modules.skills.create', compact('icons'));
         }else{
             return view('no-access');
         }
@@ -98,6 +100,7 @@ class SkillsController extends Controller
             'name' => $data['name'],
             'percentage' => $data['percentage'],
             'user_id' => auth()->user()->id,
+            'icon_id' => $data['icon'],
             'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
         ]);
 
@@ -144,9 +147,11 @@ class SkillsController extends Controller
     public function edit($id)
     {
         $data = Skills::where('id', $id)->firstOrFail();
+
+        $icons = SettingsSocial::all();
         
         if(PersonaTrait::checkPersona()){
-            return view('modules.skills.edit', compact('data'));
+            return view('modules.skills.edit', compact('data','icons'));
         }else{
             return view('no-access');
         }
@@ -169,6 +174,7 @@ class SkillsController extends Controller
         $data['name'] = $request->input('name');
         $data['percentage'] = $request->input('percentage');
         $data['user_id'] = auth()->user()->id;
+        $data['icon_id'] = $request->input('icon');
         $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
 
         $update = Skills::find($id)->update($data);

@@ -18,6 +18,7 @@
                         </div>
                     </x-slot>
                 </x-adminlte-input>
+                <x-adminlte-input name="icon" label="Icon" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $data->allicons->name }}" readonly/>
                 <x-adminlte-input name="user" label="User" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $user->name }}" readonly/>              
                 <x-slot name="footerSlot">
                     <a href="{{ route('skills') }}">

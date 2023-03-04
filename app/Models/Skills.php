@@ -22,6 +22,7 @@ class Skills extends Model
             'created_at',
             'updated_at',
             'personal_id',
+            'icon_id',
         ]);
     } 
     protected $table = 'skills';
@@ -36,10 +37,16 @@ class Skills extends Model
         'percentage',
         'user_id',
         'personal_id',
+        'icon_id'
     ];
 
     public function persona()
     {
         return $this->belongsTo('App\Models\Personal','id','personal_id');
+    }
+
+    public function allicons()
+    {
+        return $this->hasOne('App\Models\SettingsSocial','id','icon_id');
     }
 }

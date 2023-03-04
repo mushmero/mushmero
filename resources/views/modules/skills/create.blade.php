@@ -21,6 +21,12 @@
                             </div>
                         </x-slot>
                     </x-adminlte-input>
+                    <x-adminlte-select2 id="icon" name="icon" label="Icon" fgroup-class="col-md-6 row" label-class="col-md-2 control-label"  igroup-class="col-md-10" igroup-size="md" class="icon_select" enable-old-support>
+                        <option/>
+                        @foreach ($icons as $icon)
+                            <option value="{{ $icon->id }}" data-icon="{{ $icon->fullname }}"> {{ $icon->name }}</option>
+                        @endforeach
+                    </x-adminlte-select2>
                     <x-slot name="footerSlot">
                         <a href="{{ route('skills') }}">
                             <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>
