@@ -40,3 +40,16 @@
     display: block;
     margin: 10px auto;
 }
+
+.widget-user .profile-user-image {
+  left: 50%;
+  margin-left: -45px;
+  position: absolute;
+  top: 80px;
+}
+
+.profile-user-image > img {
+    border: 3px solid #fff;
+    height: 90px;
+    width: 90px;
+}

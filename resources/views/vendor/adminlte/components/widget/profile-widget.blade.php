@@ -4,7 +4,7 @@
     <div class="{{ $makeHeaderClass() }}" style="{{ $makeHeaderStyle() }}">
 
         {{-- User image --}}
-        <div class="widget-user-image">
+        <div class="profile-user-image">
             @if(isset($img))
                 <img class="img-circle elevation-2" src="{{ $img }}" alt="User avatar: {{ $name }}">
             @elseif($layoutType === 'modern')
