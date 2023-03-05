@@ -85,7 +85,7 @@ function switchAjax(id) {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                        type: 'POST',
+                            type: 'POST',
                             url: 'personal/updateStatusById/'+id,
                             data: {
                                 '_token': '{{ csrf_token() }}',

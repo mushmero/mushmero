@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\AttachmentsTrait;
+use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Personal;
 use App\Models\Attachments;
@@ -221,8 +222,8 @@ class PersonalController extends Controller
 
     public function countstatus()
     {
-        $result = Personal::where(['status' => 1, 'user_id' => auth()->user()->id])->get();
-        return $result->count();
+        $count = PersonaTrait::countActiveStatusByUser(auth()->user()->id);
+        return $count;
     }
 
     public function checkStatusById($id)
