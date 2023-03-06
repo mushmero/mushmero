@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Traits\PersonaTrait;
 use App\Models\Educations;
 use App\Models\Experiences;
 use App\Models\Interests;
@@ -38,18 +39,22 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', [
-            'inspiration' => $this->getQuotes(),
-            'profile' => $this->getProfile(),
-            'experience' => $this->getExperience(),
-            'skill' => $this->getSkills(),
-            'language' => $this->getLanguages(),
-            'education' => $this->getEducations(),
-            'interest' => $this->getInterests(),
-            'objective' => $this->getObjectives(),
-            'project' => $this->getProjects(),
-            'social' => $this->getSocials(),
-        ]);
+        if(PersonaTrait::checkPersona()->count() > 0){
+            return view('home', [
+                'inspiration' => $this->getQuotes(),
+                'profile' => $this->getProfile(),
+                'experience' => $this->getExperience(),
+                'skill' => $this->getSkills(),
+                'language' => $this->getLanguages(),
+                'education' => $this->getEducations(),
+                'interest' => $this->getInterests(),
+                'objective' => $this->getObjectives(),
+                'project' => $this->getProjects(),
+                'social' => $this->getSocials(),
+            ]);
+        }else{
+            return view('no-access');
+        }
     }
 
     public function getQuotes()

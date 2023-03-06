@@ -60,7 +60,7 @@ class EducationsController extends Controller
             'columns' => [null, null, null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.educations.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -93,7 +93,7 @@ class EducationsController extends Controller
             'useCurrent' => false,
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.educations.create', compact('educations','configEducations', 'startDate', 'endDate'));
         }else{
             return view('no-access');
@@ -151,7 +151,7 @@ class EducationsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.educations.show', compact('data','user'));
         }else{
             return view('no-access');
@@ -184,7 +184,7 @@ class EducationsController extends Controller
             'useCurrent' => false,
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.educations.edit', compact('data','educations','configEducations', 'startDate', 'endDate'));
         }else{
             return view('no-access');

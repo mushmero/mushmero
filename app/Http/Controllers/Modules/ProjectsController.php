@@ -58,7 +58,7 @@ class ProjectsController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.projects.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -97,7 +97,7 @@ class ProjectsController extends Controller
             "allowClear" => true,
         ];
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.projects.create', compact('configTE','status','configStatus')); 
         }else{
             return view('no-access');
@@ -169,7 +169,7 @@ class ProjectsController extends Controller
             ],
         ];
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.projects.show', compact('data','user','configTE'));
         }else{
             return view('no-access');
@@ -208,7 +208,7 @@ class ProjectsController extends Controller
             "allowClear" => true,
         ];
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.projects.edit', compact('data','status','configStatus','configTE'));
         }else{
             return view('no-access');

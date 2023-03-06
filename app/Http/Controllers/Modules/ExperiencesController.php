@@ -57,7 +57,7 @@ class ExperiencesController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.experiences.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -100,7 +100,7 @@ class ExperiencesController extends Controller
             'useCurrent' => false,
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.experiences.create', compact('configTE', 'startDate', 'endDate'));
         }else{
             return view('no-access');
@@ -174,7 +174,7 @@ class ExperiencesController extends Controller
             ],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.experiences.show', compact('data','user','configTE'));
         }else{
             return view('no-access');
@@ -217,7 +217,7 @@ class ExperiencesController extends Controller
             'useCurrent' => false,
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.experiences.edit', compact('data','startDate','endDate','configTE'));
         }else{
             return view('no-access');

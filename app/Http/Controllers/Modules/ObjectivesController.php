@@ -55,7 +55,7 @@ class ObjectivesController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.objectives.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -72,7 +72,7 @@ class ObjectivesController extends Controller
      */
     public function create()
     {        
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.objectives.create');
         }else{
             return view('no-access');
@@ -128,7 +128,7 @@ class ObjectivesController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail(); 
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.objectives.show', compact('data','user'));   
         }else{
             return view('no-access');
@@ -145,7 +145,7 @@ class ObjectivesController extends Controller
     {
         $data = Objectives::where('id', $id)->firstOrFail();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.objectives.edit', compact('data'));  
         }else{
             return view('no-access');

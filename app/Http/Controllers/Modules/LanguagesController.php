@@ -56,7 +56,7 @@ class LanguagesController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.languages.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -79,7 +79,7 @@ class LanguagesController extends Controller
             "allowClear" => true,
         ];
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.languages.create', compact('proficiency','configProficiency'));
         }else{
             return view('no-access');
@@ -134,7 +134,7 @@ class LanguagesController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.languages.show', compact('data','user'));
         }else{
             return view('no-access');
@@ -157,7 +157,7 @@ class LanguagesController extends Controller
             "allowClear" => true,
         ];
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.languages.edit', compact('data','proficiency','configProficiency'));
         }else{
             return view('no-access');

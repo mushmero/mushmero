@@ -56,7 +56,7 @@ class SkillsController extends Controller
             'columns' => [null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.skills.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -74,7 +74,7 @@ class SkillsController extends Controller
     public function create()
     {      
         $icons = SettingsSocial::all();  
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.skills.create', compact('icons'));
         }else{
             return view('no-access');
@@ -131,7 +131,7 @@ class SkillsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.skills.show', compact('data','user'));
         }else{
             return view('no-access');
@@ -150,7 +150,7 @@ class SkillsController extends Controller
 
         $icons = SettingsSocial::all();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.skills.edit', compact('data','icons'));
         }else{
             return view('no-access');

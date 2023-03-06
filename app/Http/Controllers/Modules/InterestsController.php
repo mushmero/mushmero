@@ -53,7 +53,7 @@ class InterestsController extends Controller
             'columns' => [null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.interests.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -70,7 +70,7 @@ class InterestsController extends Controller
      */
     public function create()
     {
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.interests.create');
         }else{
             return view('no-access');
@@ -124,7 +124,7 @@ class InterestsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.interests.show', compact('data','user'));
         }else{
             return view('no-access');
@@ -141,7 +141,7 @@ class InterestsController extends Controller
     {
         $data = Interests::where('id', $id)->firstOrFail();
         
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.interests.edit', compact('data'));
         }else{
             return view('no-access');

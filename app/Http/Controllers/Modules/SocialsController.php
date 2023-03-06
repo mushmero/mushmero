@@ -58,7 +58,7 @@ class SocialsController extends Controller
             'columns' => [null, null, null, null, null],
         ];
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.socials.list', [
                 'heads' => $heads,
                 'config' => $config,
@@ -77,7 +77,7 @@ class SocialsController extends Controller
     {
         $icons = SettingsSocial::all();
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.socials.create', compact('icons'));
         }else{
             return view('no-access');
@@ -133,7 +133,7 @@ class SocialsController extends Controller
 
         $user = User::find($data->user_id)->firstOrFail();
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.socials.show', compact('data','user'));
         }else{
             return view('no-access');
@@ -152,7 +152,7 @@ class SocialsController extends Controller
 
         $icons = SettingsSocial::all();
 
-        if(PersonaTrait::checkPersona()){
+        if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.socials.edit', compact('data','icons'));
         }else{
             return view('no-access');
