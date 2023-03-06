@@ -41,7 +41,7 @@ class Helper
         $routes = Route::getRoutes()->getRoutes();
 
         foreach($routes as $route){
-            if ($route->getName() != '' && $route->getAction()['middleware']['0'] == 'web') {
+            if ($route->getName() != '' && $route->uri() != '/' && $route->getAction()['middleware']['0'] == 'web') {
                 $modules[] = $route->getName();
             }
         }
