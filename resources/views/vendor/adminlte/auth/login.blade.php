@@ -103,5 +103,6 @@
 @stop
 
 @section('auth_footer')
-    <div class="text-center"><span><strong>{{ date('Y') .' '.config('app.name').' '.env('APP_VERSION') }}</strong> by <a href="https://mushmero.com" target="_blank">Mushmero</a></span></div>
+    <div class="text-center"><span><strong>{{ date('Y') .' '.config('app.name') }}</strong> by <a href="https://mushmero.com" target="_blank">Mushmero</a></span>
+    <br> <div class="text-xs">Version {{ Helper::appVer() }}</div></div>
 @stop
