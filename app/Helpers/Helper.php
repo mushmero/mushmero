@@ -2,12 +2,33 @@
 
 namespace App\Helpers;
 
+use App\Models\AppsVersion;
 use File;
 use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
+use Str;
 
 class Helper
 {    
+	public static function appVer()
+	{
+		$appsVersion = AppsVersion::first();
+		if(!empty($appsVersion)){
+			$version = $appsVersion->major.'.'.$appsVersion->minor.'.'.$appsVersion->build.'_'.$appsVersion->date.' '.$appsVersion->uuid;
+		}else{
+			$version = '1.0.0';
+		}
+		return $version;
+	}
+	public static function generateRandomString($length = 10) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[random_int(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
     public static function getModulesFromMenu()
     {
         $menu = config('adminlte.menu');
