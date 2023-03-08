@@ -1,0 +1,897 @@
+html {
+    height: 100%;
+    /* Needed to make main background 100% height and width */
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* Needed to make main background 100% height and width */
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: .9em;
+}
+
+.nav {
+    display: block;
+}
+
+ul.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    /* background-color: #333; */
+    /* Fixed top navigation */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    /* Needed to keep items below top menu on scroll */
+    z-index: 99;
+    /* Looks nicer with a little bit of transparency */
+    opacity: 0.9;
+    /* Move menu items horizontally */
+}
+
+ul.nav li {
+    /* Format the look of each block*/
+    /* Have blocks float to the right of the screen */
+}
+
+ul.nav li a {
+    float: right;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 3em;
+    animation: 1s ease-out 0s 1 slideInFromRight;
+/* Change background color of each block on hover*/
+/* Set background color on active blocks */
+}
+  
+  /* ul.nav li a:hover:not(.active) {
+    background-color: rgba(1, 1, 1, 0.3);
+  }
+  
+  ul.nav li a.active {
+    background-color: rgba(3, 3, 3, 0.3);
+  } */    
+
+ul.nav .btn {
+    /* width: 150px; */
+    /* border-color: #FFFFFF; */
+    color: #FFFFFF;
+    margin: 14.5rem 14.5rem 0 0;
+    letter-spacing: .25rem;
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.nav-link, button.nav-link {
+    background: transparent !important;
+    /* border: 0.2rem solid #111111; */
+    color: #111111;
+}
+
+.nav-link:hover, button.nav-link:hover {
+    /* border: 0.2rem solid #000000; */
+    color: #000000;
+}
+
+ul.nav .btn:hover, 
+ul.nav .btn:focus {
+    background: #FFFFFF !important;
+    color: #000000;
+}
+
+#main-welcome-background {
+    background: url('https://picsum.photos/id/56/2880/1920') no-repeat top center;
+    height: 100%;
+    overflow: hidden;
+    text-shadow: 0 0 5px #000000;
+    opacity: 0.85;
+}
+
+#main-welcome-background > {
+    /* Modifications to profile image in main banner */
+    /* Modifications to both h1 and h2 tag in main banner. Mainly to center the text. */
+}
+
+#main-welcome-background > .content{
+    position: relative;
+    display: block;
+    margin: 12% auto 0 auto;
+    height: auto;
+    text-align: center;
+    color: #FFFFFF;
+    overflow: hidden;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+}
+
+#main-welcome-background > .content > .left {
+    float: left;
+    height: auto;
+    max-width: 40%;
+    margin-left: 80px;
+    /* background-color: rgba(1, 1, 1, 0.3); */
+    animation: 1s ease-in 0s 1 slideInFromTop;
+}
+
+#main-welcome-background > .content > .left > div.title {
+    width: 100%;
+    font-size: 2em;
+    padding-top: 25px;
+}
+
+#main-welcome-background > .content > .left > div.desc {
+    width: 100%;
+    text-align: left;
+    padding: 20px;
+}
+
+#main-welcome-background > .content > .right {
+    float: right;
+    height: auto;
+    max-width: 40%;
+    margin-right: 80px;
+    background-color: rgba(1, 1, 1, 0.3);
+    animation: 1s ease-out 0s 1 slideInFromRight;
+}
+
+#main-welcome-background > .content > .right > div.title {
+    width: 100%;
+    font-size: 2em;
+    padding-top: 25px;
+}
+
+#main-welcome-background > .content > .right > div.desc {
+    width: 100%;
+    text-align: left;
+    padding: 20px;
+}
+
+.btn-link, button.btn-link {
+    background: transparent !important;
+    border: 0.2rem solid #111111;
+    color: #111111;
+}
+
+.btn-link:hover, button.btn-link:hover {
+    border: 0.2rem solid #000000;
+    color: #000000;
+}
+
+#main-welcome-background .btn {
+    /* width: 215px; */
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    margin: 1.5rem 1.5rem 0 0;
+    letter-spacing: .25rem;
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+#main-welcome-background .btn:hover, 
+#main-welcome-background .btn:focus {
+    background: #FFFFFF !important;
+    color: #000000;
+}
+
+#main-welcome-background .content-footer {
+    text-align: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+/* Sets the top banner when the visitor first comes to the website */
+#main-background {
+    background: url('https://picsum.photos/id/180/2048/1536') no-repeat top center;
+    background-attachment: fixed;
+    height: 100%;
+    overflow: hidden;
+    text-shadow: 0 0 5px #000000;
+    opacity: 0.85;
+}
+
+#main-background > {
+    /* Modifications to profile image in main banner */
+    /* Modifications to both h1 and h2 tag in main banner. Mainly to center the text. */
+}
+
+#main-background > img {
+    position: relative;
+    display: block;
+    margin: 5% auto 0 auto;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 7px solid #fff;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+}
+
+#main-background > h1, #main-background > h2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    color: white;
+}
+
+#main-background > h1 {
+    padding-top: 30px;
+    font-size: 300%;
+    color: #ecf0f1;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+}
+
+#main-background > h2 {
+    font-size: 200%;
+    color: #e5e7e7;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+}
+
+#about-header > h1 {
+    font-weight: 600;
+    text-align: center;
+    margin: 3%;
+    color: #4A4E4D;
+    -webkit-filter: drop-shadow(30px 30px 10px #111111);
+    filter: drop-shadow(30px 30px 10px #111111);
+}
+
+/* Center the divs and add additional spacing to the bottom */
+#about-me {
+    text-align: center;
+    padding-bottom: 3%;
+    /* Each figure needs to be lined up in a row. At larger screen widths, the images are 20% wide. They take up more
+    * real estate as the screen size shrinks.
+    */
+    /* Place figure in a box */
+}
+
+#about-me > figure {
+    display: inline-block;
+    min-width: 20%;
+    max-width: 20%;
+    color: #FFFFFF;
+    text-align: left;
+    line-height: 1.4em;
+    background-color: #4A4E4D;
+    -webkit-filter: drop-shadow(30px 30px 10px #111111);
+    filter: drop-shadow(30px 30px 10px #111111);
+    margin:15px;
+    /* Modifications to each image in each about me figure */
+    /* Modify the caption */
+    /* Style the figure buttons */
+    /* Style the red buttons */
+    /* Style the h2 within figure */
+    /* Modify text in figure p tag */
+}
+
+#about-me > figure img {
+    width: 100%;
+    vertical-align: top;
+    opacity: 0.85;
+    padding: 10px 10px 0 10px;
+}
+
+#about-me > figure > figcaption {
+    width: 100%;
+    background-color: #4A4E4D;
+    /* Dark Gray */
+    padding: 20px;
+    /* Modify the links within the caption. Make them into a button*/
+}
+
+#about-me > figure > figcaption > a {
+    padding: 5px;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+    color: #4A4E4D;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin: 10px 0;
+    display: inline-block;
+    opacity: 0.70;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    /* Hover effect for buttons */
+}
+
+#about-me > figure > figcaption > a:hover {
+    opacity: 1;
+}
+
+#about-me > figure .fig-margin, #about-me > figure .red {
+    margin-right: 6%;
+}
+
+#about-me > figure .red {
+    border-color: #c0392b;
+    background-color: #c0392b;
+    color: #FFFFFF;
+}
+
+#about-me > figure h2 {
+    margin: 0 0 5px;
+    font-weight: 300;
+}
+
+#about-me > figure p {
+    margin: 0 0 10px;
+    font-size: 0.75em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+#about-me * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#about-me *:before, #about-me *:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+#projects {    
+    background: url('https://picsum.photos/id/370/4928/3264') no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    height: 80%;
+    width: 100%;
+    padding-bottom: 50%;
+    opacity: 0.85;
+}
+
+#projects-header {
+    padding: 3% 0;
+}
+
+#projects-header > h1, h3 {
+    font-weight: 600;
+    text-align: center;
+    color: #4A4E4D;
+    -webkit-filter: drop-shadow(30px 30px 10px #111111);
+    filter: drop-shadow(30px 30px 10px #111111);
+}
+
+/* Center the divs and add additional spacing to the bottom */
+#projects-me {
+    text-align: center;
+    padding-bottom: 1%;
+    /* Each figure needs to be lined up in a row. At larger screen widths, the images are 20% wide. They take up more
+    * real estate as the screen size shrinks.
+    */
+    /* Place figure in a box */
+}
+
+#projects-me > figure {
+    display: inline-block;
+    min-width: 20%;
+    max-width: 20%;
+    color: #4A4E4D;
+    text-align: left;
+    line-height: 1.4em;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+    margin:15px;
+    background-color: #f9f6f0;
+    /* Modifications to each image in each about me figure */
+    /* Modify the caption */
+    /* Style the figure buttons */
+    /* Style the red buttons */
+    /* Style the h2 within figure */
+    /* Modify text in figure p tag */
+}
+
+#projects-me > figure img {
+    width: 100%;
+    vertical-align: top;
+    opacity: 0.85;
+}
+
+#projects-me > figure > figcaption {
+    width: 100%;
+    background-color: #f9f6f0;
+    /* Dark Gray */
+    padding: 20px;
+    /* Modify the links within the caption. Make them into a button*/
+}
+
+#projects-me > figure > figcaption > a {
+    padding: 5px;
+    border: 1px solid #FFFFFF;
+    /* background-color: #FFFFFF; */
+    color: #4A4E4D;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin: 10px 0;
+    display: inline-block;
+    opacity: 0.70;
+    width: 47%;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    /* Hover effect for buttons */
+}
+
+#projects-me > figure > figcaption > a:hover {
+    opacity: 1;
+}
+
+#projects-me > figure .fig-margin, #projects-me > figure .red {
+    margin-right: 6%;
+}
+
+#projects-me > figure .red {
+    border-color: #c0392b;
+    background-color: #c0392b;
+    color: #FFFFFF;
+}
+
+#projects-me > figure h2 {
+    margin: 0 0 5px;
+    font-weight: 300;
+}
+
+#projects-me > figure p {
+    margin: 0 0 10px;
+    font-size: 0.75em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+#projects-me * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#projects-me *:before, #projects-me *:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#skills-me {
+    text-align: center;
+    padding-bottom: 3%;
+    /* Each figure needs to be lined up in a row. At larger screen widths, the images are 20% wide. They take up more
+    * real estate as the screen size shrinks.
+    */
+    /* Place figure in a box */
+}
+
+#skills-header > h1 {
+    font-weight: 600;
+    text-align: center;
+    margin: 3%;
+    color: #4A4E4D;
+    -webkit-filter: drop-shadow(30px 30px 10px #111111);
+    filter: drop-shadow(30px 30px 10px #111111);
+}
+
+#skills-me > skill-block {
+    display: inline-grid;
+    max-width: 20%;
+    color: #4A4E4D;
+    margin: 5px 15px;
+}
+
+#skills-me > skill-block span{
+    padding-top: 5px;
+    font-weight: 800;
+    font-size: medium;
+}
+
+#skills-me > figure {
+    display: inline-block;
+    min-width: 20%;
+    max-width: 20%;
+    color: #FFFFFF;
+    text-align: left;
+    line-height: 1.4em;
+    background-color: #4A4E4D;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+    margin:15px;
+    /* Modifications to each image in each about me figure */
+    /* Modify the caption */
+    /* Style the figure buttons */
+    /* Style the red buttons */
+    /* Style the h2 within figure */
+    /* Modify text in figure p tag */
+}
+
+#skills-me > figure img {
+    width: 100%;
+    vertical-align: top;
+    opacity: 0.85;
+}
+
+#skills-me > figure > figcaption {
+    width: 100%;
+    background-color: #4A4E4D;
+    /* Dark Gray */
+    padding: 20px;
+    /* Modify the links within the caption. Make them into a button*/
+}
+
+#skills-me > figure > figcaption > a {
+    padding: 5px;
+    border: 1px solid #FFFFFF;
+    background-color: #FFFFFF;
+    color: #4A4E4D;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin: 10px 0;
+    display: inline-block;
+    opacity: 0.70;
+    width: 47%;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    /* Hover effect for buttons */
+}
+
+#skills-me > figure > figcaption > a:hover {
+    opacity: 1;
+}
+
+#skills-me > figure .fig-margin, #skills-me > figure .red {
+    margin-right: 6%;
+}
+
+#skills-me > figure .red {
+    border-color: #c0392b;
+    background-color: #c0392b;
+    color: #FFFFFF;
+}
+
+#skills-me > figure h2 {
+    margin: 0 0 5px;
+    font-weight: 300;
+}
+
+#skills-me > figure p {
+    margin: 0 0 10px;
+    font-size: 0.75em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+#skills-me * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#skills-me *:before, #skills-me *:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#experiences {    
+    background: url('https://picsum.photos/id/378/5000/3333') no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+    height: auto;
+    width: 100%;
+    opacity: 0.85;
+}
+
+#experiences-header {
+    padding: 3% 0;
+}
+
+#experiences-header > h1, h3 {
+    font-weight: 600;
+    text-align: center;
+    color: #f9f6f0;
+    -webkit-filter: drop-shadow(30px 30px 10px #111111);
+    filter: drop-shadow(30px 30px 10px #111111);
+}
+
+/* Center the divs and add additional spacing to the bottom */
+#experiences-me {
+    text-align: center;
+    padding-bottom: 1%;
+    /* Each figure needs to be lined up in a row. At larger screen widths, the images are 20% wide. They take up more
+    * real estate as the screen size shrinks.
+    */
+    /* Place figure in a box */
+}
+
+#experiences-me > figure {
+    display: inline-block;
+    min-width: 80%;
+    max-width: 80%;
+    color: #4A4E4D;
+    text-align: left;
+    line-height: 1.4em;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+    margin:15px;
+    background-color: #f9f6f0;
+    /* Modifications to each image in each about me figure */
+    /* Modify the caption */
+    /* Style the figure buttons */
+    /* Style the red buttons */
+    /* Style the h2 within figure */
+    /* Modify text in figure p tag */
+}
+
+#experiences-me > figure div {
+    width: 100%;
+    text-align: center;
+    padding-top: 15px;;
+    font-weight: 800;
+    font-size: large;
+}
+
+#experiences-me > figure img {
+    width: 100%;
+    vertical-align: top;
+    opacity: 0.85;
+}
+
+#experiences-me > figure > figcaption {
+    width: 100%;
+    background-color: #f9f6f0;
+    /* Dark Gray */
+    padding: 3px 15px 5px 15px;
+    /* Modify the links within the caption. Make them into a button*/
+}
+
+#experiences-me > figure > figcaption > a {
+    padding: 5px;
+    border: 1px solid #FFFFFF;
+    /* background-color: #FFFFFF; */
+    color: #4A4E4D;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    margin: 10px 0;
+    display: inline-block;
+    opacity: 0.70;
+    width: 47%;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    /* Hover effect for buttons */
+}
+
+#experiences-me > figure > figcaption > a:hover {
+    opacity: 1;
+}
+
+#experiences-me > figure .fig-margin, #experiences-me > figure .red {
+    margin-right: 6%;
+}
+
+#experiences-me > figure .red {
+    border-color: #c0392b;
+    background-color: #c0392b;
+    color: #FFFFFF;
+}
+
+#experiences-me > figure h2 {
+    margin: 0 0 5px;
+    font-weight: 300;
+}
+
+#experiences-me > figure p {
+    margin: 0 0 10px;
+    font-size: 0.75em;
+    font-weight: 100;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+#experiences-me * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#experiences-me *:before, #experiences-me *:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/**********************************************************************************************************************/
+/* Footer Section                                                                                                     */
+/**********************************************************************************************************************/
+/* Add padding to top and center all elements */
+#footer {
+    padding-top: 1%;
+    text-align: center;
+}
+
+#footer > {
+    /* Reduce the size of the hr tag */
+    /* Reduce the weight of the font */
+}
+
+#footer > h1 {
+    font-weight: 600;
+    text-align: center;
+    color: #4A4E4D;
+}
+
+#footer > hr {
+    border: 2px solid;
+    width: 20%;
+}
+
+#footer > h4 {
+    font-weight: 100;
+    /* Eliminate underline next to each image */
+}
+
+#footer > h4 > a {
+    text-decoration: none;
+    margin: 0 0.5%;
+    /* Reduce image sizes from 50px to 30px */
+}
+
+#footer > h4 > a > i {
+    color: #4A4E4D;
+    width: 30px;
+}
+
+#footer > h4 > a > i:hover{
+    color: #000000;
+    width: 30px;
+}
+
+.welcome-footer {
+    position: absolute;
+    bottom: 15px;
+    left: 40%;
+    animation: 1s ease-out 0s 1 slideInFromBottom;
+}
+
+.welcome-footer > .footer-content {
+    text-align: center;
+    color: #FFFFFF;
+    -webkit-filter: drop-shadow(5px 5px 5px #111111);
+    filter: drop-shadow(5px 5px 5px #111111);
+}
+
+.welcome-footer > .footer-content  a{
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.welcome-footer > .footer-content a:hover{
+    text-align: center;
+    color: #333333;
+}
+/**********************************************************************************************************************/
+/* End Footer Section                                                                                                 */
+/**********************************************************************************************************************/
+/* Mobile and Tablet Corrections                                                                                      */
+/**********************************************************************************************************************/
+/* Correct the about me figures to move properly on mobile */
+@media screen and (max-width: 1720px) {
+  #about-me > figure {
+    min-width: 42%;
+  }
+}
+
+/* Fill up the screen with image gallery */
+@media screen and (max-width: 1500px) {
+  .img-gallery {
+    width: 33%;
+  }
+}
+
+/* Correct the about me figures to move properly on mobile */
+@media screen and (max-width: 1045px) {
+  /* Need to push down profile image on mobile so that it doesn't go behind navigation bar */
+  #main-background > img {
+    margin: 10% auto 0 auto;
+  }
+  /* Need to readjust size of each about me figures to fit more real-estate on smaller screens */
+  #about-me > figure {
+    min-width: 70%;
+    max-width: 78%;
+  }
+}
+
+/* Fill up the screen with image gallery */
+@media screen and (max-width: 800px) {
+  .img-gallery {
+    width: 48%;
+  }
+}
+
+/* Correct elements on screens smaller than 600px */
+@media screen and (max-width: 600px) {
+  /* Causes the navigation to go mobile */
+  ul.nav li {
+    float: none;
+    height: 0;
+  }
+  ul.nav li.right {
+    float: none;
+    height: 0;
+    visibility: hidden;
+  }
+  /* Hide the GitHub and blog links */
+  /* Need to move profile image because of navigation bar on mobile */
+  #main-background > img {
+    margin-top: 200px;
+  }
+  #main-background > h2 {
+    font-size: 150%;
+  }
+  /* Reduce font size of h2 subheading in main banner */
+  #projects-me, #skills-me > h1 {
+    margin: 0 2% 0 2%;
+  }
+}
+
+/* Need to expand the background of the main banner since smaller heights cut off content */
+@media screen and (max-height: 800px) {
+  #main-background {
+    height: 800px;
+  }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

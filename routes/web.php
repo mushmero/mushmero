@@ -209,7 +209,7 @@ Route::middleware(['auth'])->group(static function () {
                 Route::post('/updateStatusById/{id}', 'PersonalController@updateStatusById');
             });
         });
-        Route::get('/getAllCountries', 'HomeController@getCountryList')->name('home.getallcountry');
-        Route::get('/getVisitorByCountry', 'HomeController@getVisitorByCountry')->name('home.getvisitorbycountry');
+        Route::get('/getAllCountries', 'HomeController@getCountryList');
+        Route::get('/getVisitorByCountry', 'HomeController@getVisitorByCountry');
     });
 });

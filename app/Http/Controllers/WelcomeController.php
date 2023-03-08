@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\PersonaTrait;
+use App\Models\Personal;
 use App\Models\Visitors;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
@@ -16,8 +18,47 @@ class WelcomeController extends Controller
     public function index()
     {
         $this->saveVisitor();
-        
-        return view('welcome');
+
+        $data['author'] = 'Amirul Hakim';
+        $data['description'] = 'Information on me, myself and i';
+
+        if(PersonaTrait::checkPersona()->count() > 0){  
+            $activePersona = $this->getInformation();
+    
+            $data['profile-image'] = $activePersona->attachments->path.'/'.$activePersona->attachments->filename;
+            $data['name'] = $activePersona->fullname;
+            $data['position'] = $activePersona->tagline;
+            $data['experiences'] = $activePersona->experiences;    
+            $data['skills'] = $activePersona->skills->shuffle();
+            $data['email'] = $activePersona->email;
+            $data['phone'] = $activePersona->phone;
+            $data['website'] = $activePersona->website;
+            $data['educations'] = $activePersona->educations;
+            $data['languages'] = $activePersona->languages;
+
+            $projects = $activePersona->projects->shuffle()->toArray();
+            $interests = $activePersona->interests->shuffle()->toArray();
+
+            foreach($projects as $project){
+                $interests_projects[] = array(
+                    'name' => $project['name'],
+                    'description' => $project['description'],
+                );
+            }
+
+            foreach($interests as $interest){
+                $interests_projects[] = array(
+                    'name' => $interest['name'],
+                );
+            }
+            $data['projects'] = $interests_projects;    
+            $data['socials'] = $activePersona->socials->shuffle();      
+            return view('welcome.content.content', compact('data'));
+        }else{
+            $data['info'] = '
+            Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily. The platform features an intuitive interface that allow users through each step of the resume creation process, from adding personal information to work experience, skills, education and many more. Resumed features an intuitive and user-friendly interface that makes it easy for anyone to create a professional-looking resume quickly. The platform allows users to customize their resumes to suit their unique career goals and experience.';
+            return view('welcome', compact('data'));
+        }
     }
 
     public function saveVisitor(){
@@ -41,5 +82,12 @@ class WelcomeController extends Controller
         }else{
             return false;
         }
+    }
+
+    public function getInformation()
+    {
+        $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
+                    ->where(['status' => 1])->first();
+        return $persona;
     }
 }
