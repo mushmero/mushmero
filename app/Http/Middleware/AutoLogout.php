@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Redirect;
 use Session;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use Carbon\Carbon;
 
 class AutoLogout
@@ -41,10 +40,9 @@ class AutoLogout
             // $cookie = cookie('intend', $is_logged_in ? url()->current() : 'home');
             
             auth()->logout();
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Due to inactivity you have been logged out',
-            );
+            )->warning();
             return Redirect::to('login');
         }
 

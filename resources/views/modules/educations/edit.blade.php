@@ -10,7 +10,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-flashmessages-container />
+            @include('flash::message')
             <form class="form" action="{{ route('educations.update',$data->id) }}" method="post">
                 @method('put')
                 @csrf

@@ -7,7 +7,6 @@ use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Experiences;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class ExperiencesController extends Controller
 {
@@ -132,15 +131,13 @@ class ExperiencesController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Experience created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Experience',
-            );
+            )->error();
         }
 
         return back();
@@ -248,15 +245,13 @@ class ExperiencesController extends Controller
         $update = Experiences::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Experience updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Experience',
-            );
+            )->error();
         }
 
          return back();
@@ -271,10 +266,9 @@ class ExperiencesController extends Controller
     public function destroy($id)
     {
         Experiences::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Experience deleted successfully',
-        );
+        )->success();
         return redirect()->route('experiences');
     }
 }

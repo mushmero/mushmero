@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-flashmessages-container />
+            @include('flash::message')
             <form class="form" action="{{ route('experiences.store') }}" method="post">
                 @csrf
                 <x-adminlte-card title="Create Experience" theme="default" icon="fas fa-sm fa-briefcase" collapsible>

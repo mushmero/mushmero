@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\Personal;
 use App\Models\Attachments;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class PersonalController extends Controller
 {
@@ -112,15 +111,13 @@ class PersonalController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Persona created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Persona',
-            );
+            )->error();
         }
 
         return back();
@@ -190,15 +187,13 @@ class PersonalController extends Controller
         $update = Personal::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Persona updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Persona',
-            );
+            )->error();
         }
 
          return back();
@@ -213,10 +208,9 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         Personal::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Persona deleted successfully',
-        );
+        )->success();
         return redirect()->route('personal');
     }
 

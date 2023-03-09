@@ -8,7 +8,6 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use DB;
 use Auth;    
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use App\Helpers\Helper;
 
 class RolesController extends Controller
@@ -94,15 +93,13 @@ class RolesController extends Controller
         $role->syncPermissions($permissions);
 
         if($role){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Role created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create role',
-            );
+            )->error();
         }
 
          return back();
@@ -181,15 +178,13 @@ class RolesController extends Controller
         $role->syncPermissions($permissions);   
 
         if($role){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Role updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update role',
-            );
+            )->error();
         }
 
          return back();
@@ -204,10 +199,9 @@ class RolesController extends Controller
     public function destroy($id)
     {
         DB::table("roles")->where('id',$id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Role deleted successfully',
-        );
+        )->success();
         return redirect()->route('roles');
     }
     private function systemModules()

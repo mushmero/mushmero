@@ -7,7 +7,6 @@ use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Interests;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class InterestsController extends Controller
 {
@@ -98,15 +97,13 @@ class InterestsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Interest created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Interest to create Skill',
-            );
+            )->error();
         }
 
         return back();
@@ -168,15 +165,14 @@ class InterestsController extends Controller
         $update = Interests::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Interest updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
+            flash(
                 'error',
                 'Unable to update Interest',
-            );
+            )->error();
         }
 
          return back();
@@ -191,10 +187,9 @@ class InterestsController extends Controller
     public function destroy($id)
     {
         Interests::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Interest deleted successfully',
-        );
+        )->success();
         return redirect()->route('interests');
     }
 }

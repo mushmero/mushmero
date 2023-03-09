@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SettingsTemplate;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use App\Helpers\Helper;
 
 class TemplatesController extends Controller
@@ -124,15 +123,13 @@ class TemplatesController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Template created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create template',
-            );
+            )->error();
         }
 
         return back();
@@ -215,15 +212,13 @@ class TemplatesController extends Controller
         $update = SettingsTemplate::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Template updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update template',
-            );
+            )->error();
         }
 
          return back();
@@ -238,10 +233,9 @@ class TemplatesController extends Controller
     public function destroy($id)
     {
         SettingsTemplate::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Template deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_template');
     }
 }

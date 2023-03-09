@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SettingsPDF;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class PDFSettingsController extends Controller
 {
@@ -95,15 +94,13 @@ class PDFSettingsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'PDF settings created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create PDF settings',
-            );
+            )->error();
         }
 
         return back();
@@ -162,15 +159,13 @@ class PDFSettingsController extends Controller
         $update = SettingsPDF::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'PDF settings updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update PDF settings',
-            );
+            )->error();
         }
 
          return back();
@@ -185,10 +180,9 @@ class PDFSettingsController extends Controller
     public function destroy($id)
     {
         SettingsPDF::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'PDF settings deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_pdf');
     }
 }

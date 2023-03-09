@@ -8,7 +8,6 @@ use App\Models\SettingsProject;
 use Illuminate\Http\Request;
 use App\Models\Projects;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class ProjectsController extends Controller
 {
@@ -127,15 +126,13 @@ class ProjectsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Project created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Project',
-            );
+            )->error();
         }
 
         return back();
@@ -237,15 +234,13 @@ class ProjectsController extends Controller
         $update = Projects::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Project updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Project',
-            );
+            )->error();
         }
 
          return back();
@@ -260,10 +255,9 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         Projects::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Project deleted successfully',
-        );
+        )->success();
         return redirect()->route('projects');
     }
 }

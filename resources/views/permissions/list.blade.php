@@ -15,7 +15,7 @@
                         <x-adminlte-button class="btn-sm btn-flat" label="{{ __('adminlte::adminlte.add_new') }}" theme="success" icon="fas fa-plus"/>
                     </a>
                 </x-slot>
-                <x-flashmessages-container />
+                @include('flash::message')
                 <x-adminlte-datatable id="table1" :heads="$heads" :config="$config" head-theme="dark" striped hoverable compressed />
             </x-adminlte-card>
         </div>

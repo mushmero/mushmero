@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
@@ -112,15 +111,13 @@ class UsersController extends Controller
         }
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'User created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create user',
-            );
+            )->error();
         }
 
          return back();
@@ -200,15 +197,13 @@ class UsersController extends Controller
         }
 
         if($user){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'User updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update user',
-            );
+            )->error();
         }
 
          return back();
@@ -223,10 +218,9 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'User deleted successfully',
-        );
+        )->success();
         return redirect()->route('users');
     }
 }

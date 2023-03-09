@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Socials;
 use App\Models\SettingsSocial;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class SocialsController extends Controller
 {
@@ -107,15 +106,13 @@ class SocialsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Social created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Social',
-            );
+            )->error();
         }
 
         return back();
@@ -181,15 +178,13 @@ class SocialsController extends Controller
         $update = Socials::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Social updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Social',
-            );
+            )->error();
         }
 
          return back();
@@ -204,10 +199,9 @@ class SocialsController extends Controller
     public function destroy($id)
     {
         Socials::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Social deleted successfully',
-        );
+        )->success();
         return redirect()->route('socials');
     }
 }

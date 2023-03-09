@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Educations;
 use App\Models\SettingsEducations;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class EducationsController extends Controller
 {
@@ -125,15 +124,13 @@ class EducationsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Education created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Education',
-            );
+            )->error();
         }
 
         return back();
@@ -215,15 +212,13 @@ class EducationsController extends Controller
         $update = Educations::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Education updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Education',
-            );
+            )->error();
         }
 
          return back();
@@ -238,10 +233,9 @@ class EducationsController extends Controller
     public function destroy($id)
     {
         Educations::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Education deleted successfully',
-        );
+        )->success();
         return redirect()->route('educations');
     }
 }

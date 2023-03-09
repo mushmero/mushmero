@@ -11,7 +11,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-flashmessages-container />
+            @include('flash::message')
             <form class="form" action="{{ route('personal.update',$data->id) }}" method="post" enctype="multipart/form-data">
                 @method('put')
                 @csrf

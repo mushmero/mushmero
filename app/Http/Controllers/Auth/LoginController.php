@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class LoginController extends Controller
 {
@@ -53,10 +52,9 @@ class LoginController extends Controller
         {
             return redirect()->route('home');
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Invalid Email or Password. Please try again',
-            );
+            )->error();
             return redirect()->route('login');
         }
     }

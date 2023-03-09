@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use App\Models\SettingsLanguage;
 
 class LanguagesController extends Controller
@@ -85,15 +84,13 @@ class LanguagesController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Proficiency created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create proficiency',
-            );
+            )->error();
         }
 
         return back();
@@ -143,15 +140,13 @@ class LanguagesController extends Controller
         $update = SettingsLanguage::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Proficiency updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update proficiency',
-            );
+            )->error();
         }
 
          return back();
@@ -166,10 +161,9 @@ class LanguagesController extends Controller
     public function destroy($id)
     {
         SettingsLanguage::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Proficiency deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_language');
     }
 }

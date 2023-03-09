@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SettingsSocial;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class SocialsController extends Controller
 {
@@ -92,15 +91,13 @@ class SocialsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Icon created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Icon',
-            );
+            )->error();
         }
 
         return back();
@@ -154,15 +151,13 @@ class SocialsController extends Controller
         $update = SettingsSocial::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Icon updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update icon',
-            );
+            )->error();
         }
 
          return back();
@@ -177,10 +172,9 @@ class SocialsController extends Controller
     public function destroy($id)
     {
         SettingsSocial::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Icon deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_social');
     }
 }

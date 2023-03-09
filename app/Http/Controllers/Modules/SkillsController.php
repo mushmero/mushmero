@@ -8,7 +8,6 @@ use App\Models\SettingsSocial;
 use Illuminate\Http\Request;
 use App\Models\Skills;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class SkillsController extends Controller
 {
@@ -105,15 +104,13 @@ class SkillsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Skill created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Skill',
-            );
+            )->error();
         }
 
         return back();
@@ -180,15 +177,13 @@ class SkillsController extends Controller
         $update = Skills::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Skill updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Skill',
-            );
+            )->error();
         }
 
          return back();
@@ -203,10 +198,9 @@ class SkillsController extends Controller
     public function destroy($id)
     {
         Skills::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Skill deleted successfully',
-        );
+        )->success();
         return redirect()->route('skills');
     }
 }

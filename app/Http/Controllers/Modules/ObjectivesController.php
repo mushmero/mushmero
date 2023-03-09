@@ -7,7 +7,6 @@ use App\Http\Traits\PersonaTrait;
 use Illuminate\Http\Request;
 use App\Models\Objectives;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class ObjectivesController extends Controller
 {
@@ -102,15 +101,13 @@ class ObjectivesController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Objective created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Objective',
-            );
+            )->error();
         }
 
         return back();
@@ -174,15 +171,13 @@ class ObjectivesController extends Controller
         $update = Objectives::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Objective updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Objective',
-            );
+            )->error();
         }
 
          return back();
@@ -197,10 +192,9 @@ class ObjectivesController extends Controller
     public function destroy($id)
     {
         Objectives::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Objective deleted successfully',
-        );
+        )->success();
         return redirect()->route('objectives');
     }
 }

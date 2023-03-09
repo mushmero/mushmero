@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Languages;
 use App\Models\SettingsLanguage;
 use App\Models\User;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class LanguagesController extends Controller
 {
@@ -108,15 +107,13 @@ class LanguagesController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Language created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create Language',
-            );
+            )->error();
         }
 
         return back();
@@ -185,15 +182,13 @@ class LanguagesController extends Controller
         $update = Languages::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Language updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update Language',
-            );
+            )->error();
         }
 
          return back();
@@ -208,10 +203,9 @@ class LanguagesController extends Controller
     public function destroy($id)
     {
         Languages::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Language deleted successfully',
-        );
+        )->success();
         return redirect()->route('languages');
     }
 }

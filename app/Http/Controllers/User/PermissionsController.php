@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Auth;
 use App\Helpers\Helper;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 
 class PermissionsController extends Controller
 {
@@ -87,21 +86,18 @@ class PermissionsController extends Controller
             $store = Permission::create(['name' => $request->input('modules')]);
 
             if($store){
-                FlashMessages::addFlashMessage(
-                    'success',
+                flash(
                     'Permission created successfully',
-                );
+                )->success();
             }else{
-                FlashMessages::addFlashMessage(
-                    'error',
+                flash(
                     'Unable to create permission',
-                );
+                )->error();
             }
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Permission "'.$request->input('modules').'" exists',
-            );
+            )->warning();
         }
 
         return back();
@@ -153,15 +149,13 @@ class PermissionsController extends Controller
 
         $update = Permission::where('id', $id)->update($request->input('modules'));
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Permission updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update permission',
-            );
+            )->error();
         }
 
         return back();
@@ -176,10 +170,9 @@ class PermissionsController extends Controller
     public function destroy(Permission $permission)
     {
         $permission->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Permission delete successfully',
-        );
+        )->success();
         return back();
 
     }

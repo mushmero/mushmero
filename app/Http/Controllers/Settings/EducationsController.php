@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use App\Models\SettingsEducations;
 
 class EducationsController extends Controller
@@ -89,15 +88,13 @@ class EducationsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Edulevel created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create edulevel',
-            );
+            )->error();
         }
 
         return back();
@@ -149,15 +146,13 @@ class EducationsController extends Controller
         $update = SettingsEducations::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Edulevel updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update edulevel',
-            );
+            )->error();
         }
 
          return back();
@@ -172,10 +167,9 @@ class EducationsController extends Controller
     public function destroy($id)
     {
         SettingsEducations::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Edulevel deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_education');
     }
 }

@@ -9,7 +9,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <x-flashmessages-container />
+            @include('flash::message')
             <form class="form" action="{{ route('interests.store') }}" method="post">
                 @csrf
                 <x-adminlte-card title="Create Interest" theme="default" icon="fas fa-sm fa-thumbs-up" collapsible>

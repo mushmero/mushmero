@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use wadeshuler\FlashMessages\Facades\FlashMessages;
 use App\Models\SettingsProject;
 
 class ProjectsController extends Controller
@@ -85,15 +84,13 @@ class ProjectsController extends Controller
         ]);
 
         if($store){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Project status created successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to create project status',
-            );
+            )->error();
         }
 
         return back();
@@ -143,15 +140,13 @@ class ProjectsController extends Controller
         $update = SettingsProject::find($id)->update($data);
 
         if($update){
-            FlashMessages::addFlashMessage(
-                'success',
+            flash(
                 'Project status updated successfully',
-            );
+            )->success();
         }else{
-            FlashMessages::addFlashMessage(
-                'error',
+            flash(
                 'Unable to update project status',
-            );
+            )->error();
         }
 
          return back();
@@ -166,10 +161,9 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         SettingsProject::find($id)->delete();
-        FlashMessages::addFlashMessage(
-            'success',
+        flash(
             'Project status deleted successfully',
-        );
+        )->success();
         return redirect()->route('settings_project');
     }
 }
