@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\PersonaTrait;
+use App\Models\Leads;
 use App\Models\Personal;
 use App\Models\Visitors;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use Validator;
 
 class WelcomeController extends Controller
 {
@@ -89,5 +91,29 @@ class WelcomeController extends Controller
         $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
                     ->where(['status' => 1])->first();
         return $persona;
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->all();
+
+        $validate = Validator::make($data, [
+            'email' => 'required|unique:leads',
+        ]);
+
+        if($validate->fails()){
+            return response()->json(['validate_error' => $validate->errors()]);
+        }
+
+        $store = Leads::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ]);
+
+        if($store){
+            return response()->json(['success' => 'Thank you for your interest']);
+        }else{
+            return response()->json(['error' => 'Unable to process. Please try later']);
+        }
     }
 }

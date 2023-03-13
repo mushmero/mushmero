@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\WelcomeController@index')->name('welcome');
+Route::post('/', 'App\Http\Controllers\WelcomeController@store')->name('welcome.contact.store');
 Route::get('/auth/check',function(){
     return (Auth::check()) ? True : False;
 });

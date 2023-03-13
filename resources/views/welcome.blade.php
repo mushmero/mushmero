@@ -25,7 +25,7 @@
                     {{ $data['info'] }}
                 </div>
                 <div class="content-footer">
-                    <a href="#" class="btn btn-link">Register Interest</a>
+                    <button id="interestTrigger" class="btn btn-link" data-toggle="modal" data-target="#interestModal">Register Interest</button>
                     <a href="#" class="btn btn-link">Preview</a>
                 </div>
             </div>
@@ -33,6 +33,42 @@
     </div>
     
 @endsection
+    <div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-gray-dark">
+                    <h5 class="modal-title" id="interestModalLabel">Register Interest</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-fw fa-times"></i>
+                    </button>
+                </div>
+                <form id="interestForm" class="form needs-validation" action="{{ route('welcome.contact.store') }}" method="post" novalidate>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="name">Name</label>
+                                <input name="name" id="name" type="text" class="form-control" required />
+                                <div class="invalid-feedback" role="alert">
+                                    <strong> Please provide a valid name.</strong>                                
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="email">Email</label>
+                                <input name="email" id="email" type="email" class="form-control" required />
+                                <div class="invalid-feedback" role="alert">
+                                    <strong> Please provide a valid email.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @section('footer')
     <div class="welcome-footer">
