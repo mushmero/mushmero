@@ -92,8 +92,7 @@ class WelcomeController extends Controller
 
     public function getInformation()
     {
-        $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
-                    ->where(['status' => 1])->first();
+        $persona = PersonaTrait::getActivePersonaInformations();
         return $persona;
     }
 
