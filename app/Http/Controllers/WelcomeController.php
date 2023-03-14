@@ -38,22 +38,26 @@ class WelcomeController extends Controller
             $data['educations'] = $activePersona->educations;
             $data['languages'] = $activePersona->languages;
 
-            $projects = $activePersona->projects->shuffle()->toArray();
-            $interests = $activePersona->interests->shuffle()->toArray();
-
-            foreach($projects as $project){
-                $interests_projects[] = array(
-                    'name' => $project['name'],
-                    'description' => $project['description'],
-                );
-            }
-
-            foreach($interests as $interest){
-                $interests_projects[] = array(
-                    'name' => $interest['name'],
-                );
-            }
-            $data['projects'] = $interests_projects;    
+            if($activePersona->projects->count() > 0){
+                $projects = $activePersona->projects->shuffle()->toArray();
+                $interests = $activePersona->interests->shuffle()->toArray();
+    
+                foreach($projects as $project){
+                    $interests_projects[] = array(
+                        'name' => $project['name'],
+                        'description' => $project['description'],
+                    );
+                }
+    
+                foreach($interests as $interest){
+                    $interests_projects[] = array(
+                        'name' => $interest['name'],
+                    );
+                }
+                $data['projects'] = $interests_projects; 
+            }else{
+                $data['projects'] = array();
+            }   
             $data['socials'] = $activePersona->socials->shuffle();      
             return view('welcome.content.content', compact('data'));
         }else{
