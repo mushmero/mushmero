@@ -31,7 +31,14 @@ class EducationsController extends Controller
     public function index()
     {
         $data = array();
-        $array = Educations::all();
+        $authUserRoles = auth()->user()->roles->pluck('name');
+        foreach($authUserRoles as $authUserRole){
+            if($authUserRole == 'Superadmin'){
+                $array = Educations::all();
+            }else{
+                $array = Educations::where(['user_id' => auth()->user()->id])->get();
+            }
+        }
 
         $heads = [
             'Name',

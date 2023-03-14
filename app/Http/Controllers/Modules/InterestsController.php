@@ -30,7 +30,14 @@ class InterestsController extends Controller
     public function index()
     {
         $data = array();
-        $array = Interests::all();
+        $authUserRoles = auth()->user()->roles->pluck('name');
+        foreach($authUserRoles as $authUserRole){
+            if($authUserRole == 'Superadmin'){
+                $array = Interests::all();
+            }else{
+                $array = Interests::where(['user_id' => auth()->user()->id])->get();
+            }
+        }
 
         $heads = [
             'Name',

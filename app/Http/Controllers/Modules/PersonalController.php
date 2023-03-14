@@ -33,7 +33,14 @@ class PersonalController extends Controller
     public function index()
     {
         $data = array();
-        $array = Personal::all();
+        $authUserRoles = auth()->user()->roles->pluck('name');
+        foreach($authUserRoles as $authUserRole){
+            if($authUserRole == 'Superadmin'){
+                $array = Personal::all();
+            }else{
+                $array = Personal::where(['user_id' => auth()->user()->id])->get();
+            }
+        }
 
         $heads = [
             'Profile',

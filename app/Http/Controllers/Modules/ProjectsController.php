@@ -31,7 +31,14 @@ class ProjectsController extends Controller
     public function index()
     {
         $data = array();
-        $array = Projects::all();
+        $authUserRoles = auth()->user()->roles->pluck('name');
+        foreach($authUserRoles as $authUserRole){
+            if($authUserRole == 'Superadmin'){
+                $array = Projects::all();
+            }else{
+                $array = Projects::where(['user_id' => auth()->user()->id])->get();
+            }
+        }
 
         $heads = [
             'Name',
