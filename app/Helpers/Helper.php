@@ -252,4 +252,10 @@ class Helper
 		}
 		return $new_array;
 	}
+
+	public static function getRouteSubdomain()
+	{
+		$route = Route::getCurrentRoute();
+		return $route->parameter('subdomain');
+	}
 }
