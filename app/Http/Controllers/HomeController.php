@@ -39,7 +39,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(PersonaTrait::checkPersona()->count() > 0){
+        if(PersonaTrait::getActivePersonaByAuthUser() != null && PersonaTrait::getActivePersonaByAuthUser()->count() > 0){
             return view('home', [
                 'inspiration' => $this->getQuotes(),
                 'profile' => $this->getProfile(),
@@ -79,6 +79,7 @@ class HomeController extends Controller
     {
         $experiences = Experiences::where('user_id',auth()->user()->id)->get();
         $data = array();
+        $data['length'] = 0;
         foreach($experiences as $experience){
             $data['position'][] = $experience->position;
             $data['employer'][] = $experience->employer;
