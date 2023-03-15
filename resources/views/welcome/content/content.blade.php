@@ -3,6 +3,9 @@
 @section('content')
 
     <div id="main-background">
+        <div class="flash-message">
+            @include('flash::message')
+        </div>
         <img src="{!! url($data['profile-image']) !!}" alt="Dino Cajic" />
         <h1>{{ $data['name'] }}</h1>
         <h2>{{ $data['position'] }}</h2>

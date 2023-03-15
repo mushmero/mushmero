@@ -16,6 +16,9 @@
     </div>
 
     <div id="main-welcome-background">
+        <div class="flash-message">
+            @include('flash::message')
+        </div>
         <div class="content">
             <div class="left">
                 <div class="title">
