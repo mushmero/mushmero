@@ -47,7 +47,8 @@ function switchAjax(id) {
                                     url: 'personal/updateStatusById/'+id,
                                     data: {
                                         '_token': '{{ csrf_token() }}',
-                                        'status':0
+                                        'status':0,
+                                        'id' : id
                                         },
                                     success: function() {
                                         Swal.fire({
@@ -89,7 +90,8 @@ function switchAjax(id) {
                             url: 'personal/updateStatusById/'+id,
                             data: {
                                 '_token': '{{ csrf_token() }}',
-                                'status': 1
+                                'status': 1,
+                                'id' : id
                                 },
                             success: function() {
                                 Swal.fire({

@@ -238,8 +238,9 @@ class PersonalController extends Controller
         }
     }
 
-    public function updateStatusById(Request $request, $id)
+    public function updateStatusById(Request $request)
     {
+        $id = $request->input('id');
         $data['status'] = $request->input('status');
         Personal::find($id)->update($data);
         return true;
