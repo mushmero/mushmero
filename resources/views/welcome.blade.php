@@ -26,13 +26,10 @@
                 </div>
                 <div class="content-footer">
                     <button id="interestTrigger" class="btn btn-link" data-toggle="modal" data-target="#interestModal">Register Interest</button>
-                    <a href="#" class="btn btn-link">Preview</a>
                 </div>
             </div>
         </div>    
     </div>
-    
-@endsection
     <div class="modal fade" id="interestModal" tabindex="-1" aria-labelledby="interestModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -69,6 +66,8 @@
             </div>
         </div>
     </div>
+    
+@endsection
 
 @section('footer')
     <div class="welcome-footer">

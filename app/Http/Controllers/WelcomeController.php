@@ -22,7 +22,7 @@ class WelcomeController extends Controller
         $this->saveVisitor();
 
         $data['author'] = 'Amirul Hakim';
-        $data['description'] = 'Information on me, myself and i';
+        $data['description'] = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
 
         if(PersonaTrait::checkPersona()->count() > 0){  
             $activePersona = $this->getInformation();
