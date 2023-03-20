@@ -6,7 +6,7 @@
         <div class="flash-message">
             @include('flash::message')
         </div>
-        <img src="{!! url($data['profile-image']) !!}" alt="Dino Cajic" />
+        <img src="{!! url($data['profile-image']) !!}" alt="{{ $data['name'] }}" />
         <h1>{{ $data['name'] }}</h1>
         <h2>{{ $data['position'] }}</h2>
     </div>
