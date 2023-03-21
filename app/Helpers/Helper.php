@@ -88,6 +88,7 @@ class Helper
 
     public static function formatDate($date, $timezone = 'Asia/Kuala_Lumpur', $format = 'd-m-Y H:i:s')
     {
+		if(is_null($date)) return 'Empty Date';
         return Carbon::parse($date)->setTimezone($timezone)->format($format);
     }
 
