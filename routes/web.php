@@ -236,6 +236,10 @@ Route::middleware(['auth'])->group(static function () {
                 Route::get('/', 'VisitorsLogController@index')->name('visitors');
                 Route::get('/{id}/show', 'VisitorsLogController@show')->name('visitors.show');
             });
+            Route::prefix('/leads')->group(static function(){
+                Route::get('/', 'LeadsController@index')->name('leads');
+                Route::get('/{id}/show', 'LeadsController@show')->name('leads.show');
+            });
             Route::namespace('User')->group(static function(){
                 Route::prefix('/settings_users')->group(static function(){
                     Route::get('/', 'UsersController@index')->name('users');

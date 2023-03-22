@@ -41,4 +41,5 @@ return [
     'index'                         => 'Index',
     'store'                         => 'Store',
     'visitors'                      => 'Visitors',
+    'leads'                         => 'New Registration',
 ];

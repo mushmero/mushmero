@@ -406,6 +406,11 @@ return [
             ],
         ],
         [
+            'text'  =>  'leads',
+            'url'   =>  'leads',
+            'icon'  =>  'fas fa-fw fa-user-plus',
+        ],
+        [
             'text'  =>  'logs',
             'icon'  =>  'fas fa-fw fa-list',
             'submenu'   =>  [

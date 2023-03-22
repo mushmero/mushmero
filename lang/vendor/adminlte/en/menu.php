@@ -42,4 +42,5 @@ return [
     'settings_template'             => 'Templates',
     'settings_pdf'                  => 'PDF',
     'visitors'                      => 'Visitors',
+    'leads'                         => 'New Registration',
 ];
