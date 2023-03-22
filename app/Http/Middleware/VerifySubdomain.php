@@ -21,8 +21,7 @@ class VerifySubdomain
     public function handle(Request $request, Closure $next)
     {
         $subdomain = Route::getCurrentRoute()->parameter('subdomain');
-        $subdomain_dbvalue = Str::replace('-',' ',$subdomain);
-        $exist = Leads::where(['name' => $subdomain_dbvalue])->first();
+        $exist = Leads::where(['subdomain' => $subdomain, 'activate' => 1])->first();
         if($exist === null){            
             flash(
                 'Unable to verify account. Please contact admin',
