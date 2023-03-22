@@ -14,43 +14,43 @@
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-10">
-                            {{ $data['name'] }}
+                            {{ $data->name }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Email</label>
                         <div class="col-md-10">
-                            {{ $data['email'] }}
+                            {{ $data->email }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Activate</label>
                         <div class="col-md-9">
-                            {{ $data['activate'] == 1 ? 'Yes' : 'No' }}
+                            {{ $data->activate == 1 ? 'Yes' : 'No' }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Activate Timestamp</label>
                         <div class="col-md-10">
-                            {{  Helper::formatDate($data['activate_time']) }}
+                            {{  $data->activate_time }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Proposed link</label>
                         <div class="col-md-10">
-                            {{ $data['subdomain'] ?? 'N/A' }}
+                            {{ $data->subdomain ?? 'N/A' }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Deactivate Timestamp</label>
                         <div class="col-md-10">
-                            {{  Helper::formatDate($data['deactivate_time']) }}
+                            {{  $data->deactivate_time }}
                         </div>
                     </div>
                     <div class="col-6 row">
                         <label class="col-md-2 control-label">Reason</label>
                         <div class="col-md-10">
-                            {{ $data['reason'] ?? 'N/A' }}
+                            {{ $data->reason ?? 'N/A' }}
                         </div>
                     </div>
                 </div>

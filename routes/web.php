@@ -420,5 +420,10 @@ Route::middleware(['auth'])->group(static function () {
         });
         Route::get('/getAllCountries', 'HomeController@getCountryList');
         Route::get('/getVisitorByCountry', 'HomeController@getVisitorByCountry');
+        Route::prefix('/leads')->group(static function(){
+            Route::get('/generatelink', 'LeadsController@generatelink');
+            Route::get('/checkLinkExistById', 'LeadsController@checkLinkExist');
+            Route::post('/activateLink', 'LeadsController@activateLink');
+        });
     });
 });

@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
         Commands\SyncAdminPermission::class,
         Commands\SyncRoleToUser::class,
         Commands\SyncAppVersion::class,
+        Commands\GenerateSubLink::class,
     ];
     /**
      * Define the application's command schedule.
@@ -22,7 +23,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('sublink:generate')->dailyAt('01:00')->withoutOverlapping();
     }
 
     /**

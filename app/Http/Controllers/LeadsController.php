@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Models\Leads;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LeadsController extends Controller
@@ -52,6 +53,13 @@ class LeadsController extends Controller
             'data' => $data,
             'order' => [],
             'columns' => [null, null, null, null, null],
+            'dom' => '<"top row"<"col-1 left"l><"pl-4 col-5"B><"col-6 right"f>>rtip',
+            'buttons' => [
+                [
+                    'text' => 'Generate Link',
+                    'className' => 'btn-generate-link btn-success btn-sm',
+                ],
+            ],
         ];
 
         return view('leads.list', [
@@ -126,5 +134,54 @@ class LeadsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function generatelink()
+    {
+        $generate = \Artisan::call('sublink:generate');
+        if($generate){
+            return response()->json(['success' => 'Links generated']);
+        }else{
+            return response()->json(['error' => 'No links generated']);
+        }
+    }
+
+    public function checkLinkExist(Request $request)
+    {
+        $data = $request->all();
+        $check = Leads::where(['id' => $data['id'], 'activate' => 1])->get();
+        if($check->count() > 0){
+            return response()->json(['activate' => true]);
+        }else{
+            $exist = Leads::where(['id' => $data['id'], 'activate' => 0])->where('subdomain','<>','')->get();
+            if($exist->count() > 0){
+                return response()->json(['success' => true]);
+            }else{
+                return response()->json(['error' => 'Link not exists. Please generate']);
+            }
+        }
+    }
+
+    public function activateLink(Request $request)
+    {
+        $data = $request->all();
+        $update = [];
+        if($data['activate'] == 1){
+            $update = [
+                'activate' => 1,
+                'activate_time' => Helper::formatDate(now(), 'Asia/Kuala_Lumpur', 'Y-m-d H:i:s'),
+                'deactivate_time' => null,
+                'reason' => 'Link activated',
+            ];
+        }else{
+            $update = [
+                'activate' => 0,
+                'activate_time' => null,
+                'deactivate_time' => Helper::formatDate(now(), 'Asia/Kuala_Lumpur', 'Y-m-d H:i:s'),
+                'reason' => 'Link deactivated',
+            ];
+        }
+        Leads::find($data['id'])->update($update);
+        return true;
     }
 }

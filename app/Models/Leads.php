@@ -35,7 +35,7 @@ class Leads extends Model
         'email',
         'subdomain',
         'activate',
-        'activation_time',
+        'activate_time',
         'deactivate_time',
         'reason',
     ];

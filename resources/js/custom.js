@@ -13,6 +13,7 @@ $(document).ready(function() {
 
                 experiences();
                 socials();
+                generateLink();
             }
         }
     });
@@ -215,5 +216,25 @@ function loadmap(){
         legend: {
             area : arealegend
         },
+    });
+}
+
+function generateLink()
+{    
+    $('.btn-generate-link').on('click', function(e){
+        $.ajax({
+            url: "/leads/generatelink",
+            async: false,
+            success: function(data){
+                for(var key in data){
+                    Swal.fire(
+                        key.charAt(0).toUpperCase()
+                        + key.slice(1),
+                        data[key],
+                        key
+                    );
+                }
+            }
+        });
     });
 }
