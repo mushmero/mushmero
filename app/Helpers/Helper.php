@@ -62,9 +62,11 @@ class Helper
         $routes = Route::getRoutes()->getRoutes();
 
         foreach($routes as $route){
-            if ($route->getName() != '' && $route->uri() != '/' && $route->getAction()['middleware']['0'] == 'web') {
-                $modules[] = $route->getName();
-            }
+			if(is_array($route->getAction()['middleware'])){
+				if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
+					$modules[] = $route->getName();
+				}
+			}
         }
         return $modules;
     }
