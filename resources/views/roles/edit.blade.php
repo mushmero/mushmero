@@ -14,8 +14,8 @@
                 @method('put')
                 @csrf
                 <x-adminlte-card title="Edit Role {{ $role->name }}" theme="default" icon="fas fa-sm fa-user-cog" collapsible>
-                    <x-adminlte-input name="name" label="Name" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $role->name }}" enable-old-support/>
-                    <div class="form-group col-md-6 row">
+                    <x-adminlte-input name="name" label="Name" fgroup-class="col-md-12 row" label-class="col-md-2 control-label" igroup-class="col-md-10" value="{{ $role->name }}" enable-old-support/>
+                    <div class="form-group col-md-12 row">
                         <label for="permissions" class="col-md-2 control-label">Permissions</label>
                         <div class="input-group col-md-10">
                             <label>Sytem</label>
@@ -53,28 +53,28 @@
                                         <th colspan="{{ count(array_values($permissions)) }}">Permissions</th>
                                     </tr>
                                 </thead>
+                                <tbody>
                                 @foreach ($permissions as $key => $value)
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ __('adminlte::permission.'.$key) }}</td>
-                                            @foreach ($value as $v)
-                                                <td>
-                                                    <div class="icheck-greensea">
-                                                        <input type="checkbox" name="permissions[]" id="{{ $key.'_'.$v }}" value="{{ $key.'.'.$v }}" {{ (in_array($key.'.'.$v, $permittedPermissions) || in_array($v, $permittedPermissions)) ? "checked" : "" }}>
+                                    <tr>
+                                        <td>{{ __('adminlte::permission.'.$key) }}</td>
+                                        @foreach ($value as $v)
+                                            <td>
+                                                <div class="icheck-greensea">
+                                                    <input type="checkbox" name="permissions[]" id="{{ $key.'_'.$v }}" value="{{ $key.'.'.$v }}" {{ (in_array($key.'.'.$v, $permittedPermissions) || in_array($v, $permittedPermissions)) ? "checked" : "" }}>
 
-                                                        <label for="{{ $key.'_'.$v }}">
-                                                            @if ($v == $key)
-                                                                {{ __('adminlte::permission.index') }}
-                                                            @else
-                                                                {{ __('adminlte::permission.'.$v) }}
-                                                            @endif
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    </tbody>
+                                                    <label for="{{ $key.'_'.$v }}">
+                                                        @if ($v == $key)
+                                                            {{ __('adminlte::permission.index') }}
+                                                        @else
+                                                            {{ __('adminlte::permission.'.$v) }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        @endforeach
+                                    </tr>
                                 @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
