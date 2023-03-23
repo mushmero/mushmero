@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Traits\UsersTrait;
 use App\Models\Leads;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -181,7 +182,14 @@ class LeadsController extends Controller
                 'reason' => 'Link deactivated',
             ];
         }
-        Leads::find($data['id'])->update($update);
+        $update = Leads::find($data['id'])->update($update);
+        if($data['activate'] == 1 && $update) $this->createUser($data['id']);        
         return true;
+    }
+
+    public function createUser($id)
+    {
+        $lead = Leads::find($id)->firstOrFail();
+        UsersTrait::createuser($lead->name, $lead->email);
     }
 }
