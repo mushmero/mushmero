@@ -139,5 +139,17 @@ trait UsersTrait
 
         return true;
     }
+
+    public static function findUserByEmail($email)
+    {
+        $exist = User::where(['email' => $email])->firstOrFail();
+        return $exist;
+    }
+
+    public static function findUserById($id)
+    {
+        $exist = User::where(['id' => $id])->firstOrFail();
+        return $exist;
+    }
     
 }
