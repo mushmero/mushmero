@@ -3,8 +3,10 @@
 namespace App\Http\Traits;
 
 use App\Helpers\Helper;
+use App\Mail\VerificationMail;
 use App\Models\User;
 use Hash;
+use Mail;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
@@ -105,7 +107,7 @@ trait UsersTrait
         return $userPermitted;
     }
 
-    private static function generatePassword($string)
+    public static function generatePassword($string)
     {
         return Hash::make($string);
     }
@@ -122,13 +124,16 @@ trait UsersTrait
         }
     }
 
-    public static function createuser($name, $email)
+    public static function createuser($lead)
     {
         $random_password = Helper::generateRandomString(8);
+        $token = Helper::generateRandomString(64);
         $userdata = [
-            'name' => $name,
-            'email' => $email,
+            'name' => $lead->name,
+            'email' => $lead->email,
             'password' => self::generatePassword($random_password),
+            'temp_pwd' => 1,
+            'email_token' => $token,
             'created_at' => Carbon::now(),
         ];
         $role = self::createRoleIfNotExists(self::userRole());
@@ -137,19 +142,47 @@ trait UsersTrait
         $user->assignRole($role->name);
         $role->syncPermissions($permissions);
 
+        if(!is_null($user)){
+            $info = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'password' => $random_password,
+                'token' => $token,
+                'login_url' => 'https://'.$lead->subdomain.'.'.Helper::getDomain(),
+            ];    
+            self::sendWelcomeMail($info);
+        }
+
         return true;
     }
 
     public static function findUserByEmail($email)
     {
-        $exist = User::where(['email' => $email])->firstOrFail();
+        $exist = User::where(['email' => $email])->first();
         return $exist;
     }
 
     public static function findUserById($id)
     {
-        $exist = User::where(['id' => $id])->firstOrFail();
+        $exist = User::where(['id' => $id])->first();
         return $exist;
+    }
+
+    public static function sendWelcomeMail($userdata)
+    {
+        Mail::to($userdata['email'])->send(new VerificationMail($userdata));
+        return true;
+    }
+
+    public static function verifyNewUser($email)
+    {
+        $user = User::where('email',$email)->first();
+
+        if($user->temp_pwd == 1){
+            return true;
+        }else{
+            return false;
+        }
     }
     
 }
