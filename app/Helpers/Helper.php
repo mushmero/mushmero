@@ -261,4 +261,13 @@ class Helper
 		$route = Route::getCurrentRoute();
 		return $route->parameter('subdomain');
 	}
+
+	public static function getDomain()
+	{
+		$domain = 'localhost';		
+        if(Str::startsWith(config('app.url'), array('http://','https://'))){
+            $domain = Str::replace(['http://','https://'], '', config('app.url'));
+        }
+		return $domain;
+	}
 }
