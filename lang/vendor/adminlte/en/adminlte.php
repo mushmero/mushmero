@@ -32,4 +32,5 @@ return [
     'edit'                        => 'Edit',
     'index'                       => 'Index',
     'delete'                      => 'Delete',
+    'submit'                      => 'Submit',
 ];

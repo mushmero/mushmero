@@ -217,7 +217,9 @@ Route::domain('{subdomain}.' . env('APP_URL'))->group(function () {
         });            
     });
 });
-
+Route::get('/verify/{token}', 'App\Http\Controllers\VerifyController@VerifyEmail')->name('verify');
+Route::get('/change-password', 'App\Http\Controllers\Auth\LoginController@changePassword')->name('change-password');
+Route::post('/change-password', 'App\Http\Controllers\Auth\LoginController@storePassword')->name('change-password');
 Route::get('/', 'App\Http\Controllers\WelcomeController@index')->name('welcome');
 Route::post('/', 'App\Http\Controllers\WelcomeController@store')->name('welcome.contact.store');
 Route::get('/auth/check',function(){
