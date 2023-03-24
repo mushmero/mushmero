@@ -191,10 +191,10 @@ class LeadsController extends Controller
     {
         $lead = Leads::find($id)->firstOrFail();
         $checkUserExist = UsersTrait::findUserByEmail($lead->email);
-        if($checkUserExist->count() > 0){
+        if(!is_null($checkUserExist)){
             return true;
         }else{
-            UsersTrait::createuser($lead->name, $lead->email);
+            UsersTrait::createuser($lead);
             return true;
         }
     }
