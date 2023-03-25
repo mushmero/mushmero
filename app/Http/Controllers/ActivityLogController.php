@@ -43,7 +43,7 @@ class ActivityLogController extends Controller
 
         foreach($array as $arr){
             $data[] = array(
-                !empty($arr->causer_id) ? User::find($arr->causer_id)->name : 'System',
+                !empty($arr->causer_id) ? !is_null(User::find($arr->causer_id)) ? User::find($arr->causer_id)->name : 'Deleted User' : 'System',
                 $arr->log_name,
                 $arr->description,
                 Helper::formatDate($arr->created_at),
@@ -118,7 +118,7 @@ class ActivityLogController extends Controller
 
         if(isset($activity)){
             $data = array(
-                'user' => !empty($activity->causer_id) ? User::find($activity->causer_id)->name : 'System',
+                'user' => !empty($activity->causer_id) ? !is_null(User::find($activity->causer_id)) ? User::find($activity->causer_id)->name : 'Deleted User' : 'System',
                 'action' => $activity->log_name,
                 'description' => $activity->description,
                 'target' => isset($activity->subject_id) ? $activity->subject_type::find($activity->subject_id)->$name : '',
