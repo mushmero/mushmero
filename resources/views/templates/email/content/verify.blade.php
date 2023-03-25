@@ -82,7 +82,7 @@
                     <tr>
                         <td bgcolor="#bcbcbc" align="center" style="padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <h2 style="font-size: 20px; font-weight: 400; color: #111111; margin: 0;">Need more help?</h2>
-                            <p style="margin: 0;"><a href="{{ 'mailto:'.$inquiry }}" target="_blank" style="color: #4A4E4D;">Email Us!</a></p>
+                            <p style="margin: 0;"><a href="{{ 'mailto:'.$inquiry_email }}" target="_blank" style="color: #4A4E4D;">Email Us!</a></p>
                         </td>
                     </tr>
                 </table>
