@@ -35,7 +35,7 @@ class VerificationMail extends Mailable
     {
         return new Envelope(
             from: new Address(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME')),
-            subject: 'Verification Mail',
+            subject: 'Welcome to '.env('APP_NAME').' Verify your account now',
         );
     }
 
