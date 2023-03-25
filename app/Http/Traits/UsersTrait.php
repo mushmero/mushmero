@@ -149,6 +149,7 @@ trait UsersTrait
                 'password' => $random_password,
                 'token' => $token,
                 'login_url' => 'https://'.$lead->subdomain.'.'.Helper::getDomain(),
+                'inquiry' => env('MAIL_INQUIRY_ADDRESS'),
             ];    
             self::sendWelcomeMail($info);
         }

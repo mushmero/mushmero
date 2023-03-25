@@ -55,6 +55,7 @@ class VerificationMail extends Mailable
                 'verify_token' => $this->user['token'],
                 'url' => $this->user['login_url'],
                 'appname' => env('APP_NAME'),
+                'inquiry_email' => $this->user['inquiry'],
             ],
         );
     }
