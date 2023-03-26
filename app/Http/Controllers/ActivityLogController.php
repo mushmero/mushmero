@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Activitylog\Models\Activity;
+use App\Models\ActivityLog;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Helpers\Helper;
@@ -31,7 +31,7 @@ class ActivityLogController extends Controller
     public function index()
     {
         $data = array();
-        $array = Activity::all()->sortByDesc("created_at");
+        $array = ActivityLog::all()->sortByDesc("created_at");
 
         $heads = [
             'User',
@@ -43,7 +43,7 @@ class ActivityLogController extends Controller
 
         foreach($array as $arr){
             $data[] = array(
-                !empty($arr->causer_id) ? User::find($arr->causer_id)->name : 'System',
+                !is_null($arr->causer_id) ? $arr->user->name : 'System',
                 $arr->log_name,
                 $arr->description,
                 Helper::formatDate($arr->created_at),
@@ -95,7 +95,7 @@ class ActivityLogController extends Controller
         $data = array();
         $new = '';
         $old = '';
-        $activity = Activity::where('id', $id)->firstOrFail();
+        $activity = ActivityLog::where('id', $id)->firstOrFail();
 
         if(isset($activity->changes)){
             $newChanges = isset($activity->changes['attributes']) ? $activity->changes['attributes'] : '';
@@ -118,7 +118,7 @@ class ActivityLogController extends Controller
 
         if(isset($activity)){
             $data = array(
-                'user' => !empty($activity->causer_id) ? User::find($activity->causer_id)->name : 'System',
+                'user' => !empty($activity->causer_id) ? $activity->user->name : 'System',
                 'action' => $activity->log_name,
                 'description' => $activity->description,
                 'target' => isset($activity->subject_id) ? $activity->subject_type::find($activity->subject_id)->$name : '',
