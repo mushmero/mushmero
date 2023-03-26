@@ -185,5 +185,15 @@ trait UsersTrait
             return false;
         }
     }
+
+    public static function delete($id)
+    {
+        $delete = [
+            'deleted_at' => Carbon::now(),
+            'deleted_by' => auth()->user()->id,
+        ];
+        User::where('id',$id)->update($delete);
+        return true;
+    }
     
 }

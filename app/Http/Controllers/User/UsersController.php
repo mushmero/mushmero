@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\UsersTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
@@ -217,7 +218,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
+        UsersTrait::delete($id);
         flash(
             'User deleted successfully',
         )->success();

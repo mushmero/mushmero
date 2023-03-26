@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity, SoftDeletes;
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -29,6 +30,8 @@ class User extends Authenticatable
             'temp_pwd',
             'created_at',
             'updated_at',
+            'deleted_at',
+            'deleted_by',
         ]);
     }    
 
@@ -44,6 +47,7 @@ class User extends Authenticatable
         'email_token',
         'email_verify',
         'temp_pwd',
+        'deleted_by',
     ];
 
     /**
