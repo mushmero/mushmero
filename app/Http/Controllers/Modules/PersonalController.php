@@ -54,7 +54,7 @@ class PersonalController extends Controller
             $data[] = array(
                 '<div class="row"><div class="col-1"><img src="'.url($arr->attachments->path.'/'.$arr->attachments->filename).'" alt="'.$arr->attachments->altname.'" width="50" height="50" class="img-center"></div><div class="col-11">'.$arr->fullname.'&nbsp;'.(!empty($arr->tagline) ? '('.$arr->tagline.')' : '').(!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;'.$arr->phone : '').(!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;'.$arr->email : '').(!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;'.$arr->website : '').'</div></div>',
                 '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="activeSwitch'.$arr->id.'" name="activeSwitch'.$arr->id.'" onchange="switchAjax('.$arr->id.')" '.($arr->status == 1 ? "checked" : "").' '.(auth()->user()->id != $arr->user_id ? 'disabled' : '').' /><label class="active_switch custom-control-label" for="activeSwitch'.$arr->id.'">'.($arr->status == 1 ? "Active" : "Inactive").'</label></div>',
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('personal/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('personal/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('personal/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -140,7 +140,7 @@ class PersonalController extends Controller
     {
         $data = Personal::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id);
+        $user = $data->user;
 
         $attachment = Attachments::find($data->attachment_id);
 

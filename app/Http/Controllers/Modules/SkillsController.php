@@ -51,7 +51,7 @@ class SkillsController extends Controller
             $data[] = array(
                 $arr->name,
                 $arr->percentage,
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('skills/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('skills/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('skills/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -133,7 +133,7 @@ class SkillsController extends Controller
     {
         $data = Skills::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
+        $user = $data->user;
         
         if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.skills.show', compact('data','user'));

@@ -49,4 +49,9 @@ class Projects extends Model
     {
         return $this->belongsTo('App\Models\Personal','id','personal_id');
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id')->withTrashed();
+    }
 }

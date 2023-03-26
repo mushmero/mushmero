@@ -50,7 +50,7 @@ class ObjectivesController extends Controller
             $data[] = array(
                 $arr->content,
                 $arr->is_active == 1 ? 'Yes' : 'No',
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('objectives/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('objectives/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('objectives/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -130,7 +130,7 @@ class ObjectivesController extends Controller
     {
         $data = Objectives::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail(); 
+        $user = $data->user; 
         
         if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.objectives.show', compact('data','user'));   

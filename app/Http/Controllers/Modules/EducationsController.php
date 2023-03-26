@@ -55,7 +55,7 @@ class EducationsController extends Controller
                 $arr->institution,
                 $arr->start .' - '. $arr->end,
                 $arr->level_id ? $arr->alllevel->name .' (' .$arr->alllevel->level.')' : '',
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('educations/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('educations/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('educations/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -153,7 +153,7 @@ class EducationsController extends Controller
     {
         $data = Educations::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
+        $user = $data->user;
 
         if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.educations.show', compact('data','user'));

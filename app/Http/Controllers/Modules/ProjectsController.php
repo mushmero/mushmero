@@ -53,7 +53,7 @@ class ProjectsController extends Controller
                 $arr->name,
                 $arr->status_id ? $arr->allstatus->status : '',
                 $arr->description,
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('projects/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('projects/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('projects/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -155,7 +155,7 @@ class ProjectsController extends Controller
     {
         $data = Projects::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
+        $user = $data->user;
 
         $configTE = [
             "height" => "300",

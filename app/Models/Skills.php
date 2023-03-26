@@ -49,4 +49,9 @@ class Skills extends Model
     {
         return $this->hasOne('App\Models\SettingsSocial','id','icon_id');
     }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id')->withTrashed();
+    }
 }

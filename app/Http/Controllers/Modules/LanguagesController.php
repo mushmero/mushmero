@@ -51,7 +51,7 @@ class LanguagesController extends Controller
             $data[] = array(
                 $arr->name,
                 $arr->proficiency_id ? $arr->allproficiency->proficiency : '',
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('languages/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('languages/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('languages/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -136,7 +136,7 @@ class LanguagesController extends Controller
     {
         $data = Languages::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
+        $user = $data->user;
         
         if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.languages.show', compact('data','user'));

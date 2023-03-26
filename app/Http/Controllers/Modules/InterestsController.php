@@ -48,7 +48,7 @@ class InterestsController extends Controller
         foreach($array as $arr){
             $data[] = array(
                 $arr->name,
-                User::find($arr->user_id)->name,
+                $arr->user->name,
                 '<nobr><a href="'.url('interests/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('interests/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('interests/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -126,7 +126,7 @@ class InterestsController extends Controller
     {
         $data = Interests::where('id', $id)->firstOrFail();
 
-        $user = User::find($data->user_id)->firstOrFail();
+        $user = $data->user;
         
         if(PersonaTrait::checkPersona()->count() > 0){
             return view('modules.interests.show', compact('data','user'));
