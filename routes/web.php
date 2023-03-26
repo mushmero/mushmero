@@ -42,6 +42,7 @@ Route::domain('{subdomain}.' . env('APP_URL'))->group(function () {
                             Route::put('/{id}', 'UsersController@update')->name('users.update');
                             Route::get('/{id}/show', 'UsersController@show')->name('users.show');
                             Route::get('/{id}/delete', 'UsersController@destroy')->name('users.delete');
+                            Route::get('/{id}/restore', 'UsersController@restore')->name('users.restore');
                         });        
                         Route::prefix('/settings_roles')->group(static function(){
                             Route::get('/', 'RolesController@index')->name('roles');
@@ -251,6 +252,7 @@ Route::middleware(['auth'])->group(static function () {
                     Route::put('/{id}', 'UsersController@update')->name('users.update');
                     Route::get('/{id}/show', 'UsersController@show')->name('users.show');
                     Route::get('/{id}/delete', 'UsersController@destroy')->name('users.delete');
+                    Route::get('/{id}/restore', 'UsersController@restore')->name('users.restore');
                 });        
                 Route::prefix('/settings_roles')->group(static function(){
                     Route::get('/', 'RolesController@index')->name('roles');

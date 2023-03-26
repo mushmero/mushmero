@@ -195,5 +195,12 @@ trait UsersTrait
         User::where('id',$id)->update($delete);
         return true;
     }
+
+    public static function restore($id)
+    {
+        User::withTrashed()->where('id', $id)->update(['deleted_by' => '']);
+        User::withTrashed()->where('id', $id)->restore();
+        return true;
+    }
     
 }

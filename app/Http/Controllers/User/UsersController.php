@@ -35,7 +35,7 @@ class UsersController extends Controller
     public function index()
     {
         $data = array();
-        $users = User::all();
+        $users = User::withTrashed()->get();
         $heads = [
             'Name',
             'Email',
@@ -50,7 +50,7 @@ class UsersController extends Controller
                 $user->email,
                 implode(',',$user->getRoleNames()->toArray()),
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('settings_users/'.$user->id.'/restore').'" class="'.(!$user->trashed() ? 'disabled' : '').'"><button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Restore"><i class="fa fa-lg fa-fw fa-history"></i></button></a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) || $user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
@@ -221,6 +221,15 @@ class UsersController extends Controller
         UsersTrait::delete($id);
         flash(
             'User deleted successfully',
+        )->success();
+        return redirect()->route('users');
+    }
+
+    public function restore($id)
+    {
+        UsersTrait::restore($id);
+        flash(
+            'User restored successfully',
         )->success();
         return redirect()->route('users');
     }

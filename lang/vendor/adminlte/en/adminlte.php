@@ -33,4 +33,5 @@ return [
     'index'                       => 'Index',
     'delete'                      => 'Delete',
     'submit'                      => 'Submit',
+    'restore'                     => 'Restore',
 ];
