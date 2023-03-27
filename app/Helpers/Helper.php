@@ -270,4 +270,27 @@ class Helper
         }
 		return $domain;
 	}
+
+	public static function urlHasPermission($url = null)
+	{
+		$authUser = auth()->user();
+		$allRoutes = Route::getRoutes()->getRoutesByName();
+
+		foreach($allRoutes as $key => $route){
+			if(is_array($route->getAction()['middleware'])){
+				if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
+					if($route->getPrefix() != ''){
+						if(explode('/',$route->getPrefix())[1] == $url){
+							if($authUser->hasPermissionTo($route->getAction()['as'])){
+								return true;
+							}else{
+								return false;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

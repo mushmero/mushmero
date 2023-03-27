@@ -53,3 +53,11 @@
     height: 90px;
     width: 90px;
 }
+
+.hide {
+    display: none;
+}
+
+.show { 
+    display: block;
+}

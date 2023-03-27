@@ -8,6 +8,7 @@ $(document).ready(function() {
             if(data == 1){
                 loadmap();
                 disabledLink();
+                hideMenu();
                 select2JSColour();          
                 insertOptionOnTextEditor('#design', '#fields');
 
@@ -236,5 +237,23 @@ function generateLink()
                 }
             }
         });
+    });
+}
+
+function hideMenu(){
+    $('*').each(function() {
+        let hideCount = 0;
+        if ($(this).hasClass('has-treeview')) {
+            var submenuCount = $(this).children().next('.nav-treeview').children().length;
+            var submenu = $(this).children().next('.nav-treeview').children();
+            for(let i = 0; i < submenuCount; i++){
+                if($(submenu[i]).hasClass('hide')){
+                    hideCount++;
+                }
+            }
+            if(submenuCount == hideCount){
+                $(this).find('.nav-link').addClass('hide');
+            }
+        }
     });
 }
