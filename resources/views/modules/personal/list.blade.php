@@ -32,7 +32,7 @@ function switchAjax(id) {
                 $.ajax({
                 url: 'personal/checkStatusById/'+id,
                 success: function(data) {
-                    if(data == 1){
+                    if(data.exist ==  1){
                         Swal.fire({
                             title: 'Are you sure to deactivate?',
                             icon: 'warning',
@@ -55,7 +55,7 @@ function switchAjax(id) {
                                             icon: 'success',
                                             title: 'Status updated. Please activate new persona'
                                         });
-                                        $('.active_switch').text('Inactive');
+                                        toggle.next('.active_switch').text('Inactive');
                                         /**setTimeout(function() {
                                             location.reload();
                                         }, 3000);*/
@@ -98,7 +98,7 @@ function switchAjax(id) {
                                 icon: 'success',
                                 title: 'Profile updated.'
                                 });
-                                $('.active_switch').text('Active');
+                                toggle.next('.active_switch').text('Active');
                                 /**setTimeout(function() {
                                     location.reload();
                                 }, 3000);*/

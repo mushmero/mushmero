@@ -239,12 +239,11 @@ class PersonalController extends Controller
 
     public function checkStatusById($id)
     {
-        $result = Personal::where(['id' => $id, 'user_id' => auth()->user()->id])->get();
-
-        if(isset($result)){
-            return true;
+        $result = Personal::where(['id' => $id, 'status' => 1, 'user_id' => auth()->user()->id])->get();
+        if($result->count() > 0){
+            return response()->json(['exist' => 1, 'status' => 1]);
         }else{
-            return false;
+            return response()->json(['exist' => 0, 'status' => 1]);
         }
     }
 
