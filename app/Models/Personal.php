@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
 class Personal extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -26,6 +27,8 @@ class Personal extends Model
             'user_id',
             'created_at',
             'updated_at',
+            'deleted_at',
+            'deleted_by',
         ]);
     } 
     protected $table = 'personals';
@@ -44,6 +47,7 @@ class Personal extends Model
         'status',
         'attachment_id',
         'user_id',
+        'deleted_by',
     ];
 
     public function attachments()
