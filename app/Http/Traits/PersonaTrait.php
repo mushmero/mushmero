@@ -30,11 +30,9 @@ trait PersonaTrait {
         return $persona;
     }
 
-    public static function countStatusByUser($id)
+    public static function countStatusByUser($id = auth()->user()->id)
     {
-        if($id == ''){
-            $id = auth()->user()->id;
-        };
+        if($id == '') return false;
         $result = Personal::where(['user_id' => $id])->get();
         return $result->count();
     }
