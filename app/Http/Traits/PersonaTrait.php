@@ -30,10 +30,10 @@ trait PersonaTrait {
         return $persona;
     }
 
-    public static function countActiveStatusByUser($id)
+    public static function countStatusByUser($id = auth()->user()->id)
     {
         if($id == '') return false;
-        $result = Personal::where(['status' => 1, 'user_id' => $id])->get();
+        $result = Personal::where(['user_id' => $id])->get();
         return $result->count();
     }
 

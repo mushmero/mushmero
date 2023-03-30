@@ -233,7 +233,7 @@ class PersonalController extends Controller
 
     public function countstatus()
     {
-        $count = PersonaTrait::countActiveStatusByUser(auth()->user()->id);
+        $count = PersonaTrait::countStatusByUser(auth()->user()->id);
         return $count;
     }
 
