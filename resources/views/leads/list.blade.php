@@ -69,6 +69,7 @@ function switchAjax(id){
                 Swal.fire({
                     title: 'Are you sure to deactivate?',
                     icon: 'warning',
+                    text: 'If deactivate will lose the account and unable to access',
                     showCancelButton: true,
                     confirmButtonText: 'Yes',
                     cancelButtonText: 'No',
