@@ -30,7 +30,7 @@ function switchAjax(id) {
         success: function(count){
             if(count > 0){
                 $.ajax({
-                url: 'personal/countstatus',
+                url: 'personal/checkStatusById/'+id,
                 success: function(data) {
                     if(data == 1){
                         Swal.fire({
