@@ -14,7 +14,7 @@ use DB;
 
 class UsersController extends Controller
 {
-    protected $btnEdit, $btnDelete, $btnDetails;
+    protected $btnEdit, $btnDelete, $btnDetails, $btnRestore;
 
     /**
      * Declare default template for button edit, button delete & button view
@@ -25,6 +25,7 @@ class UsersController extends Controller
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
+        $this->btnRestore = config('adminlte.btn-restore');
     }
 
     /**
@@ -50,7 +51,7 @@ class UsersController extends Controller
                 $user->email,
                 implode(',',$user->getRoleNames()->toArray()),
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('settings_users/'.$user->id.'/restore').'" class="'.(!$user->trashed() ? 'disabled' : '').'"><button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Restore"><i class="fa fa-lg fa-fw fa-history"></i></button></a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) || $user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="'.url('settings_users/'.$user->id.'/restore').'" class="'.(!$user->trashed() ? 'disabled' : '').'">'.$this->btnRestore.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) || $user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
         
