@@ -38,6 +38,9 @@
                             @endforeach
                         </x-adminlte-select2>
                     </div>
+                    <div class="row">
+                        <x-adminlte-textarea id="custom_css" name="custom_css" placeholder="Enter Custom CSS if required" label="Custom CSS" fgroup-class="col-md-6" label-class="col-md-12 control-label" igroup-class="col-md-12" igroup-size="md" rows="4" enable-old-support/>
+                    </div>
                     <x-adminlte-text-editor id="design" name="design" label="Design" label-class="col-md-2" igroup-size="sm" placeholder="" :config="$configTE"/>
                     <x-slot name="footerSlot">
                         <a href="{{ route('settings_template') }}">

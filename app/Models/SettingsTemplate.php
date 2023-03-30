@@ -18,6 +18,7 @@ class SettingsTemplate extends Model
         ->logOnly([
             'name',
             'design',
+            'custom_css',
             'primary_colour',
             'secondary_colour',
             'created_at',
@@ -35,6 +36,7 @@ class SettingsTemplate extends Model
     protected $fillable = [
         'name',
         'design',
+        'custom_css',
         'primary_colour',
         'secondary_colour',
     ];

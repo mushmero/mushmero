@@ -109,6 +109,7 @@ class TemplatesController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:settings_templates',
             'design' => 'required',
+            'custom_css' => 'nullable',
             'primary_colour' => 'required',
             'secondary_colour' => 'required',
         ]);
@@ -118,6 +119,7 @@ class TemplatesController extends Controller
         $store = SettingsTemplate::create([
             'name' => $data['name'],
             'design' => $data['design'],
+            'custom_css' => $data['custom_css'],
             'primary_colour' => $data['primary_colour'],
             'secondary_colour' => $data['secondary_colour'],
         ]);
@@ -200,12 +202,14 @@ class TemplatesController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:settings_templates',
             'design' => 'required',
+            'custom_css' => 'nullable',
             'primary_colour' => 'required',
             'secondary_colour' => 'required',
         ]);
 
         $data['name'] = $request->input('name');
         $data['design'] = $request->input('design');
+        $data['custom_css'] = $request->input('custom_css');
         $data['primary_colour'] = $request->input('primary_colour');
         $data['secondary_colour'] = $request->input('secondary_colour');
 
