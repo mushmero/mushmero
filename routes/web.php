@@ -200,6 +200,7 @@ Route::domain('{subdomain}.' . env('APP_URL'))->group(function () {
                             Route::put('/{id}', 'PersonalController@update')->name('personal.update');
                             Route::get('/{id}/show', 'PersonalController@show')->name('personal.show');
                             Route::get('/{id}/delete', 'PersonalController@destroy')->name('personal.delete');         
+                            Route::get('/{id}/restore', 'PersonalController@restore')->name('personal.restore');
                         });
                     });
                 });
@@ -410,6 +411,7 @@ Route::middleware(['auth'])->group(static function () {
                     Route::put('/{id}', 'PersonalController@update')->name('personal.update');
                     Route::get('/{id}/show', 'PersonalController@show')->name('personal.show');
                     Route::get('/{id}/delete', 'PersonalController@destroy')->name('personal.delete');         
+                    Route::get('/{id}/restore', 'PersonalController@restore')->name('personal.restore');
                 });
             });
         });

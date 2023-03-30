@@ -757,4 +757,7 @@ return [
     'btn-view'      =>  '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </button>',
+    'btn-restore'   =>  '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Restore">
+                            <i class="fa fa-lg fa-fw fa-history"></i>
+                        </button>',
 ];

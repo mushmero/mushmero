@@ -13,7 +13,7 @@ use App\Models\User;
 class PersonalController extends Controller
 {
 
-    protected $btnEdit, $btnDelete, $btnDetails;
+    protected $btnEdit, $btnDelete, $btnDetails, $btnRestore;
 
     /**
      * Declare default template for button edit, button delete & button view
@@ -24,6 +24,7 @@ class PersonalController extends Controller
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');
+        $this->btnRestore = config('adminlte.btn-restore');
     }
     /**
      * Display a listing of the resource.
@@ -36,9 +37,9 @@ class PersonalController extends Controller
         $authUserRoles = auth()->user()->roles->pluck('name');
         foreach($authUserRoles as $authUserRole){
             if($authUserRole == 'Superadmin'){
-                $array = Personal::all();
+                $array = Personal::withTrashed()->get();
             }else{
-                $array = Personal::where(['user_id' => auth()->user()->id])->get();
+                $array = Personal::withTrashed()->where(['user_id' => auth()->user()->id])->get();
             }
         }
 
@@ -55,7 +56,7 @@ class PersonalController extends Controller
                 '<div class="row"><div class="col-1"><img src="'.url($arr->attachments->path.'/'.$arr->attachments->filename).'" alt="'.$arr->attachments->altname.'" width="50" height="50" class="img-center"></div><div class="col-11">'.$arr->fullname.'&nbsp;'.(!empty($arr->tagline) ? '('.$arr->tagline.')' : '').(!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;'.$arr->phone : '').(!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;'.$arr->email : '').(!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;'.$arr->website : '').'</div></div>',
                 '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="activeSwitch'.$arr->id.'" name="activeSwitch'.$arr->id.'" onchange="switchAjax('.$arr->id.')" '.($arr->status == 1 ? "checked" : "").' '.(auth()->user()->id != $arr->user_id ? 'disabled' : '').' /><label class="active_switch custom-control-label" for="activeSwitch'.$arr->id.'">'.($arr->status == 1 ? "Active" : "Inactive").'</label></div>',
                 $arr->user->name,
-                '<nobr><a href="'.url('personal/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('personal/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('personal/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a class="'.(!$arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/restore').'">'.$this->btnRestore.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
 
@@ -214,9 +215,18 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
-        Personal::find($id)->delete();
+        PersonaTrait::deletePersona($id);
         flash(
             'Persona deleted successfully',
+        )->success();
+        return redirect()->route('personal');
+    }
+
+    public function restore($id)
+    {
+        PersonaTrait::restorePersona($id);
+        flash(
+            'Persona restore successfully',
         )->success();
         return redirect()->route('personal');
     }
