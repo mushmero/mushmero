@@ -760,4 +760,7 @@ return [
     'btn-restore'   =>  '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Restore">
                             <i class="fa fa-lg fa-fw fa-history"></i>
                         </button>',
+    'btn-preview'   =>  '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Preview">
+                            <i class="fa fa-lg fa-fw fa-file-pdf"></i>
+                        </button>',
 ];
