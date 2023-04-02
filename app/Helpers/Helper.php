@@ -7,6 +7,7 @@ use File;
 use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use Str;
+use MatthiasMullie\Minify;
 
 class Helper
 {    
@@ -292,5 +293,20 @@ class Helper
 			}
 		}
 		return false;
+	}
+
+	public static function minifyCSSJS($source, $type)
+	{
+		if($type == null) return false;
+		if($type == 'css'){
+			$minifier = new Minify\CSS();
+			$minifier->add($source);
+			return $minifier->minify();
+		}
+		if($type == 'js'){
+			$minifier = new Minify\JS();
+			$minifier->add($source);
+			return $minifier->minify();
+		}
 	}
 }
