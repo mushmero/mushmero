@@ -50,7 +50,7 @@ class SkillsController extends Controller
         foreach($array as $arr){
             $data[] = array(
                 $arr->name,
-                $arr->percentage,
+                '<div class="progress"><div role="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" aria-valuenow="'.$arr->percentage.'" aria-valuemin="0" aria-valuemax="100" style="width: '.$arr->percentage.'%; background-color: rgb(52, 125, 241);">'.$arr->percentage.'</div></div>',
                 $arr->user->name,
                 '<nobr><a href="'.url('skills/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('skills/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('skills/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
