@@ -166,11 +166,11 @@ class ObjectivesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'content' => 'required',
             'is_active' => 'required',
         ]);
 
-        $data['name'] = $request->input('name');
+        $data['content'] = $request->input('content');
         $data['is_active'] = $request->input('is_active') == true ? 1 : 0;
         $data['user_id'] = auth()->user()->id;
         $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
