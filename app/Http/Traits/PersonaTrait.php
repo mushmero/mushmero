@@ -41,6 +41,7 @@ trait PersonaTrait {
     {
         $subdomain = Helper::getRouteSubdomain();
         $user_id = User::where('name',str_replace('-',' ',$subdomain))->get()->pluck('id');
+        $persona = '';
         if($subdomain != null){
             if(!empty($user_id)){
                 $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
@@ -51,7 +52,7 @@ trait PersonaTrait {
             }
         }else{
             $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
-            ->where(['status' => 1, 'user_id' => 1])->first();
+            ->where(['status' => 1, 'user_id' => auth()->user()->id])->first();
         }
         return $persona;
     }
