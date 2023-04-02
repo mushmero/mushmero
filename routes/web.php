@@ -108,6 +108,7 @@ Route::domain('{subdomain}.' . env('APP_URL'))->group(function () {
                             Route::put('/{id}', 'TemplatesController@update')->name('settings_template.update');
                             Route::get('/{id}/show', 'TemplatesController@show')->name('settings_template.show');
                             Route::get('/{id}/delete', 'TemplatesController@destroy')->name('settings_template.delete');
+                            Route::get('/{id}/preview', 'TemplatesController@preview')->name('settings_template.preview');
                         }); 
                         Route::prefix('/settings_pdf')->group(static function(){
                             Route::get('/', 'PDFSettingsController@index')->name('settings_pdf');
@@ -319,6 +320,7 @@ Route::middleware(['auth'])->group(static function () {
                     Route::put('/{id}', 'TemplatesController@update')->name('settings_template.update');
                     Route::get('/{id}/show', 'TemplatesController@show')->name('settings_template.show');
                     Route::get('/{id}/delete', 'TemplatesController@destroy')->name('settings_template.delete');
+                    Route::get('/{id}/preview', 'TemplatesController@preview')->name('settings_template.preview');
                 }); 
                 Route::prefix('/settings_pdf')->group(static function(){
                     Route::get('/', 'PDFSettingsController@index')->name('settings_pdf');
