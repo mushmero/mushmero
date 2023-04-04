@@ -12,7 +12,7 @@
         @yield('title_postfix', config('adminlte.title_postfix', ''))
     </title>
     {{-- Default CSS --}}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="{!! asset('vendor/adminlte/dist/css/adminlte.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('vendor/fontawesome-free/css/all.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('assets/template/base.css') !!}">
@@ -28,10 +28,8 @@
 	<div class="wrapper">
         {!! $content !!}
 	</div>
-</body>
 <!-- jQuery -->
 <script src="{!! asset('vendor/jquery/jquery.min.js') !!}"></script>
 <!-- Bootstrap 4 -->
 <script src="{!! asset('vendor/bootstrap/js/bootstrap.bundle.min.js') !!}"></script>
-</body>
-</html> 
+</body></html> 

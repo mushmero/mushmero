@@ -433,5 +433,10 @@ Route::middleware(['auth'])->group(static function () {
             Route::get('/checkLinkExistById', 'LeadsController@checkLinkExist');
             Route::post('/activateLink', 'LeadsController@activateLink');
         });
+        Route::namespace('Settings')->group(static function(){
+            Route::prefix('/settings_template')->group(static function(){
+                Route::get('/generate/{id}/pdf', 'TemplatesController@generatePDF');
+            });
+        });
     });
 });

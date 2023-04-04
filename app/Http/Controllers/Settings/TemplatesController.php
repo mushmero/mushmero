@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\ExportTrait;
 use App\Http\Traits\PersonaTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -294,35 +295,37 @@ class TemplatesController extends Controller
             }
             if($field == 'profile-image'){
                 if(isset($content->attachments->filename)){
-                    $profile_image = "<img width=\"100\" height=\"100\" src=\"".url($content->attachments->path."/".$content->attachments->filename)."\" alt=\"$content->fullname\">";
+                    $profile_image = "<div class=\"profile-image\"><img width=\"100\" height=\"100\" src=\"".url($content->attachments->path."/".$content->attachments->filename)."\" alt=\"$content->fullname\"></div>";
                     $fullcontent = Str::replace($field, $profile_image, $fullcontent);
                 }
             }
             if($field == 'profile-name'){
                 if(isset($content->fullname)){
-                    $fullcontent = Str::replace($field, $content->fullname, $fullcontent);
+                    $fullname = "<div class=\"fullname\">".$content->fullname."</div>";
+                    $fullcontent = Str::replace($field, $fullname, $fullcontent);
                 }
             }
             if($field == 'profile-tagline'){
                 if(isset($content->tagline)){
-                    $fullcontent = Str::replace($field, $content->tagline, $fullcontent);
+                    $tagline = "<div class=\"tagline\">".$content->tagline."</div>";
+                    $fullcontent = Str::replace($field, $tagline, $fullcontent);
                 }
             }
             if($field == 'profile-email'){
                 if(isset($content->email)){
-                    $email = "<a class=\"text-color-primary\" href=\"mailto:$content->email\" target=\"_blank\">$content->email</a>";
+                    $email = "<div class=\"row email text-color-primary\"><i class=\"fas fa-envelope\"></i><a class=\"text-color-primary\" href=\"mailto:$content->email\" target=\"_blank\">$content->email</a></div>";
                     $fullcontent = Str::replace($field, $email, $fullcontent);
                 }
             }
             if($field == 'profile-phone'){
                 if(isset($content->phone)){
-                    $phone = "<a class=\"text-color-primary\" href=\"tel:$content->phone\" target=\"_blank\">$content->phone</a>";
+                    $phone = "<div class=\"row phone text-color-primary\"><i class=\"fas fa-phone\"></i><a class=\"text-color-primary\" href=\"tel:$content->phone\" target=\"_blank\">$content->phone</a></div>";
                     $fullcontent = Str::replace($field, $phone, $fullcontent);
                 }
             }
             if($field == 'profile-website'){
                 if(isset($content->website)){
-                    $website = "<a class=\"text-color-primary\" href=\"$content->website\" target=\"_blank\">$content->website</a>";
+                    $website = "<div class=\"row website text-color-primary\"><i class=\"fas fa-globe\"></i><a class=\"text-color-primary\" href=\"$content->website\" target=\"_blank\">$content->website</a></div>";
                     $fullcontent = Str::replace($field, $website, $fullcontent);
                 }
             }
@@ -339,7 +342,7 @@ class TemplatesController extends Controller
                 if(isset($content->educations)){
                     $education_info = '';
                     foreach($content->educations as $education){
-                        $education_info .= "<div class=\"row education text-color-primary\"><div>".$education->name."</div><div>".$education->institution." (".$education->start."-".$education->end.")</div></div>";
+                        $education_info .= "<div class=\"row edu-item text-color-primary\"><div>".$education->name."</div><div>".$education->institution." (".$education->start."-".$education->end.")</div></div>";
                     }
                     $fullcontent = Str::replace($field, $education_info, $fullcontent);
                 }
@@ -348,7 +351,7 @@ class TemplatesController extends Controller
                 if(isset($content->languages)){
                     $language_info = '';
                     foreach($content->languages as $language){
-                        $language_info .= "<div class=\"row language text-color-primary\">".$language->name." (<span class=\"proficiency\">".$language->allproficiency->proficiency."</span>)</div>";
+                        $language_info .= "<div class=\"row lang-item text-color-primary\">".$language->name." (<span class=\"proficiency\">".$language->allproficiency->proficiency."</span>)</div>";
                     }
                     $fullcontent = Str::replace($field, $language_info, $fullcontent);
                 }
@@ -357,7 +360,7 @@ class TemplatesController extends Controller
                 if(isset($content->interests)){
                     $interest_info = '';
                     foreach($content->interests as $interest){
-                        $interest_info .= "<div class=\"row language text-color-primary\">".$interest->name."</div>";
+                        $interest_info .= "<div class=\"row interest-item text-color-primary\">".$interest->name."</div>";
                     }
                     $fullcontent = Str::replace($field, $interest_info, $fullcontent);
                 }
@@ -365,20 +368,22 @@ class TemplatesController extends Controller
             if($field == 'objective-info'){
                 $objectives = $content->objectives->where('is_active', 1)->first();
                 if(isset($objectives)){
-                    $fullcontent = Str::replace($field, $objectives->content, $fullcontent);
+                    $objective = "<div class=\"row objective-info text-color-secondary\">".$objectives->content."</div>";
+                    $fullcontent = Str::replace($field, $objective , $fullcontent);
                 }
             }
             if($field == 'experience-info'){
                 if(isset($content->experiences)){
                     $experience_info = '';
-                    foreach($content->experiences as $experience){
+                    $sorted_experiences = $content->experiences->sortByDesc(function ($exp, $key){ return Carbon::createFromFormat('d/m/Y',$exp['start']); });
+                    foreach($sorted_experiences as $experience){
                         $start = Carbon::createFromFormat('d/m/Y',$experience->start)->format('m/Y');
                         if($experience->end != 'current'){
                             $end = Carbon::createFromFormat('d/m/Y',$experience->end)->format('m/Y');
                         }else{
                             $end = Str::ucfirst($experience->end);
                         }
-                        $experience_info .= "<div class=\"row experience text-color-secondary\"><div class=\"col-6\">".$experience->position."</div><div class=\"col-6 right\">".$start." - ".$end."</div><div class=\"col-12\">".$experience->employer."</div><div class=\"col-12\">".$experience->description."</div></div>";
+                        $experience_info .= "<div class=\"row exp-item text-color-secondary\"><div class=\"exp-position col-6\">".$experience->position."</div><div class=\"exp-length col-6 right\">".$start." - ".$end."</div><div class=\"exp-employer col-12\">".$experience->employer."</div><div class=\"col-12\">".$experience->description."</div></div>";
                     }
                     $fullcontent = Str::replace($field, $experience_info, $fullcontent);
                 }
@@ -387,7 +392,7 @@ class TemplatesController extends Controller
                 if(isset($content->projects)){
                     $project_info = '';
                     foreach($content->projects as $project){
-                        $project_info .= "<div class=\"row project text-color-secondary\"><div class=\"col-12 title\">".$project->name." - (<smal>".$project->allstatus->status."</smal>)</div><div class=\"col-12\">".$project->description."</div></div>";
+                        $project_info .= "<div class=\"row proj-item text-color-secondary\"><div class=\"col-12 proj-title\">".$project->name." - <small>(".$project->allstatus->status.")</small></div><div class=\"col-12\">".$project->description."</div></div>";
                     }
                     $fullcontent = Str::replace($field, $project_info, $fullcontent);
                 }                
@@ -396,12 +401,25 @@ class TemplatesController extends Controller
                 if(isset($content->skills)){
                     $skill_info = '';
                     foreach($content->skills as $skill){
-                        $skill_info .= "<div class=\"row skill text-color-secondary\"><div class=\"col-4\"><i class=\"".$skill->allicons->fullname."\"></i> ".$skill->name."</div><div class=\"col-8\"><div class=\"progress\"><div class=\"progress-bar text-bold progress-bar-striped progress-bar-animated main-color\" role=\"progressbar\" aria-valuenow=\"".$skill->percentage."\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ".$skill->percentage."%; background-color: rgb(52, 125, 241);\">".$skill->percentage."</div></div></div></div>";
+                        $skill_info .= "<div class=\"row skill-item text-color-secondary\"><div class=\"col-2\"><i class=\"".$skill->allicons->fullname."\"></i> ".$skill->name."</div><div class=\"col-6\"><div class=\"progress\"><div class=\"progress-bar text-bold main-color\" role=\"progressbar\" aria-valuenow=\"".$skill->percentage."\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ".$skill->percentage."%;\">".$skill->percentage."</div></div></div></div>";
                     }
                     $fullcontent = Str::replace($field, $skill_info, $fullcontent);
                 }
             }
         }
         return $fullcontent;
+    }
+
+    public function generatePDF($id)
+    {
+        $persona = PersonaTrait::getActivePersonaInformations();
+        $template = SettingsTemplate::where('id', $id)->first();
+        $content = $this->generateFullContent($template);
+        $author = 'Amirul Hakim';
+        $description = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
+        $filename = Str::replace(' ','_', $persona->fullname).'_'.Str::replace(' ','_',$template->name).'_'.Carbon::now()->format('Ymd');
+        $html = response()->view('settings.template.preview', compact('id','author','description','template','content'))->getContent();
+
+        return ExportTrait::generatePDF($html, $filename, ['dpi' => 170]);
     }
 }

@@ -1,10 +1,34 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto';
   color: #545E6C;
   background: #f5f5f5;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: "Roboto";           
+  src: local("Roboto"), url("fonts/roboto_normal_9fa47a070a8b30b595086d70bb7ac78c.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+  src: local('FontAwesome'), local('Font-Awesome-5-Free-900'), url("fonts/font_awesome_5_free_900_4550f25a887faa9939a0a335c67f9df1.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+  src: local('FontAwesome'), local('Font-Awesome-5-Free-Normal'), url("fonts/font_awesome_5_free_normal_e696a844e4db8aa9b1e3d7cf5ffddd88.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'FontAwesome';
+  font-style: normal;
+  font-weight: normal;
+  src: local('FontAwesome'), local('Font-Awesome-5-Brands-Normal'), url("fonts/font_awesome_5_brands_normal_8e557b5208fff53e9e186c96b3f24d62.ttf") format('truetype');
 }
 .wrapper {
   margin: 0 auto;
@@ -19,4 +43,83 @@ body {
 }
 .left {
   text-align: left;
+}
+.profile-image img {
+    margin-bottom: 15px;
+}
+.fullname {
+    font-size: 32px;
+    font-weight: 900;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.tagline {
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.email {
+  margin-left: 10px;
+}
+.email i {
+  margin-right: 5px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+.phone {
+  margin-left: 10px;
+}
+.phone i {
+  margin-right: 5px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+.website {
+  margin-left: 10px;  
+}
+.website i {
+  margin-right: 5px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+.social {
+  margin-left: 10px;  
+}
+.social i {
+  margin-right: 5px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+.edu-item {
+  margin-left: 10px;  
+}
+.lang-item {
+  margin-left: 10px;  
+}
+.interest-item {
+  margin-left: 10px;  
+}
+.objective-info {
+  margin-left: 10px;;
+}
+.exp-item {
+  margin-left: 10px;
+}
+.exp-position {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.exp-employer {
+  font-weight: 600;
+}
+.proj-item {
+  margin-left: 10px;
+}
+.proj-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.skill-item {
+  margin-left: 10px;
 }

@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Traits;
+use App;
 use Maatwebsite\Excel\Facades\Excel;
 
-trait ExprotTrait {
+trait ExportTrait {
     
     public static function storeExport($class, $filename, $filetype = 'csv', $disk = '')
     {
@@ -24,5 +25,14 @@ trait ExprotTrait {
     public static function downloadExport($class, $filename, $ext)
     {
         return Excel::download(new $class, $filename.$ext);
+    }
+
+    public static function generatePDF($data, $filename, $option = [])
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->setOption($option);
+        $pdf->loadHTML($data);
+        $pdf->setPaper('A4');
+        return $pdf->download($filename.'.pdf');
     }
 }

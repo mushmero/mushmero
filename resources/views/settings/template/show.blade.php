@@ -18,7 +18,7 @@
                         <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>
                     </a>
                     <a href="#">
-                        <button class="btn bg-gradient-teal"><i class="fas fa-fw fa-print"></i> Download</button>
+                        <a href="{{ url('settings_template/generate/'.$id.'/pdf') }}" class="btn bg-gray"><i class="fas fa-fw fa-print"></i> Download</a>
                     </a>
                 </x-slot>
             </x-adminlte-card>
