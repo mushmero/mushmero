@@ -12,7 +12,12 @@
 </div>
 @if (env('APP_ENV') == 'local')
 <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | <a href="{{ route('telescope') }}" target="_blank">Telescope</a> | <a href="{{ route('login') }}" target="_blank">Login</a>
+    Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) | <a href="{{ route('telescope') }}" target="_blank">Telescope</a> | 
+    @auth
+    <a href="{{ route('home') }}" target="_blank">Admin</a>
+    @else
+    <a href="{{ route('login') }}" target="_blank">Login</a>
+    @endauth
 </div>    
 @endif
 <!-- End Footer -->
