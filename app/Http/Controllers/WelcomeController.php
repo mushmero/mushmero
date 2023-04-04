@@ -6,6 +6,7 @@ use App\Http\Traits\PersonaTrait;
 use App\Models\Leads;
 use App\Models\Personal;
 use App\Models\Visitors;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use Validator;
@@ -30,7 +31,7 @@ class WelcomeController extends Controller
             $data['profile-image'] = $activePersona->attachments->path.'/'.$activePersona->attachments->filename;
             $data['name'] = $activePersona->fullname;
             $data['position'] = $activePersona->tagline;
-            $data['experiences'] = $activePersona->experiences;    
+            $data['experiences'] = $activePersona->experiences->sortByDesc(function ($exp, $key){ return Carbon::createFromFormat('d/m/Y',$exp['start']); });    
             $data['skills'] = $activePersona->skills->shuffle();
             $data['email'] = $activePersona->email;
             $data['phone'] = $activePersona->phone;
