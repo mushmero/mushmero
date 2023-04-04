@@ -43,4 +43,5 @@ return [
     'settings_pdf'                  => 'PDF',
     'visitors'                      => 'Visitors',
     'leads'                         => 'New Registration',
+    'preview'                       => 'Preview',
 ];
