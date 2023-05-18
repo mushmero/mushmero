@@ -19,7 +19,7 @@ trait PersonaTrait {
                 $persona = Personal::withTrashed()->where(['status' => 1, 'user_id' => 'no-user'])->get();
             }
         }else{
-            $persona = Personal::withTrashed()->where(['status' => 1, 'user_id' => 1])->get();
+            $persona = Personal::where(['status' => 1, 'user_id' => 1])->get();
         }
         return $persona;
     }
@@ -52,7 +52,7 @@ trait PersonaTrait {
             }
         }else{
             $persona = Personal::with(['attachments','educations','experiences','interests','languages','objectives','projects','skills','socials'])
-            ->where(['status' => 1, 'user_id' => auth()->user()->id])->first();
+            ->where(['status' => 1, 'user_id' => 1])->first();
         }
         return $persona;
     }
