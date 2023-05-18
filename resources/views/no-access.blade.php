@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <section class="lockscreen-wrapper">
                 <div class="error-page">
-                    <h2><i class="fas fa-exclamation-triangle text-warning"></i> No active persona. Please activate one.</h2>
+                    @include('errors.inactive')
                 </div>
             </section>
         </div>
