@@ -13,7 +13,6 @@
     </title>
     {{-- Default CSS --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="{!! asset('vendor/adminlte/dist/css/adminlte.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('vendor/fontawesome-free/css/all.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('assets/template/base.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('assets/template/colors.css') !!}">

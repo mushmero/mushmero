@@ -251,10 +251,14 @@ class TemplatesController extends Controller
     public function preview($id)
     {
         $template = SettingsTemplate::where('id', $id)->first();
-        $content = $this->generateFullContent($template);
-        $author = 'Amirul Hakim';
-        $description = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
-        return view('settings.template.preview', compact('id','author','description','template','content'));
+        if(PersonaTrait::checkPersona()->count() > 0){
+            $content = $this->generateFullContent($template);
+            $author = 'Amirul Hakim';
+            $description = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
+            return view('settings.template.preview', compact('id','author','description','template','content'));
+        }else{
+            return view('errors.inactive');
+        }
     }
 
     private function generateFullContent($template)
