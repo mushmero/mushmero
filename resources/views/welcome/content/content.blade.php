@@ -21,7 +21,6 @@
                 <figcaption>
                     Reach me <br>
                     <a href="mailto:{{ $data['email'] }}" target="_blank"><i class="fas fa-fw fa-at"></i> {{ $data['email'] }}</a>
-                    <br>
                     <a href="tel:{{ $data['phone'] }}" target="_blank"><i class="fas fa-fw fa-phone"></i> tel:{{ $data['phone'] }}</a>
                 </figcaption>
             </figure>

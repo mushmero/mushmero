@@ -178,12 +178,14 @@ trait UsersTrait
     public static function verifyNewUser($email)
     {
         $user = User::where('email',$email)->first();
-
-        if($user->temp_pwd == 1){
-            return true;
-        }else{
-            return false;
+        if($user){
+            if($user->temp_pwd == 1){
+                return true;
+            }else{
+                return false;
+            }
         }
+        return false;
     }
 
     public static function delete($id)

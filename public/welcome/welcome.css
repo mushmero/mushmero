@@ -200,6 +200,7 @@ ul.nav .btn:focus {
 #main-background {
     background: url('https://picsum.photos/id/180/2048/1536') no-repeat top center;
     background-attachment: fixed;
+    background-size:cover;
     height: 100%;
     overflow: hidden;
     text-shadow: 0 0 5px #000000;
@@ -280,7 +281,7 @@ ul.nav .btn:focus {
 }
 
 #about-me > figure {
-    display: inline-block;
+    display: inline-table;
     min-width: 20%;
     max-width: 20%;
     color: #FFFFFF;
@@ -302,25 +303,24 @@ ul.nav .btn:focus {
     width: 100%;
     vertical-align: top;
     opacity: 0.85;
-    padding: 10px 10px 0 10px;
 }
 
 #about-me > figure > figcaption {
     width: 100%;
+    min-height: 110px;
     background-color: #4A4E4D;
     /* Dark Gray */
-    padding: 20px;
+    padding: 10px;
     /* Modify the links within the caption. Make them into a button*/
 }
 
 #about-me > figure > figcaption > a {
     padding: 5px;
-    border: 1px solid #FFFFFF;
     background-color: #FFFFFF;
     color: #4A4E4D;
     font-size: 0.7em;
     text-transform: uppercase;
-    margin: 10px 0;
+    margin: 2px 0;
     display: inline-block;
     opacity: 0.70;
     width: 100%;
@@ -402,9 +402,11 @@ ul.nav .btn:focus {
 }
 
 #projects-me > figure {
-    display: inline-block;
+    display: inline-table;
     min-width: 20%;
     max-width: 20%;
+    min-height: 220px;
+    max-height: 220px;
     color: #4A4E4D;
     text-align: left;
     line-height: 1.4em;
@@ -641,8 +643,8 @@ ul.nav .btn:focus {
 
 #experiences-me > figure {
     display: inline-block;
-    min-width: 80%;
-    max-width: 80%;
+    min-width: 60%;
+    max-width: 60%;
     color: #4A4E4D;
     text-align: left;
     line-height: 1.4em;
