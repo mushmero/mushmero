@@ -34,7 +34,6 @@ class Helper
     public static function getModulesFromMenu()
     {
         $menu = config('adminlte.menu');
-
         foreach($menu as $m){
             if(isset($m['text']) && isset($m['url'])){
                 $modules[] = $m['text'];
