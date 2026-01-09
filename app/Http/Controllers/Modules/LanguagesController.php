@@ -31,14 +31,14 @@ class LanguagesController extends Controller
     public function index()
     {
         $data = array();
-        $authUserRoles = auth()->user()->roles->pluck('name');
-        foreach($authUserRoles as $authUserRole){
-            if($authUserRole == 'Superadmin'){
+        // $authUserRoles = auth()->user()->roles->pluck('name');
+        // foreach($authUserRoles as $authUserRole){
+        //     if($authUserRole == 'Superadmin'){
                 $array = Languages::all();
-            }else{
-                $array = Languages::where(['user_id' => auth()->user()->id])->get();
-            }
-        }
+        //     }else{
+        //         $array = Languages::where(['user_id' => auth()->user()->id])->get();
+        //     }
+        // }
 
         $heads = [
             'Name',

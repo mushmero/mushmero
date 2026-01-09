@@ -295,7 +295,7 @@ return [
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type'         => 'fullscreen-widget',
@@ -365,16 +365,6 @@ return [
                     'icon'  =>  'fas fa-fw fa-user',
                 ],
                 [
-                    'text'  =>  'settings_roles',
-                    'url'   =>  'settings_roles',
-                    'icon'  =>  'fas fa-fw fa-user-cog',
-                ],
-                [
-                    'text'  =>  'settings_permissions',
-                    'url'   =>  'settings_permissions',
-                    'icon'  =>  'fas fa-fw fa-user-shield',
-                ],
-                [
                     'text'  =>  'settings_social',
                     'url'   =>  'settings_social',
                     'icon'  =>  'fas fa-fw fa-wrench',
@@ -405,11 +395,6 @@ return [
                     'icon'  =>  'fas fa-fw fa-file-pdf',
                 ],
             ],
-        ],
-        [
-            'text'  =>  'leads',
-            'url'   =>  'leads',
-            'icon'  =>  'fas fa-fw fa-user-plus',
         ],
         [
             'text'  =>  'logs',

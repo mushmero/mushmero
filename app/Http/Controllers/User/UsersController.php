@@ -28,37 +28,30 @@ class UsersController extends Controller
         $this->btnRestore = config('adminlte.btn-restore');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = array();
-        $users = User::withTrashed()->get();
+        $users = User::get();
         $heads = [
             'Name',
             'Email',
-            'Roles',
             'Member Since',
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
-        foreach($users as $user){
+        foreach ($users as $user) {
             $data[] = array(
                 $user->name,
                 $user->email,
-                implode(',',$user->getRoleNames()->toArray()),
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="'.url('settings_users/'.$user->id.'/restore').'" class="'.(!$user->trashed() ? 'disabled' : '').'">'.$this->btnRestore.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.(in_array('Superadmin', $user->getRoleNames()->toArray()) || $user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($user->trashed() ? 'disabled' : '').'" href="'.url('settings_users/'.$user->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a href="' . url('settings_users/' . $user->id . '/restore') . '" class="' . (!$user->trashed() ? 'disabled' : '') . '">' . $this->btnRestore . '</a><a class="' . ($user->trashed() ? 'disabled' : '') . '" href="' . url('settings_users/' . $user->id . '/edit') . '">' . $this->btnEdit . '</a><a class="" href="' . url('settings_users/' . $user->id . '/delete') . '">' . $this->btnDelete . '</a><a class="" href="' . url('settings_users/' . $user->id . '/show') . '">' . $this->btnDetails . '</a></nobr>',
             );
         }
-        
+
         $config = [
             'data' => $data,
             'order' => [[0, 'asc']],
-            'columns' => [null, null, null, null, null],
+            'columns' => [null, null, null, null],
         ];
 
         return view('users.list', [
@@ -67,70 +60,53 @@ class UsersController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        // $roles = Role::pluck('name', 'name')->all();
         $config = [
             "placeholder" => "Select required roles",
             "allowClear" => true,
         ];
-        return view('users.create', compact('roles','config'));
+        return view('users.create', compact('config'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password'=>'required|min:6|same:password_confirmation',
+            'password' => 'required|min:6|same:password_confirmation',
             'password_confirmation' => 'required|min:6',
-            'roles' => 'required',
+            // 'roles' => 'required',
         ]);
 
         $data = $request->all();
 
         $store = User::create([
-            'name'  =>  $data['name'],
-            'email' =>  $data['email'],
-            'password'  =>  Hash::make($data['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
 
-        if(is_array($data['roles'])){
-            foreach($data['roles'] as $role){
-                $store->assignRole($role);
-            }
-        }
+        // if (is_array($data['roles'])) {
+        //     foreach ($data['roles'] as $role) {
+        //         $store->assignRole($role);
+        //     }
+        // }
 
-        if($store){
+        if ($store) {
             flash(
                 'User created successfully',
             )->success();
-        }else{
+        } else {
             flash(
                 'Unable to create user',
             )->error();
         }
 
-         return back();
+        return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user = User::where('id', $id)->firstOrFail();
@@ -138,12 +114,6 @@ class UsersController extends Controller
         return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $config = [
@@ -151,72 +121,59 @@ class UsersController extends Controller
             "allowClear" => true,
         ];
         $user = User::where('id', $id)->firstOrFail();
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
+        // $roles = Role::pluck('name', 'name')->all();
+        // $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('users.edit', compact('user','roles','userRole','config'));
+        return view('users.edit', compact('user', 'config'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [            
+        $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'same:password_confirmation',
-            'roles' => 'required',
+            // 'roles' => 'required',
         ]);
 
         $data['name'] = $request->name;
 
-        if(!empty($request->email)){
+        if (!empty($request->email)) {
             $user = User::find($id)->first();
-            if($user->email != $request->email){
+            if ($user->email != $request->email) {
                 $data['email'] = $request->email;
             }
         }
 
-        if(!empty($request->password)){
+        if (!empty($request->password)) {
             $data['password'] = Hash::make($request->password);
         }
 
         $user = User::find($id)->update($data);
 
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        // DB::table('model_has_roles')->where('model_id', $id)->delete();
 
-        $data['roles'] = $request->roles;
+        // $data['roles'] = $request->roles;
 
-        if(is_array($data['roles'])){
-            foreach($data['roles'] as $role){
-                User::find($id)->assignRole($role);
-            }
-        }
+        // if (is_array($data['roles'])) {
+        //     foreach ($data['roles'] as $role) {
+        //         User::find($id)->assignRole($role);
+        //     }
+        // }
 
-        if($user){
+        if ($user) {
             flash(
                 'User updated successfully',
             )->success();
-        }else{
+        } else {
             flash(
                 'Unable to update user',
             )->error();
         }
 
-         return back();
+        return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         UsersTrait::delete($id);

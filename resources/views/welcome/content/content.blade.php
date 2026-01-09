@@ -7,50 +7,52 @@
             @include('flash::message')
         </div>
         <img src="{!! url($data['profile-image']) !!}" alt="{{ $data['name'] }}" />
-        <h1>{{ $data['name'] }}</h1>
-        <h2>{{ $data['position'] }}</h2>
-    </div>
-
-    <div id="about">
-        <div id="about-header">
-            <h1>Know {{ $data['name'] }} more</h1>
-        </div>
-        <div id="about-me">
-            <figure>
-                <img src="https://picsum.photos/id/373/4896/3264" alt="" />
-                <figcaption>
-                    Reach me <br>
-                    <a href="mailto:{{ $data['email'] }}" target="_blank"><i class="fas fa-fw fa-at"></i> {{ $data['email'] }}</a>
-                    <a href="tel:{{ $data['phone'] }}" target="_blank"><i class="fas fa-fw fa-phone"></i> tel:{{ $data['phone'] }}</a>
-                </figcaption>
-            </figure>
-            <figure>
-                <img src="https://picsum.photos/id/389/4562/3042" alt="" />
-                <figcaption>
-                    I study <br>
-                    @foreach($data['educations'] as $education)
-                        {{ $education->name.' '.$education->institution.' ('.$education->start.'-'.$education->end.')' }}
-                    @endforeach
-                </figcaption>
-            </figure>
-            <figure>
-                <img src="https://picsum.photos/id/791/5000/3333" alt="" />
-                <figcaption>
-                    I speak and listen to <br>
-                    @foreach ($data['languages'] as $language)
-                        {{ $language->name.' ('.$language->allproficiency->proficiency.')' }} <br>
-                    @endforeach
-                </figcaption>
-            </figure>
-            <figure>
-                <img src="https://picsum.photos/id/668/4133/2745" alt="" />
-                <figcaption>
-                    Visit me 
-                    <a href="{{ $data['website'] }}" target="_blank">{{ $data['website'] }}</a>
-                </figcaption>
-            </figure>
+        <div class="name-desc">
+            <h1>{{ $data['name'] }}</h1>
+            <h2>{{ $data['position'] }}</h2>
         </div>
 
+        <div class="about">
+            <div id="about-header">
+                <h1>Know {{ $data['name'] }} more</h1>
+            </div>
+            <div id="about-me">
+                {{-- <figure>
+                    <img src="https://picsum.photos/id/373/4896/3264.jpg" alt="" />
+                    <figcaption>
+                        Reach me <br>
+                        <a href="mailto:{{ $data['email'] }}" target="_blank"><i class="fas fa-fw fa-at"></i> {{ $data['email'] }}</a>
+                        <a href="tel:{{ $data['phone'] }}" target="_blank"><i class="fas fa-fw fa-phone"></i> tel:{{ $data['phone'] }}</a>
+                    </figcaption>
+                </figure>
+                <figure>
+                    <img src="https://picsum.photos/id/389/4562/3042.jpg" alt="" />
+                    <figcaption>
+                        I study <br>
+                        @foreach($data['educations'] as $education)
+                            {{ $education->name.' '.$education->institution.' ('.$education->start.'-'.$education->end.')' }}
+                        @endforeach
+                    </figcaption>
+                </figure>
+                <figure>
+                    <img src="https://picsum.photos/id/1060/536/354.jpg" alt="" />
+                    <figcaption>
+                        I speak and listen to <br>
+                        @foreach ($data['languages'] as $language)
+                            {{ $language->name.' ('.$language->allproficiency->proficiency.')' }} <br>
+                        @endforeach
+                    </figcaption>
+                </figure>
+                <figure>
+                    <img src="https://picsum.photos/id/668/4133/2745.jpg" alt="" />
+                    <figcaption>
+                        Visit me 
+                        <a href="{{ $data['website'] }}" target="_blank">{{ $data['website'] }}</a>
+                    </figcaption>
+                </figure> --}}
+            </div>
+
+        </div>
     </div>
 
     <div id="experiences">

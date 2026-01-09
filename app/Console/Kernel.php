@@ -8,12 +8,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        Commands\GenerateRoutePermissions::class,
         Commands\SocialIconsRefresh::class,
-        Commands\SyncAdminPermission::class,
-        Commands\SyncRoleToUser::class,
         Commands\SyncAppVersion::class,
-        Commands\GenerateSubLink::class,
     ];
     /**
      * Define the application's command schedule.
@@ -23,7 +19,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sublink:generate')->dailyAt('01:00')->withoutOverlapping();
+        // 
     }
 
     /**

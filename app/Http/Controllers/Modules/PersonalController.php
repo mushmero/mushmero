@@ -34,14 +34,14 @@ class PersonalController extends Controller
     public function index()
     {
         $data = array();
-        $authUserRoles = auth()->user()->roles->pluck('name');
-        foreach($authUserRoles as $authUserRole){
-            if($authUserRole == 'Superadmin'){
-                $array = Personal::withTrashed()->get();
-            }else{
-                $array = Personal::withTrashed()->where(['user_id' => auth()->user()->id])->get();
-            }
-        }
+        // $authUserRoles = auth()->user()->roles->pluck('name');
+        // foreach ($authUserRoles as $authUserRole) {
+            // if ($authUserRole == 'Superadmin') {
+                $array = Personal::get();
+        //     } else {
+        //         $array = Personal::withTrashed()->where(['user_id' => auth()->user()->id])->get();
+        //     }
+        // }
 
         $heads = [
             'Profile',
@@ -50,13 +50,13 @@ class PersonalController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
-        foreach($array as $arr){
-            
+        foreach ($array as $arr) {
+
             $data[] = array(
-                '<div class="row"><div class="col-1"><img src="'.url($arr->attachments->path.'/'.$arr->attachments->filename).'" alt="'.$arr->attachments->altname.'" width="50" height="50" class="img-center"></div><div class="col-11">'.$arr->fullname.'&nbsp;'.(!empty($arr->tagline) ? '('.$arr->tagline.')' : '').(!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;'.$arr->phone : '').(!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;'.$arr->email : '').(!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;'.$arr->website : '').'</div></div>',
-                '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="activeSwitch'.$arr->id.'" name="activeSwitch'.$arr->id.'" onchange="switchAjax('.$arr->id.')" '.($arr->status == 1 ? "checked" : "").' '.(auth()->user()->id != $arr->user_id ? 'disabled' : '').' /><label class="active_switch custom-control-label" for="activeSwitch'.$arr->id.'">'.($arr->status == 1 ? "Active" : "Inactive").'</label></div>',
+                '<div class="row"><div class="col-1"><img src="' . url($arr->attachments->path . '/' . $arr->attachments->filename) . '" alt="' . $arr->attachments->altname . '" width="50" height="50" class="img-center"></div><div class="col-11">' . $arr->fullname . '&nbsp;' . (!empty($arr->tagline) ? '(' . $arr->tagline . ')' : '') . (!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;' . $arr->phone : '') . (!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;' . $arr->email : '') . (!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;' . $arr->website : '') . '</div></div>',
+                '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="activeSwitch' . $arr->id . '" name="activeSwitch' . $arr->id . '" onchange="switchAjax(' . $arr->id . ')" ' . ($arr->status == 1 ? "checked" : "") . ' ' . (auth()->user()->id != $arr->user_id ? 'disabled' : '') . ' /><label class="active_switch custom-control-label" for="activeSwitch' . $arr->id . '">' . ($arr->status == 1 ? "Active" : "Inactive") . '</label></div>',
                 $arr->user->name,
-                '<nobr><a class="'.(!$arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/restore').'">'.$this->btnRestore.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a class="'.($arr->trashed() ? 'disabled' : '').'" href="'.url('personal/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
+                '<nobr><a class="' . (!$arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/restore') . '">' . $this->btnRestore . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/edit') . '">' . $this->btnEdit . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/delete') . '">' . $this->btnDelete . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/show') . '">' . $this->btnDetails . '</a></nobr>',
             );
         }
 
@@ -99,11 +99,11 @@ class PersonalController extends Controller
 
         // process upload file
         $attachmentID = '';
-        if($request->file('profilephoto')){
+        if ($request->file('profilephoto')) {
             $uploadedFile = AttachmentsTrait::storeImage($request, 'profilephoto', 'uploads/personal', 'personal');
-            if($uploadedFile){
+            if ($uploadedFile) {
                 $attachmentID = $uploadedFile->id;
-            }else{
+            } else {
                 $attachmentID = '';
             }
         }
@@ -118,11 +118,11 @@ class PersonalController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        if($store){
+        if ($store) {
             flash(
                 'Persona created successfully',
             )->success();
-        }else{
+        } else {
             flash(
                 'Unable to create Persona',
             )->error();
@@ -145,7 +145,7 @@ class PersonalController extends Controller
 
         $attachment = Attachments::find($data->attachment_id);
 
-        return view('modules.personal.show', compact('data','user','attachment'));
+        return view('modules.personal.show', compact('data', 'user', 'attachment'));
     }
 
     /**
@@ -160,7 +160,7 @@ class PersonalController extends Controller
 
         $attachment = Attachments::find($data->attachment_id);
 
-        return view('modules.personal.edit', compact('data','attachment'));
+        return view('modules.personal.edit', compact('data', 'attachment'));
     }
 
     /**
@@ -173,13 +173,13 @@ class PersonalController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'fullname' => 'required',       
+            'fullname' => 'required',
             'profilephoto' => 'image|mimes:png,jpg|max:5120',
         ]);
 
-        if($request->file('profilephoto')){
+        if ($request->file('profilephoto')) {
             $uploadedFile = AttachmentsTrait::storeImage($request, 'profilephoto', 'uploads/personal', 'personal');
-            if($uploadedFile){
+            if ($uploadedFile) {
                 $attachmentID = $uploadedFile->id;
                 $data['attachment_id'] = $attachmentID;
             }
@@ -194,17 +194,17 @@ class PersonalController extends Controller
 
         $update = Personal::find($id)->update($data);
 
-        if($update){
+        if ($update) {
             flash(
                 'Persona updated successfully',
             )->success();
-        }else{
+        } else {
             flash(
                 'Unable to update Persona',
             )->error();
         }
 
-         return back();
+        return back();
     }
 
     /**
@@ -240,9 +240,9 @@ class PersonalController extends Controller
     public function checkStatusById($id)
     {
         $result = Personal::where(['id' => $id, 'status' => 1, 'user_id' => auth()->user()->id])->get();
-        if($result->count() > 0){
+        if ($result->count() > 0) {
             return response()->json(['exist' => 1, 'status' => 1]);
-        }else{
+        } else {
             return response()->json(['exist' => 0, 'status' => 1]);
         }
     }

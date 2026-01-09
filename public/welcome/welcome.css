@@ -88,17 +88,12 @@ ul.nav .btn:focus {
     color: #000000;
 }
 
-#main-welcome-background {
-    background: url('https://picsum.photos/id/56/2880/1920') no-repeat top center;
+/* #main-welcome-background {
+    background: url('https://picsum.photos/id/56/2880/1920.jpg') no-repeat top center;
     height: 100%;
     overflow: hidden;
     text-shadow: 0 0 5px #000000;
     opacity: 0.85;
-}
-
-#main-welcome-background > {
-    /* Modifications to profile image in main banner */
-    /* Modifications to both h1 and h2 tag in main banner. Mainly to center the text. */
 }
 
 #main-welcome-background > div.flash-message {
@@ -126,7 +121,7 @@ ul.nav .btn:focus {
     height: auto;
     max-width: 40%;
     margin-left: 80px;
-    /* background-color: rgba(1, 1, 1, 0.3); */
+    background-color: rgba(1, 1, 1, 0.3);
     animation: 1s ease-in 0s 1 slideInFromTop;
 }
 
@@ -161,7 +156,7 @@ ul.nav .btn:focus {
     width: 100%;
     text-align: left;
     padding: 20px;
-}
+} */
 
 .btn-link, button.btn-link {
     background: transparent !important;
@@ -198,19 +193,25 @@ ul.nav .btn:focus {
 
 /* Sets the top banner when the visitor first comes to the website */
 #main-background {
-    background: url('https://picsum.photos/id/180/2048/1536') no-repeat top center;
+    background: url('/assets/images/top-1-unsplash.jpg') no-repeat top center;
     background-attachment: fixed;
     background-size:cover;
     height: 100%;
     overflow: hidden;
     text-shadow: 0 0 5px #000000;
     opacity: 0.85;
+    padding-left: 100px;
+    /* padding-top: 100px; */
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: flex-start;
 }
 
-#main-background > {
+/* #main-background > { */
     /* Modifications to profile image in main banner */
     /* Modifications to both h1 and h2 tag in main banner. Mainly to center the text. */
-}
+/* } */
 
 #main-background > div.flash-message {
     position: absolute;
@@ -221,11 +222,12 @@ ul.nav .btn:focus {
 }
 
 #main-background > img {
-    position: relative;
-    display: block;
-    margin: 5% auto 0 auto;
-    height: 500px;
-    width: 500px;
+    /* position: relative;
+    display: block; */
+    margin-left: 25px;
+    margin-top: 55px;
+    height: 300px;
+    width: 300px;
     border-radius: 50%;
     overflow: hidden;
     border: 7px solid #fff;
@@ -246,19 +248,31 @@ ul.nav .btn:focus {
     color: white;
 }
 
-#main-background > h1 {
-    padding-top: 30px;
+#main-background .name-desc {
+    display: block;
+    padding: 100px 0 100px 60px;
+}
+
+#main-background .name-desc h1 {
     font-size: 300%;
+    font-weight: 700;
     color: #ecf0f1;
     -webkit-filter: drop-shadow(5px 5px 5px #111111);
     filter: drop-shadow(5px 5px 5px #111111);
 }
 
-#main-background > h2 {
+#main-background .name-desc h2 {
     font-size: 200%;
+    font-weight: 600;
     color: #e5e7e7;
     -webkit-filter: drop-shadow(5px 5px 5px #111111);
     filter: drop-shadow(5px 5px 5px #111111);
+}
+
+.about {
+    position: relative;
+    top: 350px;
+    right: 250px;
 }
 
 #about-header > h1 {
@@ -370,7 +384,7 @@ ul.nav .btn:focus {
 
 
 #projects {    
-    background: url('https://picsum.photos/id/370/4928/3264') no-repeat;
+    background: url('/assets/images/top-3-unsplash.jpg') no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
     height: 80%;
@@ -611,7 +625,7 @@ ul.nav .btn:focus {
 }
 
 #experiences {    
-    background: url('https://picsum.photos/id/378/5000/3333') no-repeat;
+    background: url('/assets/images/top-2-unsplash.jpg') no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
     height: auto;
@@ -873,9 +887,14 @@ ul.nav .btn:focus {
 
 /* Need to expand the background of the main banner since smaller heights cut off content */
 @media screen and (max-height: 800px) {
-  #main-background {
-    height: 800px;
-  }
+    #main-background {
+        height: 800px;
+    }
+  
+    #main-background > img {
+        height: 200px;
+        width: 200px;
+    }
 }
 
 @keyframes slideInFromLeft {

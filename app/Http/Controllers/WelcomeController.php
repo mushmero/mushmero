@@ -13,11 +13,7 @@ use Validator;
 
 class WelcomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    use PersonaTrait;
     public function index()
     {
         $this->saveVisitor();
@@ -25,7 +21,7 @@ class WelcomeController extends Controller
         $data['author'] = 'Amirul Hakim';
         $data['description'] = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
 
-        if(PersonaTrait::checkPersona()->count() > 0){  
+        if($this->checkPersona()->count() > 0){  
             $activePersona = $this->getInformation();
     
             $data['profile-image'] = $activePersona->attachments->path.'/'.$activePersona->attachments->filename;
@@ -70,20 +66,7 @@ class WelcomeController extends Controller
 
     public function saveVisitor(){
         $data = Helper::visitor();
-        $store = Visitors::create([
-            'userip' => $data['ip'],
-            'referrer' => $data['referrer'],
-            'useragent' => $data['useragent'],
-            'datetime' => $data['timestamp'],
-            'city' => $data['city'],
-            'country' => $data['country'],
-            'countryCode' => $data['countryCode'],
-            'continent' => $data['continent'],
-            'continentCode' => $data['continentCode'],
-            'timezone' => $data['timezone'],
-            'latitude' => $data['latitude'],
-            'longitude' => $data['longitude'],
-        ]);
+        $store = Visitors::create($data);
         if($store){
             return true;
         }else{
@@ -93,7 +76,7 @@ class WelcomeController extends Controller
 
     public function getInformation()
     {
-        $persona = PersonaTrait::getActivePersonaInformations();
+        $persona = $this->getActivePersonaInformations();
         return $persona;
     }
 

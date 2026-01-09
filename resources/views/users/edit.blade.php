@@ -25,11 +25,11 @@
                     </x-adminlte-input>
                     <x-adminlte-input name="password" type="password" label="Password" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10"/>
                     <x-adminlte-input name="password_confirmation" type="password" label="Confirm Password" fgroup-class="col-md-6 row" label-class="col-md-2 control-label" igroup-class="col-md-10"/>
-                    <x-adminlte-select2 id="roles" name="roles[]" label="Roles" fgroup-class="col-md-6 row" label-class="col-md-2 control-label"  igroup-class="col-md-10" igroup-size="md" :config="$config" multiple required enable-old-support>
+                    {{-- <x-adminlte-select2 id="roles" name="roles[]" label="Roles" fgroup-class="col-md-6 row" label-class="col-md-2 control-label"  igroup-class="col-md-10" igroup-size="md" :config="$config" multiple required enable-old-support>
                         @foreach ($roles as $role)
                             <option value="{{ $role }}" {{ (in_array($role, $user->getRoleNames()->toArray())) ? "selected" : "" }}>{{ $role }}</option>
                         @endforeach
-                    </x-adminlte-select2>
+                    </x-adminlte-select2> --}}
                     <x-slot name="footerSlot">
                         <a href="{{ route('users') }}">
                             <x-adminlte-button class="btn-flat" label="{{ __('adminlte::adminlte.back') }}" theme="default" icon="fas fa-chevron-left"/>

@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <x-adminlte-profile-widget class="elevation-4" name="{{ $profile['fullname'] }}" desc="{{ $profile['tagline'] }}"
-                        img="{{ $profile['profile_image'] }}" cover="https://picsum.photos/id/541/550/200"
+                        img="{{ $profile['profile_image'] }}" cover="{{ asset('assets/images/resumed-cover.png') }}"
                         header-class="text-white text-right" footer-class='bg-gradient-dark'>
                         <x-adminlte-profile-row-item title="{{ $profile['phone'] }}&nbsp;|&nbsp;{{ $profile['email'] }} " class="text-center"/>
                         <x-adminlte-profile-row-item title="{{ $experience['length'] }} year(s) of experience(s) with" class="text-center border-bottom border-secondary"/>

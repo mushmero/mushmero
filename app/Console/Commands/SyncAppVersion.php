@@ -57,6 +57,6 @@ class SyncAppVersion extends Command
             dump('success - create app version to '.$data['major'].'.'.$data['minor'].'.'.$data['build']);
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

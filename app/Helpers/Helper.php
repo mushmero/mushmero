@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\AppsVersion;
+use App\Models\Config\Countries;
 use File;
 use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
@@ -57,37 +58,37 @@ class Helper
         return $prefix;
     }
 
-    public static function getModulesFromRoute()
-    {
-        $modules = array();
-        $routes = Route::getRoutes()->getRoutes();
+    // public static function getModulesFromRoute()
+    // {
+    //     $modules = array();
+    //     $routes = Route::getRoutes()->getRoutes();
 
-        foreach($routes as $route){
-			if(is_array($route->getAction()['middleware'])){
-				if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
-					$modules[] = $route->getName();
-				}
-			}
-        }
-        return $modules;
-    }
+    //     foreach($routes as $route){
+	// 		if(is_array($route->getAction()['middleware'])){
+	// 			if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
+	// 				$modules[] = $route->getName();
+	// 			}
+	// 		}
+    //     }
+    //     return $modules;
+    // }
 
-	public static function getSystemModules()
-	{
-		$systemModules = [
-			'adminlte.darkmode.toggle',
-			'sanctum.csrf-cookie',
-			'login',
-			'logout',
-			'register',
-			'password.request',
-			'password.email',
-			'password.reset',
-			'password.update',
-			'password.confirm',
-		];
-		return $systemModules;
-	}
+	// public static function getSystemModules()
+	// {
+	// 	$systemModules = [
+	// 		'adminlte.darkmode.toggle',
+	// 		'sanctum.csrf-cookie',
+	// 		'login',
+	// 		'logout',
+	// 		'register',
+	// 		'password.request',
+	// 		'password.email',
+	// 		'password.reset',
+	// 		'password.update',
+	// 		'password.confirm',
+	// 	];
+	// 	return $systemModules;
+	// }
 
     public static function formatDate($date, $timezone = 'Asia/Kuala_Lumpur', $format = 'd-m-Y H:i:s')
     {
@@ -223,24 +224,57 @@ class Helper
 	}
 
 	public static function ipLocation($ip){
-		$geoip = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$ip));
-		$location = array(
-			'userip' => $geoip['geoplugin_request'],
-			'city' => $geoip['geoplugin_city'],
-			'country' => $geoip['geoplugin_countryName'],
-			'countryCode' => $geoip['geoplugin_countryCode'],
-			'continent'	=> $geoip['geoplugin_continentName'],
-			'continentCode' => $geoip['geoplugin_continentCode'],
-			'timezone'	=> $geoip['geoplugin_timezone'],
-			'latitude' => $geoip['geoplugin_latitude'],
-			'longitude' => $geoip['geoplugin_longitude'],
-		);
+		
+		$geoip = json_decode(file_get_contents('https://ipinfo.io/'.$ip), true);
+		if (in_array($geoip['ip'], ['127.0.0.1', '::1'])) {
+			$location = array(
+				'userip' => $geoip['ip'],
+				'city' => null,
+				'country' => null,
+				'countryCode' => null,
+				'continent'	=> null,
+				'continentCode' => null,
+				'timezone'	=> null,
+				'latitude' => null,
+				'longitude' => null,
+			);
+		} else {
+			$countryInfo = Helper::countryData($geoip['country']);
+			$latlong = explode(',', $geoip['loc']);
+			$location = array(
+				'userip' => $geoip['ip'],
+				'city' => $geoip['city'],
+				'country' => $countryInfo['name'],
+				'countryCode' => $geoip['country'],
+				'continent'	=> $countryInfo['continent_name'],
+				'continentCode' => $countryInfo['continent_code'],
+				'timezone'	=> $geoip['timezone'],
+				'latitude' => $latlong[0],
+				'longitude' => $latlong[1],
+			);
+		}
 		return $location;
 	}
 	public static function visitor(){
+		$geoip = [];
 		$visitor = Helper::getVisitor($_SERVER['REMOTE_ADDR']);
 		$geoip = Helper::ipLocation($visitor['ip']);
 		$data = array_merge($visitor,$geoip);
+
+		$data = [
+            'userip' => $data['ip'] ?? null,
+            'referrer' => $data['referrer'] ?? null,
+            'useragent' => $data['useragent'] ?? null,
+            'datetime' => $data['timestamp'] ?? null,
+            'city' => $data['city'] ?? null,
+            'country' => $data['country'] ?? null,
+            'countryCode' => $data['countryCode'] ?? null,
+            'continent' => $data['continent'] ?? null,
+            'continentCode' => $data['continentCode'] ?? null,
+            'timezone' => $data['timezone'] ?? null,
+            'latitude' => $data['latitude'] ?? null,
+            'longitude' => $data['longitude'] ?? null,
+        ];
 		return $data;
 	}
 
@@ -257,11 +291,11 @@ class Helper
 		return $new_array;
 	}
 
-	public static function getRouteSubdomain()
-	{
-		$route = Route::getCurrentRoute();
-		return $route->parameter('subdomain');
-	}
+	// public static function getRouteSubdomain()
+	// {
+	// 	$route = Route::getCurrentRoute();
+	// 	return $route->parameter('subdomain');
+	// }
 
 	public static function getDomain()
 	{
@@ -272,28 +306,28 @@ class Helper
 		return $domain;
 	}
 
-	public static function urlHasPermission($url = null)
-	{
-		$authUser = auth()->user();
-		$allRoutes = Route::getRoutes()->getRoutesByName();
+	// public static function urlHasPermission($url = null)
+	// {
+	// 	$authUser = auth()->user();
+	// 	$allRoutes = Route::getRoutes()->getRoutesByName();
 
-		foreach($allRoutes as $key => $route){
-			if(is_array($route->getAction()['middleware'])){
-				if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
-					if($route->getPrefix() != ''){
-						if(explode('/',$route->getPrefix())[1] == $url){
-							if($authUser->hasPermissionTo($route->getAction()['as'])){
-								return true;
-							}else{
-								return false;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
+	// 	foreach($allRoutes as $key => $route){
+	// 		if(is_array($route->getAction()['middleware'])){
+	// 			if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
+	// 				if($route->getPrefix() != ''){
+	// 					if(explode('/',$route->getPrefix())[1] == $url){
+	// 						if($authUser->hasPermissionTo($route->getAction()['as'])){
+	// 							return true;
+	// 						}else{
+	// 							return false;
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	return false;
+	// }
 
 	public static function minifyCSSJS($source, $type)
 	{
@@ -308,5 +342,11 @@ class Helper
 			$minifier->add($source);
 			return $minifier->minify();
 		}
+	}
+
+	public static function countryData($countryCode)
+	{
+		$country = Countries::where('code', $countryCode)->first();
+		return $country;
 	}
 }

@@ -30,14 +30,14 @@ class ExperiencesController extends Controller
     public function index()
     {
         $data = array();
-        $authUserRoles = auth()->user()->roles->pluck('name');
-        foreach($authUserRoles as $authUserRole){
-            if($authUserRole == 'Superadmin'){
+        // $authUserRoles = auth()->user()->roles->pluck('name');
+        // foreach($authUserRoles as $authUserRole){
+        //     if($authUserRole == 'Superadmin'){
                 $array = Experiences::all();
-            }else{
-                $array = Experiences::where(['user_id' => auth()->user()->id])->get();
-            }
-        }
+        //     }else{
+        //         $array = Experiences::where(['user_id' => auth()->user()->id])->get();
+        //     }
+        // }
 
         $heads = [
             'Position',
