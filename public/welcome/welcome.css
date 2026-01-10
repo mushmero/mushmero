@@ -387,9 +387,9 @@ ul.nav .btn:focus {
     background: url('/assets/images/top-3-unsplash.jpg') no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
-    height: 80%;
+    height: auto;
     width: 100%;
-    padding-bottom: 50%;
+    /* padding-bottom: 50%; */
     opacity: 0.85;
 }
 
@@ -418,7 +418,7 @@ ul.nav .btn:focus {
 #projects-me > figure {
     display: inline-table;
     min-width: 20%;
-    max-width: 20%;
+    /* max-width: 20%; */
     min-height: 220px;
     max-height: 220px;
     color: #4A4E4D;
@@ -468,6 +468,10 @@ ul.nav .btn:focus {
     /* Hover effect for buttons */
 }
 
+#projects-me > figure > figcaption > div.item {
+    padding-bottom: 5px;
+}
+
 #projects-me > figure > figcaption > a:hover {
     opacity: 1;
 }
@@ -491,7 +495,7 @@ ul.nav .btn:focus {
     margin: 0 0 10px;
     font-size: 0.75em;
     font-weight: 100;
-    letter-spacing: 1px;
+    letter-spacing: 0.6px;
     opacity: 0.8;
 }
 
@@ -525,7 +529,7 @@ ul.nav .btn:focus {
 
 #skills-me > skill-block {
     display: inline-grid;
-    max-width: 20%;
+    /* max-width: 20%; */
     color: #4A4E4D;
     margin: 5px 15px;
 }
@@ -657,6 +661,7 @@ ul.nav .btn:focus {
 
 #experiences-me > figure {
     display: inline-block;
+    padding: 5px;
     min-width: 60%;
     max-width: 60%;
     color: #4A4E4D;
@@ -854,9 +859,22 @@ ul.nav .btn:focus {
 
 /* Fill up the screen with image gallery */
 @media screen and (max-width: 800px) {
+    #main-background {
+        padding-top: 10px;
+        padding-left: 0px;
+    }
+    #experiences-me > figure {
+        max-width: 80%;
+    }
   .img-gallery {
     width: 48%;
   }
+
+    #footer > h4 > a {
+        text-decoration: none;
+        margin: 0 0.5%;
+        padding: 0 1.5%;
+    }
 }
 
 /* Correct elements on screens smaller than 600px */
@@ -872,10 +890,6 @@ ul.nav .btn:focus {
     visibility: hidden;
   }
   /* Hide the GitHub and blog links */
-  /* Need to move profile image because of navigation bar on mobile */
-  #main-background > img {
-    margin-top: 200px;
-  }
   #main-background > h2 {
     font-size: 150%;
   }

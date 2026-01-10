@@ -92,16 +92,18 @@
             <h3>Leisure time bobbies & projects</h3>
         </div>
         <div id="projects-me">
-        @foreach ($data['projects'] as $project)
             <figure>
                 <figcaption>
-                    <center><h4>{{ $project['name'] }}</h4></center>
-                    @if (!empty($project['description']))
-                        <br> {!! $project['description'] !!}
-                    @endif
+                    @foreach ($data['projects'] as $project)
+                        <div class="item">
+                            <h4>{{ $project['name'] }}</h4>
+                            @if (!empty($project['description']))
+                                {!! $project['description'] !!}
+                            @endif
+                        </div>       
+                    @endforeach
                 </figcaption>
-            </figure>            
-        @endforeach
+            </figure>  
         </div>
     </div>
 @endsection
