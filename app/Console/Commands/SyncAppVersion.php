@@ -30,9 +30,9 @@ class SyncAppVersion extends Command
      */
     public function handle()
     {
-        $major = $this->option('major');
-        $minor = $this->option('minor');
-        $build = $this->option('build');
+        $major = $this->option('major') ? $this->option('major') : $this->ask('Enter major version');
+        $minor = $this->option('minor') ? $this->option('minor') : $this->ask('Enter minor version');
+        $build = $this->option('build') ? $this->option('build') : $this->ask('Enter build version');
 
         $exist = AppsVersion::first();
 
