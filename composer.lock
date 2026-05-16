@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f4880b6a273ebe5fc0970bcc76b852b",
+    "content-hash": "fa7b6d2c3e368bdb5780acc9feb1a40b",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1658,16 +1658,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.51.0",
+            "version": "v11.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c8f9a04594b7044a189a3194cfb3594251eb74e5"
+                "reference": "98c1c33e00dd28f22a6527de98c021ab112a3ae6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c8f9a04594b7044a189a3194cfb3594251eb74e5",
-                "reference": "c8f9a04594b7044a189a3194cfb3594251eb74e5",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/98c1c33e00dd28f22a6527de98c021ab112a3ae6",
+                "reference": "98c1c33e00dd28f22a6527de98c021ab112a3ae6",
                 "shasum": ""
             },
             "require": {
@@ -1869,7 +1869,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-03-26T14:54:53+00:00"
+            "time": "2026-05-14T15:31:55+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -4063,28 +4063,28 @@
         },
         {
             "name": "pragmarx/countries",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/antonioribeiro/countries.git",
-                "reference": "ac65c3ca0c4f2578e99aaeebb772fb0df009f71c"
+                "reference": "a54aa058339892a2cf24d117bea6baf43f9eb6a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/ac65c3ca0c4f2578e99aaeebb772fb0df009f71c",
-                "reference": "ac65c3ca0c4f2578e99aaeebb772fb0df009f71c",
+                "url": "https://api.github.com/repos/antonioribeiro/countries/zipball/a54aa058339892a2cf24d117bea6baf43f9eb6a0",
+                "reference": "a54aa058339892a2cf24d117bea6baf43f9eb6a0",
                 "shasum": ""
             },
             "require": {
                 "colinodell/json5": "^2.0|^3.0",
-                "illuminate/collections": "^10.48|^11.0|^12.0",
+                "illuminate/collections": "^10.48|^11.0|^12.0|^13.0",
                 "nette/caching": "^3.0|^4.0",
                 "php": "^8.1|^8.2|^8.3|^8.4",
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
                 "gasparesganga/php-shapefile": "^3.4",
-                "laravel/framework": "^10.0|^11.0|^12.0",
+                "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
                 "phpstan/phpstan": "^1.12",
                 "phpunit/phpunit": "^9.0|^10.0|^11.0",
                 "timeweb/phpstan-enum": "^3.0|^4.0"
@@ -4126,9 +4126,9 @@
             ],
             "support": {
                 "issues": "https://github.com/antonioribeiro/countries/issues",
-                "source": "https://github.com/antonioribeiro/countries/tree/v1.0.1"
+                "source": "https://github.com/antonioribeiro/countries/tree/v1.0.2"
             },
-            "time": "2025-08-19T12:13:51+00:00"
+            "time": "2026-03-29T11:04:53+00:00"
         },
         {
             "name": "psr/clock",
@@ -10246,16 +10246,16 @@
         },
         {
             "name": "spatie/flare-client-php",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/flare-client-php.git",
-                "reference": "fb3ffb946675dba811fbde9122224db2f84daca9"
+                "reference": "53f41b08a27cc039e1a8ed2be9a202e924f31bad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/fb3ffb946675dba811fbde9122224db2f84daca9",
-                "reference": "fb3ffb946675dba811fbde9122224db2f84daca9",
+                "url": "https://api.github.com/repos/spatie/flare-client-php/zipball/53f41b08a27cc039e1a8ed2be9a202e924f31bad",
+                "reference": "53f41b08a27cc039e1a8ed2be9a202e924f31bad",
                 "shasum": ""
             },
             "require": {
@@ -10303,7 +10303,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/flare-client-php/issues",
-                "source": "https://github.com/spatie/flare-client-php/tree/1.11.0"
+                "source": "https://github.com/spatie/flare-client-php/tree/1.11.1"
             },
             "funding": [
                 {
@@ -10311,7 +10311,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-17T08:06:16+00:00"
+            "time": "2026-05-15T09:31:32+00:00"
         },
         {
             "name": "spatie/ignition",
