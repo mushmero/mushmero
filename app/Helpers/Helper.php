@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
 use Str;
 use MatthiasMullie\Minify;
+use Stevebauman\Location\Facades\Location;
 
 class Helper
 {    
@@ -193,12 +194,12 @@ class Helper
 	
 	public static function getVisitor($ip = NULL, $deepdetect = TRUE){
 		if(filter_var($ip,FILTER_VALIDATE_IP) === FALSE){
-			$ip = $_SERVER['REMOTE_ADDR'];
+			$ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
 			if($deepdetect){
-				if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)){
+				if (filter_var($_SERVER['HTTP_X_FORWARDED_FOR'] ?? '', FILTER_VALIDATE_IP)){
                 	$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 				}
-	            if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)){
+	            if (filter_var($_SERVER['HTTP_CLIENT_IP'] ?? '', FILTER_VALIDATE_IP)){
 	                $ip = $_SERVER['HTTP_CLIENT_IP'];
 	            }
 			}
@@ -207,14 +208,14 @@ class Helper
 			$data = array(
 				'ip'	=>	$ip,
 				'referrer'	=> $_SERVER['HTTP_REFERER'],
-				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'] ?? '',
 				'timestamp'	=> Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s e'),
 			);
 		}else{
 			$data = array(
 				'ip'	=>	$ip,
 				'referrer'	=> '',
-				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'],
+				'useragent'	=>	$_SERVER['HTTP_USER_AGENT'] ?? '',
 				'timestamp'	=> Carbon::now('Asia/Kuala_Lumpur')->format('Y-m-d H:i:s e'),
 			);
 		}
@@ -223,11 +224,11 @@ class Helper
 	}
 
 	public static function ipLocation($ip){
+		$position = Location::get($ip);
 		
-		$geoip = json_decode(file_get_contents('https://ipinfo.io/'.$ip), true);
-		if (in_array($geoip['ip'], ['127.0.0.1', '::1'])) {
+		if (!$position || in_array($position->ip, ['127.0.0.1', '::1'])) {
 			$location = array(
-				'userip' => $geoip['ip'],
+				'userip' => $position->ip ?? $ip,
 				'city' => null,
 				'country' => null,
 				'countryCode' => null,
@@ -238,25 +239,24 @@ class Helper
 				'longitude' => null,
 			);
 		} else {
-			$countryInfo = Helper::countryData($geoip['country']);
-			$latlong = explode(',', $geoip['loc']);
+			$countryInfo = Helper::countryData($position->countryCode);
 			$location = array(
-				'userip' => $geoip['ip'],
-				'city' => $geoip['city'],
-				'country' => $countryInfo['name'],
-				'countryCode' => $geoip['country'],
-				'continent'	=> $countryInfo['continent_name'],
-				'continentCode' => $countryInfo['continent_code'],
-				'timezone'	=> $geoip['timezone'],
-				'latitude' => $latlong[0],
-				'longitude' => $latlong[1],
+				'userip' => $position->ip,
+				'city' => $position->cityName,
+				'country' => $countryInfo['name'] ?? $position->countryName,
+				'countryCode' => $position->countryCode,
+				'continent'	=> $countryInfo['continent_name'] ?? null,
+				'continentCode' => $countryInfo['continent_code'] ?? null,
+				'timezone'	=> $position->timezone,
+				'latitude' => $position->latitude,
+				'longitude' => $position->longitude,
 			);
 		}
 		return $location;
 	}
 	public static function visitor(){
 		$geoip = [];
-		$visitor = Helper::getVisitor($_SERVER['REMOTE_ADDR']);
+		$visitor = Helper::getVisitor($_SERVER['REMOTE_ADDR'] ?? '127.0.0.1');
 		$geoip = Helper::ipLocation($visitor['ip']);
 		$data = array_merge($visitor,$geoip);
 
