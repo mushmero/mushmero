@@ -1,64 +1,161 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Resumed — Professional Resume & Portfolio Platform
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Resumed** is an elegant, powerful, and user-friendly personal resume and online portfolio management platform built with **Laravel 12** and **AdminLTE 3**. 
 
-## About Laravel
+Designed as a **single-user platform with multi-persona support**, Resumed allows a professional to maintain multiple specialized profiles (e.g., *Full-Stack Developer*, *DevOps Consultant*, *Technical Lead*) under one roof and switch which persona is actively displayed on the public landing page or exported as a PDF resume.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Comprehensive Feature Showcase
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🎭 Single-User & Multi-Persona Engine
+- **Single-User Ownership**: Designed exclusively for a single professional account. Public registration is disabled to ensure your site is completely private and personal.
+- **Multiple Personas**: Create and maintain distinct personas tailored for different industries, roles, or consulting specializations.
+- **Instant Persona Switching**: Toggle the active persona with a single click using the interactive AJAX status switch.
+- **Live Dynamic Portfolio**: The public landing page (`/`) automatically renders the bio, photo, work history, skills, and projects of whichever persona is currently active.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📝 Comprehensive Resume Modules
+Every module automatically associates records with your active persona while maintaining complete historical records:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Personal Profile**:
+  - Full name, professional tagline, personal email, phone number, and website.
+  - Avatar image upload with automatic asset management and preview.
+  - Soft-delete and restore capabilities.
+- **Work Experiences**:
+  - Detailed employment history: role title, employer name, start and end dates (or "Current"), and rich project/job descriptions.
+  - Chronological ordering on public views and exported resumes.
+- **Education & Credentials**:
+  - Academic history: degree or course name, institution, graduation period, and level classification.
+- **Skills & Proficiencies**:
+  - Skill name with interactive percentage progress indicators.
+  - Custom FontAwesome icons mapped to each skill category.
+- **Projects Showcase**:
+  - Project title, status tag (*Completed*, *In Progress*, *On Hold*), and detailed descriptions.
+- **Languages**:
+  - Spoken and written language competencies with customizable proficiency ratings (*Native*, *Professional*, *Conversational*).
+- **Social & Professional Networks**:
+  - Social profiles with icon badges (GitHub, LinkedIn, Twitter/X, Dribbble, Medium, etc.).
+- **Career Objectives**:
+  - Mission statements, career summaries, and executive bio paragraphs.
+- **Personal Interests**:
+  - Hobbies, personal interests, and extracurricular passions.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 📄 Resume Templates & PDF Export
+- **Customizable Templates**: Select from different resume layout templates to suit different applications.
+- **Live HTML Preview**: Review your formatted resume directly in your browser before exporting.
+- **High-Fidelity PDF Generation**: Generate clean, print-ready, high-resolution PDF resumes with one click.
+- **PDF Layout & Geometry Settings**:
+  - Granular margin adjustments (top, bottom, left, and right in mm/points).
+  - Configurable running headers and footers.
+- **Persona-Bound Exporting**: Generated PDFs automatically adapt to the specific persona you are currently working on.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### ⚙️ Lookups & Configuration Settings
+Customize all system options through dedicated admin panels:
+- **Education Levels**: Define customized qualification tiers (e.g., High School, Diploma, Bachelor's, Master's, Doctorate).
+- **Language Proficiencies**: Configure proficiency scales (e.g., Elementary, Working, Fluent, Native).
+- **Project Statuses**: Customize project lifecycle labels.
+- **Social Icons**: Manage font-awesome classes and icon definitions.
+- **PDF Settings**: Manage document templates and default page formatting.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🌐 Public Landing Page & Visitor Engagement
+- **Responsive Web Portfolio**: Beautiful, mobile-friendly landing page presenting your active persona.
+- **Interactive Leads / Contact Form**: Public visitors and recruiters can submit interest messages directly through the landing page.
+- **Visitor Analytics**: Built-in tracking capturing visitor IPs, user agents, and page impression logs.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🖥️ Administration & Security Features
+- **AdminLTE 3 Dashboard**: Clean, responsive administrative control panel with light/dark theme widgets.
+- **Activity Audit Trail**: Automatically tracks create, update, and delete actions across modules via Spatie Activitylog.
+- **Inactivity Auto-Logout**: Automatic session protection logging out idle sessions to protect resume data.
+- **Private Access Control**: Administrative routes protected by authentication middleware with public registration disabled.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📋 System Requirements
 
-## License
+- **PHP**: `^8.4` or `^8.5` (Fully tested on PHP 8.5)
+- **Extensions**: `pdo_mysql`, `pdo_sqlite`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, `gd` / `imagick`
+- **Composer**: `^2.2` (Composer 2.10+ recommended)
+- **Node.js & NPM**: Node `^18.0` / `^20.0` (for Vite asset compilation)
+- **Database**: MySQL 8.0+ / MariaDB 10.4+ / SQLite (testing)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🛠️ Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/resumed.git
+   cd resumed
+   ```
+
+2. **Install PHP dependencies:**
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   ```
+
+3. **Configure Environment:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configure your Database in `.env`:**
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=resumed
+   DB_USERNAME=your_db_user
+   DB_PASSWORD=your_db_password
+   ```
+
+5. **Run Migrations & Seeders:**
+   ```bash
+   php artisan migrate --seed
+   ```
+   *The default administrator account will be created via `AdminUserSeeder`.*
+
+6. **Install Frontend Dependencies & Build Assets:**
+   ```bash
+   npm install
+   npm run build
+   ```
+
+7. **Start the local development server:**
+   ```bash
+   php artisan serve
+   ```
+
+8. **Access the application:**
+   - **Public Portfolio**: `http://localhost:8000/`
+   - **Admin Login**: `http://localhost:8000/login`
+
+---
+
+## 🧪 Running Tests
+
+The application includes automated unit and feature tests covering authentication, single-user multi-persona lifecycles, and helper utilities:
+
+```bash
+# Run tests with in-memory SQLite
+php artisan test
+
+# Or run directly via PHPUnit
+php -r "require 'vendor/autoload.php'; (new PHPUnit\TextUI\Application)->run(['phpunit', '--no-configuration', 'tests/Unit/HelperAndModelTest.php', 'tests/Feature/SecurityAndAuthTest.php']);"
+```
+
+---
+
+## 📄 License
+
+This project is open-source software licensed under the [MIT License](LICENSE).

@@ -139,8 +139,8 @@ class SocialsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'fullname' => 'required|unique:settings_socials',
-            'name' => 'required|unique:settings_socials',
+            'fullname' => 'required|unique:settings_socials,fullname,' . $id,
+            'name' => 'required|unique:settings_socials,name,' . $id,
             'type' => 'required',
         ]);
         
@@ -148,7 +148,7 @@ class SocialsController extends Controller
         $data['name'] = $request->input('name');
         $data['type'] = $request->input('type');
 
-        $update = SettingsSocial::find($id)->update($data);
+        $update = SettingsSocial::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -171,7 +171,7 @@ class SocialsController extends Controller
      */
     public function destroy($id)
     {
-        SettingsSocial::find($id)->delete();
+        SettingsSocial::findOrFail($id)->delete();
         flash(
             'Icon deleted successfully',
         )->success();

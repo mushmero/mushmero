@@ -218,7 +218,7 @@ class TemplatesController extends Controller
         $data['primary_colour'] = $request->input('primary_colour');
         $data['secondary_colour'] = $request->input('secondary_colour');
 
-        $update = SettingsTemplate::find($id)->update($data);
+        $update = SettingsTemplate::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -241,7 +241,7 @@ class TemplatesController extends Controller
      */
     public function destroy($id)
     {
-        SettingsTemplate::find($id)->delete();
+        SettingsTemplate::findOrFail($id)->delete();
         flash(
             'Template deleted successfully',
         )->success();
@@ -379,15 +379,30 @@ class TemplatesController extends Controller
             if($field == 'experience-info'){
                 if(isset($content->experiences)){
                     $experience_info = '';
-                    $sorted_experiences = $content->experiences->sortByDesc(function ($exp, $key){ return Carbon::createFromFormat('d/m/Y',$exp['start']); });
-                    foreach($sorted_experiences as $experience){
-                        $start = Carbon::createFromFormat('d/m/Y',$experience->start)->format('m/Y');
-                        if($experience->end != 'current'){
-                            $end = Carbon::createFromFormat('d/m/Y',$experience->end)->format('m/Y');
-                        }else{
-                            $end = Str::ucfirst($experience->end);
+                    $sorted_experiences = $content->experiences->sortByDesc(function ($exp) {
+                        try {
+                            return Carbon::createFromFormat('d/m/Y', $exp['start'] ?? '')->timestamp;
+                        } catch (\Throwable $e) {
+                            return strtotime($exp['start'] ?? 'now');
                         }
-                        $experience_info .= "<div class=\"row exp-item text-color-secondary\"><div class=\"exp-position col-6\">".$experience->position."</div><div class=\"exp-length col-6 right\">".$start." - ".$end."</div><div class=\"exp-employer col-12\">".$experience->employer."</div><div class=\"col-12\">".$experience->description."</div></div>";
+                    });
+                    foreach($sorted_experiences as $experience){
+                        try {
+                            $start = Carbon::createFromFormat('d/m/Y', $experience->start)->format('m/Y');
+                        } catch (\Throwable $e) {
+                            $start = $experience->start ?? '';
+                        }
+
+                        if($experience->end != 'current' && !empty($experience->end)){
+                            try {
+                                $end = Carbon::createFromFormat('d/m/Y', $experience->end)->format('m/Y');
+                            } catch (\Throwable $e) {
+                                $end = $experience->end;
+                            }
+                        }else{
+                            $end = Str::ucfirst($experience->end ?? 'Current');
+                        }
+                        $experience_info .= "<div class=\"row exp-item text-color-secondary\"><div class=\"exp-position col-6\">".e($experience->position)."</div><div class=\"exp-length col-6 right\">".e($start)." - ".e($end)."</div><div class=\"exp-employer col-12\">".e($experience->employer)."</div><div class=\"col-12\">".$experience->description."</div></div>";
                     }
                     $fullcontent = Str::replace($field, $experience_info, $fullcontent);
                 }
@@ -396,7 +411,8 @@ class TemplatesController extends Controller
                 if(isset($content->projects)){
                     $project_info = '';
                     foreach($content->projects as $project){
-                        $project_info .= "<div class=\"row proj-item text-color-secondary\"><div class=\"col-12 proj-title\">".$project->name." - <small>(".$project->allstatus->status.")</small></div><div class=\"col-12\">".$project->description."</div></div>";
+                        $statusName = $project->allstatus ? $project->allstatus->status : 'Completed';
+                        $project_info .= "<div class=\"row proj-item text-color-secondary\"><div class=\"col-12 proj-title\">".e($project->name)." - <small>(".e($statusName).")</small></div><div class=\"col-12\">".$project->description."</div></div>";
                     }
                     $fullcontent = Str::replace($field, $project_info, $fullcontent);
                 }                
@@ -405,7 +421,8 @@ class TemplatesController extends Controller
                 if(isset($content->skills)){
                     $skill_info = '';
                     foreach($content->skills as $skill){
-                        $skill_info .= "<div class=\"row skill-item text-color-secondary\"><div class=\"col-2\"><i class=\"".$skill->allicons->fullname."\"></i> ".$skill->name."</div><div class=\"col-6\"><div class=\"progress\"><div class=\"progress-bar text-bold main-color\" role=\"progressbar\" aria-valuenow=\"".$skill->percentage."\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ".$skill->percentage."%;\">".$skill->percentage."</div></div></div></div>";
+                        $iconClass = $skill->allicons ? $skill->allicons->fullname : 'fas fa-star';
+                        $skill_info .= "<div class=\"row skill-item text-color-secondary\"><div class=\"col-2\"><i class=\"".e($iconClass)."\"></i> ".e($skill->name)."</div><div class=\"col-6\"><div class=\"progress\"><div class=\"progress-bar text-bold main-color\" role=\"progressbar\" aria-valuenow=\"".$skill->percentage."\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: ".$skill->percentage."%;\">".$skill->percentage."</div></div></div></div>";
                     }
                     $fullcontent = Str::replace($field, $skill_info, $fullcontent);
                 }
@@ -416,12 +433,17 @@ class TemplatesController extends Controller
 
     public function generatePDF($id)
     {
-        $persona = PersonaTrait::getActivePersonaInformations();
-        $template = SettingsTemplate::where('id', $id)->first();
+        $persona = PersonaTrait::getActivePersonaInformations(auth()->id());
+        if (!$persona) {
+            flash('Please create and activate your Personal profile before generating a PDF resume.')->warning();
+            return redirect()->route('personal');
+        }
+
+        $template = SettingsTemplate::findOrFail($id);
         $content = $this->generateFullContent($template);
-        $author = 'Amirul Hakim';
+        $author = $persona->fullname ?? 'Resumed User';
         $description = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
-        $filename = Str::replace(' ','_', $persona->fullname).'_'.Str::replace(' ','_',$template->name).'_'.Carbon::now()->format('Ymd');
+        $filename = Str::slug($persona->fullname ?? 'Resume').'_'.Str::slug($template->name).'_'.Carbon::now()->format('Ymd');
         $html = response()->view('settings.template.preview', compact('id','author','description','template','content'))->getContent();
 
         return ExportTrait::generatePDF($html, $filename, ['dpi' => 170]);

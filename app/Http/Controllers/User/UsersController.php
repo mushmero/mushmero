@@ -72,39 +72,26 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|min:6|same:password_confirmation',
             'password_confirmation' => 'required|min:6',
-            // 'roles' => 'required',
         ]);
-
-        $data = $request->all();
 
         $store = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-        // if (is_array($data['roles'])) {
-        //     foreach ($data['roles'] as $role) {
-        //         $store->assignRole($role);
-        //     }
-        // }
-
         if ($store) {
-            flash(
-                'User created successfully',
-            )->success();
+            flash('User created successfully')->success();
         } else {
-            flash(
-                'Unable to create user',
-            )->error();
+            flash('Unable to create user')->error();
         }
 
-        return back();
+        return redirect()->route('users');
     }
 
     public function show($id)
@@ -129,49 +116,32 @@ class UsersController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'same:password_confirmation',
-            // 'roles' => 'required',
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
+            'password' => 'nullable|min:6|same:password_confirmation',
         ]);
 
-        $data['name'] = $request->name;
-
-        if (!empty($request->email)) {
-            $user = User::find($id)->first();
-            if ($user->email != $request->email) {
-                $data['email'] = $request->email;
-            }
-        }
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
 
         if (!empty($request->password)) {
             $data['password'] = Hash::make($request->password);
         }
 
-        $user = User::find($id)->update($data);
+        $updated = $user->update($data);
 
-        // DB::table('model_has_roles')->where('model_id', $id)->delete();
-
-        // $data['roles'] = $request->roles;
-
-        // if (is_array($data['roles'])) {
-        //     foreach ($data['roles'] as $role) {
-        //         User::find($id)->assignRole($role);
-        //     }
-        // }
-
-        if ($user) {
-            flash(
-                'User updated successfully',
-            )->success();
+        if ($updated) {
+            flash('User updated successfully')->success();
         } else {
-            flash(
-                'Unable to update user',
-            )->error();
+            flash('Unable to update user')->error();
         }
 
-        return back();
+        return redirect()->route('users');
     }
 
     public function destroy($id)

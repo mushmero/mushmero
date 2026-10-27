@@ -42,6 +42,19 @@ class RegisterController extends Controller
     }
 
     /**
+     * Public registration has been disabled.
+     */
+    public function showRegistrationForm()
+    {
+        abort(404, 'Registration is disabled.');
+    }
+
+    public function register(\Illuminate\Http\Request $request)
+    {
+        abort(404, 'Registration is disabled.');
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data

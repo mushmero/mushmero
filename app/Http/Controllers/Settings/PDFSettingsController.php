@@ -41,7 +41,7 @@ class PDFSettingsController extends Controller
         foreach($array as $arr){
             $data[] = array(
                 $arr->name,
-                $arr->user->name,
+                $arr->user->name ?? 'N/A',
                 '<nobr><a href="'.url('settings_pdf/'.$arr->id.'/edit').'">'.$this->btnEdit.'</a><a href="'.url('settings_pdf/'.$arr->id.'/delete').'">'.$this->btnDelete.'</a><a href="'.url('settings_pdf/'.$arr->id.'/show').'">'.$this->btnDetails.'</a></nobr>',
             );
         }
@@ -156,7 +156,7 @@ class PDFSettingsController extends Controller
         $data['footer'] = $request->input('footer');
         $data['user_id'] = auth()->user()->id;
 
-        $update = SettingsPDF::find($id)->update($data);
+        $update = SettingsPDF::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -179,7 +179,7 @@ class PDFSettingsController extends Controller
      */
     public function destroy($id)
     {
-        SettingsPDF::find($id)->delete();
+        SettingsPDF::findOrFail($id)->delete();
         flash(
             'PDF settings deleted successfully',
         )->success();

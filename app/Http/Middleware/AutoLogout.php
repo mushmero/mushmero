@@ -17,7 +17,8 @@ class AutoLogout
     public function __construct(Store $session)
     {
         $this->session = $session;
-        $this->timeout = env('SESSION_LIFETIME', 1200);
+        // Session lifetime in minutes, converted to seconds
+        $this->timeout = (int) config('session.lifetime', 120) * 60;
     }
 
     /**
@@ -29,24 +30,25 @@ class AutoLogout
      */
     public function handle(Request $request, Closure $next)
     {
-        $is_logged_in = $request->path() != 'logout';
-        if(!session('last_active')) {
-            $this->session->put('last_active', Carbon::now()->timestamp);
-        } elseif(Carbon::now()->diffInSeconds(Carbon::parse($this->session->get('last_active'))) > $this->timeout) {
-            
-            $this->session->forget('last_active');
-            Session::flush();
-            
-            // $cookie = cookie('intend', $is_logged_in ? url()->current() : 'home');
-            
-            auth()->logout();
-            flash(
-                'Due to inactivity you have been logged out',
-            )->warning();
-            return Redirect::to('login');
-        }
+        if (auth()->check()) {
+            $lastActive = $this->session->get('last_active');
+            $now = time();
 
-        $is_logged_in ? $this->session->put('last_active',Carbon::now()->timestamp) : $this->session->forget('last_active');
+            if ($lastActive && ($now - (int) $lastActive) > $this->timeout) {
+                $this->session->forget('last_active');
+                $this->session->flush();
+                auth()->logout();
+
+                flash('Due to inactivity you have been logged out')->warning();
+                return redirect()->guest('login');
+            }
+
+            if ($request->path() !== 'logout') {
+                $this->session->put('last_active', $now);
+            } else {
+                $this->session->forget('last_active');
+            }
+        }
 
         return $next($request);
     }

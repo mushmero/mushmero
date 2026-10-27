@@ -25,7 +25,7 @@ class VisitorsLogController extends Controller
     public function index()
     {
         $data = array();
-        $array = Visitors::all()->sortByDesc("created_at");
+        $array = Visitors::latest()->limit(500)->get();
 
         $heads = [
             'User IP',

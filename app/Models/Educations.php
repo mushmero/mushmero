@@ -51,7 +51,7 @@ class Educations extends Model
 
     public function persona()
     {
-        return $this->belongsTo('App\Models\Personal','id','personal_id');
+        return $this->belongsTo(Personal::class, 'personal_id', 'id');
     }
 
     public function user()

@@ -95,12 +95,18 @@ class InterestsController extends Controller
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Interests::create([
             'name' => $data['name'],
             'user_id' => auth()->user()->id,
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -161,28 +167,31 @@ class InterestsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $interest = Interests::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $interest->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+
         $data['name'] = $request->input('name');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Interests::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Interest updated successfully',
-            )->success();
-        }else{
-            flash(
-                'error',
-                'Unable to update Interest',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $interest->update($data);
+
+        if($update){
+            flash('Interest updated successfully')->success();
+        }else{
+            flash('Unable to update Interest')->error();
+        }
+
+        return redirect()->route('interests');
     }
 
     /**
@@ -193,10 +202,13 @@ class InterestsController extends Controller
      */
     public function destroy($id)
     {
-        Interests::find($id)->delete();
-        flash(
-            'Interest deleted successfully',
-        )->success();
+        $interest = Interests::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $interest->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $interest->delete();
+        flash('Interest deleted successfully')->success();
         return redirect()->route('interests');
     }
 }

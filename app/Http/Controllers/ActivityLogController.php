@@ -31,7 +31,7 @@ class ActivityLogController extends Controller
     public function index()
     {
         $data = array();
-        $array = ActivityLog::all()->sortByDesc("created_at");
+        $array = ActivityLog::with('user')->latest()->limit(500)->get();
 
         $heads = [
             'User',
@@ -42,8 +42,12 @@ class ActivityLogController extends Controller
         ];
 
         foreach($array as $arr){
+            $userName = 'System';
+            if (!is_null($arr->causer_id)) {
+                $userName = $arr->user ? $arr->user->name : 'Deleted User';
+            }
             $data[] = array(
-                !is_null($arr->causer_id) ? $arr->user->name : 'System',
+                $userName,
                 $arr->log_name,
                 $arr->description,
                 Helper::formatDate($arr->created_at),

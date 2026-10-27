@@ -98,13 +98,19 @@ class ObjectivesController extends Controller
             'is_active' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Objectives::create([
             'content' => $data['content'],
             'is_active' => $data['is_active'] == true ? 1 : 0,
             'user_id' => auth()->user()->id,
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -165,29 +171,33 @@ class ObjectivesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $objective = Objectives::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $objective->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'content' => 'required',
             'is_active' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+
         $data['content'] = $request->input('content');
         $data['is_active'] = $request->input('is_active') == true ? 1 : 0;
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Objectives::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Objective updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Objective',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $objective->update($data);
+
+        if($update){
+            flash('Objective updated successfully')->success();
+        }else{
+            flash('Unable to update Objective')->error();
+        }
+
+        return redirect()->route('objectives');
     }
 
     /**
@@ -198,10 +208,13 @@ class ObjectivesController extends Controller
      */
     public function destroy($id)
     {
-        Objectives::find($id)->delete();
-        flash(
-            'Objective deleted successfully',
-        )->success();
+        $objective = Objectives::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $objective->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $objective->delete();
+        flash('Objective deleted successfully')->success();
         return redirect()->route('objectives');
     }
 }

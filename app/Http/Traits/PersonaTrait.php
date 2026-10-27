@@ -5,50 +5,67 @@ namespace App\Http\Traits;
 use App\Helpers\Helper;
 use App\Models\Personal;
 use App\Models\User;
-use IlluminateAgnostic\Collection\Support\Carbon;
+use Carbon\Carbon;
 
 trait PersonaTrait
 {
     public static function checkPersona()
     {
-        $persona = Personal::where(['status' => 1, 'user_id' => 1])->get();
+        $userId = auth()->id() ?? (User::first()?->id ?? 1);
+        $persona = Personal::where(['status' => 1, 'user_id' => $userId])->get();
+        if ($persona->isEmpty()) {
+            $persona = Personal::where('status', 1)->get();
+        }
         return $persona;
     }
 
     public static function getActivePersonaByAuthUser()
     {
+        if (!auth()->check()) {
+            return null;
+        }
         $persona = Personal::withTrashed()->where(['status' => 1, 'user_id' => auth()->user()->id])->first();
+        if (!$persona) {
+            $persona = Personal::withTrashed()->where('status', 1)->first();
+        }
         return $persona;
     }
 
-    public static function countActiveStatusByUser($id)
+    public static function countActiveStatusByUser($id = null)
     {
-        if ($id == '')
-            return false;
-        $result = Personal::where(['status' => 1, 'user_id' => $id])->get();
-        return $result->count();
+        $id = $id ?? (auth()->id() ?? (User::first()?->id ?? 1));
+        return Personal::where(['status' => 1, 'user_id' => $id])->count();
     }
 
-    public static function getActivePersonaInformations()
+    public static function getActivePersonaInformations($userId = null)
     {
+        $userId = $userId ?? (auth()->id() ?? (User::first()?->id ?? 1));
         $persona = Personal::with(['attachments', 'educations', 'experiences', 'interests', 'languages', 'objectives', 'projects', 'skills', 'socials'])
-            ->where(['status' => 1, 'user_id' => 1])->first();
+            ->where(['status' => 1, 'user_id' => $userId])->first();
+        if (!$persona) {
+            $persona = Personal::with(['attachments', 'educations', 'experiences', 'interests', 'languages', 'objectives', 'projects', 'skills', 'socials'])
+                ->where('status', 1)->first();
+        }
         return $persona;
     }
 
     public static function deletePersona($id)
     {
-        $delete = [
-            'deleted_at' => Carbon::now(),
-            'deleted_by' => auth()->user()->id,
-        ];
-        Personal::where('id', $id)->update($delete);
+        $persona = Personal::findOrFail($id);
+        if (auth()->check()) {
+            $persona->deleted_by = auth()->user()->id;
+            $persona->save();
+        }
+        $persona->delete();
         return true;
     }
+
     public static function restorePersona($id)
     {
-        Personal::withTrashed()->where('id', $id)->update(['deleted_by' => '']);
-        Personal::withTrashed()->where('id', $id)->restore();
+        $persona = Personal::withTrashed()->findOrFail($id);
+        $persona->deleted_by = null;
+        $persona->save();
+        $persona->restore();
         return true;
     }
 }

@@ -136,14 +136,14 @@ class EducationsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:settings_educations',
+            'name' => 'required|unique:settings_educations,name,' . $id,
             'level' => 'required',
         ]);
         
         $data['name'] = $request->input('name');
         $data['level'] = $request->input('level');
 
-        $update = SettingsEducations::find($id)->update($data);
+        $update = SettingsEducations::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -166,7 +166,7 @@ class EducationsController extends Controller
      */
     public function destroy($id)
     {
-        SettingsEducations::find($id)->delete();
+        SettingsEducations::findOrFail($id)->delete();
         flash(
             'Edulevel deleted successfully',
         )->success();

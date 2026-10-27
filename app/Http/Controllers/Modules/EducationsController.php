@@ -118,16 +118,22 @@ class EducationsController extends Controller
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Educations::create([
             'name' => $data['name'],
-            'institution' => $data['institution'],
-            'start' => $data['startDate'],
-            'end' => $data['endDate'],
-            'level_id' => $data['level'],
+            'institution' => $data['institution'] ?? null,
+            'start' => $data['startDate'] ?? null,
+            'end' => $data['endDate'] ?? null,
+            'level_id' => $data['level'] ?? null,
             'user_id' => auth()->user()->id,
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -204,31 +210,35 @@ class EducationsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $education = Educations::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $education->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
         ]);
+
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
 
         $data['name'] = $request->input('name');
         $data['institution'] = $request->input('institution');
         $data['start'] = $request->input('startDate');
         $data['end'] = $request->input('endDate');
         $data['level_id'] = $request->input('level');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Educations::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Education updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Education',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $education->update($data);
+
+        if($update){
+            flash('Education updated successfully')->success();
+        }else{
+            flash('Unable to update Education')->error();
+        }
+
+        return redirect()->route('educations');
     }
 
     /**
@@ -239,10 +249,13 @@ class EducationsController extends Controller
      */
     public function destroy($id)
     {
-        Educations::find($id)->delete();
-        flash(
-            'Education deleted successfully',
-        )->success();
+        $education = Educations::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $education->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $education->delete();
+        flash('Education deleted successfully')->success();
         return redirect()->route('educations');
     }
 }

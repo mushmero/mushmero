@@ -122,14 +122,20 @@ class ProjectsController extends Controller
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Projects::create([
             'name' => $data['name'],
-            'status_id' => $data['status'],
+            'status_id' => $data['status'] ?? null,
             'user_id' => auth()->user()->id,
-            'description' => $data['description'],
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'description' => $data['description'] ?? null,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -228,29 +234,33 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $project = Projects::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+
         $data['name'] = $request->input('name');
         $data['status_id'] = $request->input('status');
         $data['description'] = $request->input('description');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Projects::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Project updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Project',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $project->update($data);
+
+        if($update){
+            flash('Project updated successfully')->success();
+        }else{
+            flash('Unable to update Project')->error();
+        }
+
+        return redirect()->route('projects');
     }
 
     /**
@@ -261,10 +271,13 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        Projects::find($id)->delete();
-        flash(
-            'Project deleted successfully',
-        )->success();
+        $project = Projects::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $project->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $project->delete();
+        flash('Project deleted successfully')->success();
         return redirect()->route('projects');
     }
 }

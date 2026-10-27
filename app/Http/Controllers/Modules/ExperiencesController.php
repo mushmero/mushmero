@@ -125,16 +125,22 @@ class ExperiencesController extends Controller
             'position' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Experiences::create([
             'position' => $data['position'],
-            'start' => $data['startDate'],
-            'end' => !empty($data['current']) ? $data['current'] : $data['endDate'],
-            'employer' => $data['employer'],
+            'start' => $data['startDate'] ?? null,
+            'end' => !empty($data['current']) ? $data['current'] : ($data['endDate'] ?? null),
+            'employer' => $data['employer'] ?? null,
             'user_id' => auth()->user()->id,
-            'description' => $data['description'],
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'description' => $data['description'] ?? null,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -237,31 +243,35 @@ class ExperiencesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $experience = Experiences::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $experience->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'position' => 'required',
         ]);
+
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
 
         $data['position'] = $request->input('position');
         $data['employer'] = $request->input('employer');
         $data['start'] = $request->input('startDate');
         $data['end'] = !empty($request->input('current')) ? $request->input('current') : $request->input('endDate');
         $data['description'] = $request->input('description');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Experiences::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Experience updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Experience',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $experience->update($data);
+
+        if($update){
+            flash('Experience updated successfully')->success();
+        }else{
+            flash('Unable to update Experience')->error();
+        }
+
+        return redirect()->route('experiences');
     }
 
     /**
@@ -272,10 +282,13 @@ class ExperiencesController extends Controller
      */
     public function destroy($id)
     {
-        Experiences::find($id)->delete();
-        flash(
-            'Experience deleted successfully',
-        )->success();
+        $experience = Experiences::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $experience->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $experience->delete();
+        flash('Experience deleted successfully')->success();
         return redirect()->route('experiences');
     }
 }

@@ -97,8 +97,14 @@ class SkillsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'percentage' => 'required|min:1|max:100',
+            'percentage' => 'required|numeric|min:0|max:100',
         ]);
+
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
 
         $data = $request->all();
 
@@ -106,8 +112,8 @@ class SkillsController extends Controller
             'name' => $data['name'],
             'percentage' => $data['percentage'],
             'user_id' => auth()->user()->id,
-            'icon_id' => $data['icon'],
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'icon_id' => $data['icon'] ?? null,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -170,18 +176,26 @@ class SkillsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $skill = Skills::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $skill->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
-            'percentage' => 'required|min:1|max:100',
+            'percentage' => 'required|numeric|min:0|max:100',
         ]);
+
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
 
         $data['name'] = $request->input('name');
         $data['percentage'] = $request->input('percentage');
-        $data['user_id'] = auth()->user()->id;
-        $data['icon_id'] = $request->input('icon');
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
+        $data['icon_id'] = $request->input('icon') ?? $skill->icon_id;
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
+        }
 
-        $update = Skills::find($id)->update($data);
+        $update = $skill->update($data);
 
         if($update){
             flash(
@@ -204,10 +218,13 @@ class SkillsController extends Controller
      */
     public function destroy($id)
     {
-        Skills::find($id)->delete();
-        flash(
-            'Skill deleted successfully',
-        )->success();
+        $skill = Skills::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $skill->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $skill->delete();
+        flash('Skill deleted successfully')->success();
         return redirect()->route('skills');
     }
 }

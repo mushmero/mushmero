@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 //         Route::get('/auth/check',function(){
 //             return (Auth::check()) ? True : False;
 //         });
-//         Auth::routes();
+//         Auth::routes(['register' => false]);
 //         Route::middleware(['auth'])->group(static function () {
 //             Route::middleware('permission')->group(static function () {
 //                 Route::namespace('App\Http\Controllers')->group(static function () {
@@ -221,14 +221,14 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 // Route::get('/verify/{token}', 'App\Http\Controllers\VerifyController@VerifyEmail')->name('verify');
-// Route::get('/change-password', 'App\Http\Controllers\Auth\LoginController@changePassword')->name('change-password');
-// Route::post('/change-password', 'App\Http\Controllers\Auth\LoginController@storePassword')->name('change-password');
+Route::get('/change-password', 'App\Http\Controllers\Auth\LoginController@changePassword')->name('change-password');
+Route::post('/change-password', 'App\Http\Controllers\Auth\LoginController@storePassword')->name('change-password.store');
 Route::get('/', 'App\Http\Controllers\WelcomeController@index')->name('welcome');
-// Route::post('/', 'App\Http\Controllers\WelcomeController@store')->name('welcome.contact.store');
+Route::post('/', 'App\Http\Controllers\WelcomeController@store')->name('welcome.contact.store');
 Route::get('/auth/check',function(){
     return (Auth::check()) ? True : False;
 });
-Auth::routes();
+Auth::routes(['register' => false]);
 Route::middleware(['auth'])->group(static function () {
     // Route::middleware('permission')->group(static function () {
     // });
@@ -242,10 +242,6 @@ Route::middleware(['auth'])->group(static function () {
             Route::get('/', 'VisitorsLogController@index')->name('visitors');
             Route::get('/{id}/show', 'VisitorsLogController@show')->name('visitors.show');
         });
-        Route::prefix('/leads')->group(static function(){
-            Route::get('/', 'LeadsController@index')->name('leads');
-            Route::get('/{id}/show', 'LeadsController@show')->name('leads.show');
-        });
         Route::namespace('User')->group(static function(){
             Route::prefix('/settings_users')->group(static function(){
                 Route::get('/', 'UsersController@index')->name('users');
@@ -254,27 +250,10 @@ Route::middleware(['auth'])->group(static function () {
                 Route::get('/{id}/edit', 'UsersController@edit')->name('users.edit');
                 Route::put('/{id}', 'UsersController@update')->name('users.update');
                 Route::get('/{id}/show', 'UsersController@show')->name('users.show');
+                Route::delete('/{id}', 'UsersController@destroy')->name('users.destroy');
                 Route::get('/{id}/delete', 'UsersController@destroy')->name('users.delete');
                 Route::get('/{id}/restore', 'UsersController@restore')->name('users.restore');
-            });        
-            Route::prefix('/settings_roles')->group(static function(){
-                Route::get('/', 'RolesController@index')->name('roles');
-                Route::post('/', 'RolesController@store')->name('roles.store');
-                Route::get('/create', 'RolesController@create')->name('roles.create');
-                Route::get('/{id}/edit', 'RolesController@edit')->name('roles.edit');
-                Route::put('/{id}', 'RolesController@update')->name('roles.update');
-                Route::get('/{id}/show', 'RolesController@show')->name('roles.show');
-                Route::get('/{id}/delete', 'RolesController@destroy')->name('roles.delete');
-            });   
-            Route::prefix('/settings_permissions')->group(static function(){
-                Route::get('/', 'PermissionsController@index')->name('permissions');
-                Route::post('/', 'PermissionsController@store')->name('permissions.store');
-                Route::get('/create', 'PermissionsController@create')->name('permissions.create');
-                Route::get('/{id}/edit', 'PermissionsController@edit')->name('permissions.edit');
-                Route::put('/{id}', 'PermissionsController@update')->name('permissions.update');
-                Route::get('/{id}/show', 'PermissionsController@show')->name('permissions.show');
-                Route::get('/{id}/delete', 'PermissionsController@destroy')->name('permissions.delete');
-            });   
+            });
         });
         Route::namespace('Settings')->group(static function(){     
             Route::prefix('/settings_social')->group(static function(){
@@ -428,11 +407,6 @@ Route::middleware(['auth'])->group(static function () {
         });
         Route::get('/getAllCountries', 'HomeController@getCountryList');
         Route::get('/getVisitorByCountry', 'HomeController@getVisitorByCountry');
-        Route::prefix('/leads')->group(static function(){
-            Route::get('/generatelink', 'LeadsController@generatelink');
-            Route::get('/checkLinkExistById', 'LeadsController@checkLinkExist');
-            Route::post('/activateLink', 'LeadsController@activateLink');
-        });
         Route::namespace('Settings')->group(static function(){
             Route::prefix('/settings_template')->group(static function(){
                 Route::get('/generate/{id}/pdf', 'TemplatesController@generatePDF');

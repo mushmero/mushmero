@@ -102,14 +102,20 @@ class SocialsController extends Controller
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Socials::create([
             'name' => $data['name'],
-            'link' => $data['link'],
-            'icon_id' => $data['icon'],
+            'link' => $data['link'] ?? null,
+            'icon_id' => $data['icon'] ?? null,
             'user_id' => auth()->user()->id,
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -172,29 +178,33 @@ class SocialsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $social = Socials::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $social->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+
         $data['name'] = $request->input('name');
         $data['link'] = $request->input('link');
         $data['icon_id'] = $request->input('icon');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Socials::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Social updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Social',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $social->update($data);
+
+        if($update){
+            flash('Social updated successfully')->success();
+        }else{
+            flash('Unable to update Social')->error();
+        }
+
+        return redirect()->route('socials');
     }
 
     /**
@@ -205,10 +215,13 @@ class SocialsController extends Controller
      */
     public function destroy($id)
     {
-        Socials::find($id)->delete();
-        flash(
-            'Social deleted successfully',
-        )->success();
+        $social = Socials::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $social->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $social->delete();
+        flash('Social deleted successfully')->success();
         return redirect()->route('socials');
     }
 }

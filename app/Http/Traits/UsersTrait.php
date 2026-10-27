@@ -190,18 +190,21 @@ trait UsersTrait
 
     public static function delete($id)
     {
-        $delete = [
-            'deleted_at' => Carbon::now(),
-            'deleted_by' => auth()->user()->id,
-        ];
-        User::where('id',$id)->update($delete);
+        $user = User::findOrFail($id);
+        if (auth()->check()) {
+            $user->deleted_by = auth()->user()->id;
+            $user->save();
+        }
+        $user->delete();
         return true;
     }
 
     public static function restore($id)
     {
-        User::withTrashed()->where('id', $id)->update(['deleted_by' => '']);
-        User::withTrashed()->where('id', $id)->restore();
+        $user = User::withTrashed()->findOrFail($id);
+        $user->deleted_by = null;
+        $user->save();
+        $user->restore();
         return true;
     }
     

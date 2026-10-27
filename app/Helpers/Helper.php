@@ -15,10 +15,14 @@ class Helper
 {    
 	public static function appVer()
 	{
-		$appsVersion = AppsVersion::first();
-		if(!empty($appsVersion)){
-			$version = $appsVersion->major.'.'.$appsVersion->minor.'.'.$appsVersion->build.'_'.$appsVersion->date.' '.$appsVersion->uuid;
-		}else{
+		try {
+			$appsVersion = AppsVersion::first();
+			if(!empty($appsVersion)){
+				$version = $appsVersion->major.'.'.$appsVersion->minor.'.'.$appsVersion->build.'_'.$appsVersion->date.' '.$appsVersion->uuid;
+			}else{
+				$version = '1.0.0';
+			}
+		} catch (\Throwable $e) {
 			$version = '1.0.0';
 		}
 		return $version;
@@ -58,37 +62,36 @@ class Helper
         return $prefix;
     }
 
-    // public static function getModulesFromRoute()
-    // {
-    //     $modules = array();
-    //     $routes = Route::getRoutes()->getRoutes();
+    public static function getModulesFromRoute()
+    {
+        $modules = array();
+        $routes = Route::getRoutes()->getRoutes();
 
-    //     foreach($routes as $route){
-	// 		if(is_array($route->getAction()['middleware'])){
-	// 			if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $route->getAction()['middleware']) && !in_array('verify.subdomain', $route->getAction()['middleware'])) {
-	// 				$modules[] = $route->getName();
-	// 			}
-	// 		}
-    //     }
-    //     return $modules;
-    // }
+        foreach($routes as $route){
+            $middleware = $route->getAction()['middleware'] ?? [];
+            if(is_array($middleware)){
+                if ($route->getName() != '' && $route->uri() != '/' && in_array('permission', $middleware)) {
+                    $modules[] = $route->getName();
+                }
+            }
+        }
+        return $modules;
+    }
 
-	// public static function getSystemModules()
-	// {
-	// 	$systemModules = [
-	// 		'adminlte.darkmode.toggle',
-	// 		'sanctum.csrf-cookie',
-	// 		'login',
-	// 		'logout',
-	// 		'register',
-	// 		'password.request',
-	// 		'password.email',
-	// 		'password.reset',
-	// 		'password.update',
-	// 		'password.confirm',
-	// 	];
-	// 	return $systemModules;
-	// }
+    public static function getSystemModules()
+    {
+        return [
+            'adminlte.darkmode.toggle',
+            'sanctum.csrf-cookie',
+            'login',
+            'logout',
+            'password.request',
+            'password.email',
+            'password.reset',
+            'password.update',
+            'password.confirm',
+        ];
+    }
 
     public static function formatDate($date, $timezone = 'Asia/Kuala_Lumpur', $format = 'd-m-Y H:i:s')
     {

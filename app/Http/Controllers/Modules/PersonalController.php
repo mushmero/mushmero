@@ -34,14 +34,11 @@ class PersonalController extends Controller
     public function index()
     {
         $data = array();
-        // $authUserRoles = auth()->user()->roles->pluck('name');
-        // foreach ($authUserRoles as $authUserRole) {
-            // if ($authUserRole == 'Superadmin') {
-                $array = Personal::get();
-        //     } else {
-        //         $array = Personal::withTrashed()->where(['user_id' => auth()->user()->id])->get();
-        //     }
-        // }
+        $user = auth()->user();
+        $array = Personal::with(['attachments', 'user'])->where('user_id', $user->id)->get();
+        if ($array->isEmpty()) {
+            $array = Personal::with(['attachments', 'user'])->get();
+        }
 
         $heads = [
             'Profile',
@@ -51,11 +48,16 @@ class PersonalController extends Controller
         ];
 
         foreach ($array as $arr) {
+            $imgSrc = ($arr->attachments && $arr->attachments->path && $arr->attachments->filename) 
+                ? url($arr->attachments->path . '/' . $arr->attachments->filename) 
+                : url('assets/images/user.png');
+            $altName = $arr->attachments->altname ?? 'Avatar';
+            $userName = $arr->user ? $arr->user->name : 'N/A';
 
             $data[] = array(
-                '<div class="row"><div class="col-1"><img src="' . url($arr->attachments->path . '/' . $arr->attachments->filename) . '" alt="' . $arr->attachments->altname . '" width="50" height="50" class="img-center"></div><div class="col-11">' . $arr->fullname . '&nbsp;' . (!empty($arr->tagline) ? '(' . $arr->tagline . ')' : '') . (!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;' . $arr->phone : '') . (!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;' . $arr->email : '') . (!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;' . $arr->website : '') . '</div></div>',
+                '<div class="row"><div class="col-1"><img src="' . $imgSrc . '" alt="' . $altName . '" width="50" height="50" class="img-center"></div><div class="col-11">' . e($arr->fullname) . '&nbsp;' . (!empty($arr->tagline) ? '(' . e($arr->tagline) . ')' : '') . (!empty($arr->phone) ? '<br><i class="fa-fw fas fa-mobile-alt"></i>&nbsp;' . e($arr->phone) : '') . (!empty($arr->email) ? '&nbsp;<i class="fa-fw fas fa-envelope"></i>&nbsp;' . e($arr->email) : '') . (!empty($arr->website) ? '<br><i class="fa-fw fas fa-globe"></i>&nbsp;' . e($arr->website) : '') . '</div></div>',
                 '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="activeSwitch' . $arr->id . '" name="activeSwitch' . $arr->id . '" onchange="switchAjax(' . $arr->id . ')" ' . ($arr->status == 1 ? "checked" : "") . ' ' . (auth()->user()->id != $arr->user_id ? 'disabled' : '') . ' /><label class="active_switch custom-control-label" for="activeSwitch' . $arr->id . '">' . ($arr->status == 1 ? "Active" : "Inactive") . '</label></div>',
-                $arr->user->name,
+                e($userName),
                 '<nobr><a class="' . (!$arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/restore') . '">' . $this->btnRestore . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/edit') . '">' . $this->btnEdit . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/delete') . '">' . $this->btnDelete . '</a><a class="' . ($arr->trashed() ? 'disabled' : '') . '" href="' . url('personal/' . $arr->id . '/show') . '">' . $this->btnDetails . '</a></nobr>',
             );
         }
@@ -139,10 +141,12 @@ class PersonalController extends Controller
      */
     public function show($id)
     {
-        $data = Personal::where('id', $id)->firstOrFail();
+        $data = Personal::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $data->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
 
         $user = $data->user;
-
         $attachment = Attachments::find($data->attachment_id);
 
         return view('modules.personal.show', compact('data', 'user', 'attachment'));
@@ -156,7 +160,10 @@ class PersonalController extends Controller
      */
     public function edit($id)
     {
-        $data = Personal::where('id', $id)->firstOrFail();
+        $data = Personal::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $data->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
 
         $attachment = Attachments::find($data->attachment_id);
 
@@ -172,16 +179,21 @@ class PersonalController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $personal = Personal::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'fullname' => 'required',
-            'profilephoto' => 'image|mimes:png,jpg|max:5120',
+            'profilephoto' => 'nullable|image|mimes:png,jpg|max:5120',
         ]);
 
+        $data = [];
         if ($request->file('profilephoto')) {
             $uploadedFile = AttachmentsTrait::storeImage($request, 'profilephoto', 'uploads/personal', 'personal');
             if ($uploadedFile) {
-                $attachmentID = $uploadedFile->id;
-                $data['attachment_id'] = $attachmentID;
+                $data['attachment_id'] = $uploadedFile->id;
             }
         }
 
@@ -190,21 +202,16 @@ class PersonalController extends Controller
         $data['phone'] = $request->input('phone');
         $data['email'] = $request->input('email');
         $data['website'] = $request->input('website');
-        $data['user_id'] = auth()->user()->id;
 
-        $update = Personal::find($id)->update($data);
+        $update = $personal->update($data);
 
         if ($update) {
-            flash(
-                'Persona updated successfully',
-            )->success();
+            flash('Persona updated successfully')->success();
         } else {
-            flash(
-                'Unable to update Persona',
-            )->error();
+            flash('Unable to update Persona')->error();
         }
 
-        return back();
+        return redirect()->route('personal');
     }
 
     /**
@@ -215,19 +222,25 @@ class PersonalController extends Controller
      */
     public function destroy($id)
     {
+        $personal = Personal::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         PersonaTrait::deletePersona($id);
-        flash(
-            'Persona deleted successfully',
-        )->success();
+        flash('Persona deleted successfully')->success();
         return redirect()->route('personal');
     }
 
     public function restore($id)
     {
+        $personal = Personal::withTrashed()->findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         PersonaTrait::restorePersona($id);
-        flash(
-            'Persona restore successfully',
-        )->success();
+        flash('Persona restored successfully')->success();
         return redirect()->route('personal');
     }
 
@@ -247,11 +260,11 @@ class PersonalController extends Controller
         }
     }
 
-    public function updateStatusById(Request $request)
+    public function updateStatusById(Request $request, $id = null)
     {
-        $id = $request->input('id');
-        $data['status'] = $request->input('status');
-        Personal::find($id)->update($data);
-        return true;
+        $targetId = $id ?? $request->input('id');
+        $status = $request->input('status');
+        Personal::findOrFail($targetId)->update(['status' => $status]);
+        return response()->json(['success' => true]);
     }
 }

@@ -75,27 +75,23 @@ class LoginController extends Controller
 
     public function storePassword(Request $request)
     {
-        $this->validate($request, [
-            'password'=>'required|min:6|same:retype_password',
-            'retype_password' => 'required|min:6',
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8|same:retype_password',
+            'retype_password' => 'required|min:8',
         ]);
-        $data = $request->all();
-        $userdata = [
-            'password' => UsersTrait::generatePassword($data['password']),
-            'temp_pwd' => 0,
-        ];
-        $update = User::where(['email' => $data['email']])->update($userdata);
 
-        if($update){
-            flash(
-                'Successfully update new password',
-            )->success();
-            return redirect()->route('login');
-        }else{
-            flash(
-                'Unable to update password. Please contact admin.',
-            )->error();
+        $user = User::where('email', $request->email)->first();
+        if (!$user || $user->temp_pwd != 1) {
+            flash('Invalid or expired password reset request.')->error();
             return redirect()->route('login');
         }
+
+        $user->password = UsersTrait::generatePassword($request->password);
+        $user->temp_pwd = 0;
+        $user->save();
+
+        flash('Successfully updated your password. Please log in with your new password.')->success();
+        return redirect()->route('login');
     }
 }

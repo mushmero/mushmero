@@ -104,13 +104,19 @@ class LanguagesController extends Controller
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if (!$activePersona) {
+            flash('Please create or activate your Personal profile first.')->warning();
+            return redirect()->route('personal');
+        }
+
         $data = $request->all();
 
         $store = Languages::create([
             'name' => $data['name'],
-            'proficiency_id' => $data['proficiency'],
+            'proficiency_id' => $data['proficiency'] ?? null,
             'user_id' => auth()->user()->id,
-            'personal_id' => PersonaTrait::getActivePersonaByAuthUser()->id,
+            'personal_id' => $activePersona->id,
         ]);
 
         if($store){
@@ -177,28 +183,32 @@ class LanguagesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $language = Languages::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $language->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
         $this->validate($request, [
             'name' => 'required',
         ]);
 
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+
         $data['name'] = $request->input('name');
         $data['proficiency_id'] = $request->input('proficiency');
-        $data['user_id'] = auth()->user()->id;
-        $data['personal_id'] = PersonaTrait::getActivePersonaByAuthUser()->id;
-
-        $update = Languages::find($id)->update($data);
-
-        if($update){
-            flash(
-                'Language updated successfully',
-            )->success();
-        }else{
-            flash(
-                'Unable to update Language',
-            )->error();
+        if ($activePersona) {
+            $data['personal_id'] = $activePersona->id;
         }
 
-         return back();
+        $update = $language->update($data);
+
+        if($update){
+            flash('Language updated successfully')->success();
+        }else{
+            flash('Unable to update Language')->error();
+        }
+
+        return redirect()->route('languages');
     }
 
     /**
@@ -209,10 +219,13 @@ class LanguagesController extends Controller
      */
     public function destroy($id)
     {
-        Languages::find($id)->delete();
-        flash(
-            'Language deleted successfully',
-        )->success();
+        $language = Languages::findOrFail($id);
+        if (!auth()->user()->hasRole('Superadmin') && $language->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized.');
+        }
+
+        $language->delete();
+        flash('Language deleted successfully')->success();
         return redirect()->route('languages');
     }
 }

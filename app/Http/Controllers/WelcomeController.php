@@ -21,13 +21,19 @@ class WelcomeController extends Controller
         $data['author'] = 'Amirul Hakim';
         $data['description'] = 'Resumed is a powerful and user-friendly tool designed to help job seekers create professional resumes online quickly and easily';
 
-        if($this->checkPersona()->count() > 0){  
-            $activePersona = $this->getInformation();
-    
-            $data['profile-image'] = $activePersona->attachments->path.'/'.$activePersona->attachments->filename;
+        if($this->checkPersona()->count() > 0 && ($activePersona = $this->getInformation())){  
+            $data['profile-image'] = ($activePersona->attachments && $activePersona->attachments->path && $activePersona->attachments->filename)
+                ? $activePersona->attachments->path.'/'.$activePersona->attachments->filename
+                : 'assets/images/user.png';
             $data['name'] = $activePersona->fullname;
             $data['position'] = $activePersona->tagline;
-            $data['experiences'] = $activePersona->experiences->sortByDesc(function ($exp, $key){ return Carbon::createFromFormat('d/m/Y',$exp['start']); });    
+            $data['experiences'] = $activePersona->experiences->sortByDesc(function ($exp) {
+                try {
+                    return Carbon::createFromFormat('d/m/Y', $exp['start'] ?? '')->timestamp;
+                } catch (\Throwable $e) {
+                    return strtotime($exp['start'] ?? 'now');
+                }
+            });    
             $data['skills'] = $activePersona->skills->shuffle();
             $data['email'] = $activePersona->email;
             $data['phone'] = $activePersona->phone;
@@ -35,26 +41,23 @@ class WelcomeController extends Controller
             $data['educations'] = $activePersona->educations;
             $data['languages'] = $activePersona->languages;
 
-            if($activePersona->projects->count() > 0){
-                $projects = $activePersona->projects->shuffle()->toArray();
-                $interests = $activePersona->interests->shuffle()->toArray();
-    
-                foreach($projects as $project){
+            $interests_projects = [];
+            if($activePersona->projects && $activePersona->projects->count() > 0){
+                foreach($activePersona->projects->shuffle() as $project){
                     $interests_projects[] = array(
-                        'name' => $project['name'],
-                        'description' => $project['description'],
+                        'name' => $project->name ?? '',
+                        'description' => $project->description ?? '',
                     );
                 }
-    
-                foreach($interests as $interest){
+            }
+            if($activePersona->interests && $activePersona->interests->count() > 0){
+                foreach($activePersona->interests->shuffle() as $interest){
                     $interests_projects[] = array(
-                        'name' => $interest['name'],
+                        'name' => $interest->name ?? '',
                     );
                 }
-                $data['projects'] = $interests_projects; 
-            }else{
-                $data['projects'] = array();
-            }   
+            }
+            $data['projects'] = $interests_projects; 
             $data['socials'] = $activePersona->socials->shuffle();      
             return view('welcome.content.content', compact('data'));
         }else{
@@ -65,11 +68,11 @@ class WelcomeController extends Controller
     }
 
     public function saveVisitor(){
-        $data = Helper::visitor();
-        $store = Visitors::create($data);
-        if($store){
-            return true;
-        }else{
+        try {
+            $data = Helper::visitor();
+            $store = Visitors::create($data);
+            return (bool) $store;
+        } catch (\Throwable $e) {
             return false;
         }
     }

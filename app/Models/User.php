@@ -24,15 +24,14 @@ class User extends Authenticatable
         ->logOnly([
             'name',
             'email',
-            'password',
-            'email_token',
             'email_verify',
-            'temp_pwd',
             'created_at',
             'updated_at',
             'deleted_at',
             'deleted_by',
-        ]);
+        ])
+        ->logOnlyDirty()
+        ->dontSubmitEmptyLogs();
     }    
 
     /**
@@ -59,6 +58,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'email_token',
+        'temp_pwd',
     ];
 
     /**

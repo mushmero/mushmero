@@ -39,7 +39,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(PersonaTrait::getActivePersonaByAuthUser() != null && PersonaTrait::getActivePersonaByAuthUser()->count() > 0){
+        $activePersona = PersonaTrait::getActivePersonaByAuthUser();
+        if($activePersona !== null){
             return view('home', [
                 'inspiration' => $this->getQuotes(),
                 'profile' => $this->getProfile(),
@@ -220,6 +221,12 @@ class HomeController extends Controller
         ->whereNotNull('longitude')
         ->groupBy('country', 'countryCode')
         ->get();
+
+        $visitor = [];
+        $country = [];
+        $countryCode = [];
+        $latitude = [];
+        $longitude = [];
 
         foreach($visitors as $key => $value){
             $visitor[] = (int)$value->visitor;

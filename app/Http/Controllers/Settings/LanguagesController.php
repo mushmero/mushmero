@@ -132,12 +132,12 @@ class LanguagesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'proficiency' => 'required|unique:settings_languages',
+            'proficiency' => 'required|unique:settings_languages,proficiency,' . $id,
         ]);
         
         $data['proficiency'] = $request->input('proficiency');
 
-        $update = SettingsLanguage::find($id)->update($data);
+        $update = SettingsLanguage::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -160,7 +160,7 @@ class LanguagesController extends Controller
      */
     public function destroy($id)
     {
-        SettingsLanguage::find($id)->delete();
+        SettingsLanguage::findOrFail($id)->delete();
         flash(
             'Proficiency deleted successfully',
         )->success();

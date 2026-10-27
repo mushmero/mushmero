@@ -132,12 +132,12 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'status' => 'required|unique:settings_projects',
+            'status' => 'required|unique:settings_projects,status,' . $id,
         ]);
         
         $data['status'] = $request->input('status');
 
-        $update = SettingsProject::find($id)->update($data);
+        $update = SettingsProject::findOrFail($id)->update($data);
 
         if($update){
             flash(
@@ -160,7 +160,7 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        SettingsProject::find($id)->delete();
+        SettingsProject::findOrFail($id)->delete();
         flash(
             'Project status deleted successfully',
         )->success();
