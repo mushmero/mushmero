@@ -130,16 +130,12 @@ class TemplatesController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Template created successfully',
-            )->success();
+            flash('Template created successfully')->success();
+            return redirect()->route('settings_template');
         }else{
-            flash(
-                'Unable to create template',
-            )->error();
+            flash('Unable to create template')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -221,16 +217,12 @@ class TemplatesController extends Controller
         $update = SettingsTemplate::findOrFail($id)->update($data);
 
         if($update){
-            flash(
-                'Template updated successfully',
-            )->success();
+            flash('Template updated successfully')->success();
         }else{
-            flash(
-                'Unable to update template',
-            )->error();
+            flash('Unable to update template')->error();
         }
 
-         return back();
+        return redirect()->route('settings_template');
     }
 
     /**
@@ -250,7 +242,7 @@ class TemplatesController extends Controller
 
     public function preview($id)
     {
-        $template = SettingsTemplate::where('id', $id)->first();
+        $template = SettingsTemplate::findOrFail($id);
         if(PersonaTrait::checkPersona()->count() > 0){
             $content = $this->generateFullContent($template);
             $author = 'Amirul Hakim';
@@ -265,6 +257,9 @@ class TemplatesController extends Controller
     {
         $templateFields = Helper::templatefields();
         $content = PersonaTrait::getActivePersonaInformations();
+        if (!$content) {
+            return $template->design ?? '';
+        }
         $fullcontent = $template->design;
         foreach($templateFields as $field){
             if($field == 'main-color'){
@@ -337,7 +332,8 @@ class TemplatesController extends Controller
                 if(isset($content->socials)){
                     $social_info = '';
                     foreach($content->socials as $social){
-                        $social_info .= "<div class=\"row social text-color-primary\"><i class=\"".$social->allicons->fullname."\"></i><a class=\"text-color-primary\" href=\"".$social->link."\" target=\"_blank\"> ".$social->name."</a></div>";
+                        $iconClass = $social->allicons ? $social->allicons->fullname : 'fas fa-link';
+                        $social_info .= "<div class=\"row social text-color-primary\"><i class=\"".$iconClass."\"></i><a class=\"text-color-primary\" href=\"".$social->link."\" target=\"_blank\"> ".$social->name."</a></div>";
                     }
                     $fullcontent = Str::replace($field, $social_info, $fullcontent);
                 }
@@ -355,7 +351,8 @@ class TemplatesController extends Controller
                 if(isset($content->languages)){
                     $language_info = '';
                     foreach($content->languages as $language){
-                        $language_info .= "<div class=\"row lang-item text-color-primary\">".$language->name." (<span class=\"proficiency\">".$language->allproficiency->proficiency."</span>)</div>";
+                        $proficiencyName = $language->allproficiency ? $language->allproficiency->proficiency : '';
+                        $language_info .= "<div class=\"row lang-item text-color-primary\">".$language->name." (<span class=\"proficiency\">".$proficiencyName."</span>)</div>";
                     }
                     $fullcontent = Str::replace($field, $language_info, $fullcontent);
                 }

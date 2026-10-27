@@ -93,7 +93,7 @@ class LanguagesController extends Controller
             )->error();
         }
 
-        return back();
+        return redirect()->route('settings_language');
     }
 
     /**
@@ -149,7 +149,7 @@ class LanguagesController extends Controller
             )->error();
         }
 
-         return back();
+         return redirect()->route('settings_language');
     }
 
     /**

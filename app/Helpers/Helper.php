@@ -333,6 +333,7 @@ class Helper
 
 	public static function minifyCSSJS($source, $type)
 	{
+		if(empty($source)) return '';
 		if($type == null) return false;
 		if($type == 'css'){
 			$minifier = new Minify\CSS();

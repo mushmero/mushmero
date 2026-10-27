@@ -93,7 +93,7 @@ class ProjectsController extends Controller
             )->error();
         }
 
-        return back();
+        return redirect()->route('settings_project');
     }
 
     /**
@@ -149,7 +149,7 @@ class ProjectsController extends Controller
             )->error();
         }
 
-         return back();
+         return redirect()->route('settings_project');
     }
 
     /**

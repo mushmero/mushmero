@@ -96,7 +96,7 @@ class WelcomeController extends Controller
         }
 
         $store = Leads::create([
-            'name' => $data['name'],
+            'name' => $data['name'] ?? 'Visitor',
             'email' => $data['email'],
         ]);
 

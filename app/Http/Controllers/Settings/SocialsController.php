@@ -100,7 +100,7 @@ class SocialsController extends Controller
             )->error();
         }
 
-        return back();
+        return redirect()->route('settings_social');
     }
 
     /**
@@ -160,7 +160,7 @@ class SocialsController extends Controller
             )->error();
         }
 
-         return back();
+         return redirect()->route('settings_social');
     }
 
     /**

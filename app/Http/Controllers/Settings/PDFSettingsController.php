@@ -84,12 +84,12 @@ class PDFSettingsController extends Controller
 
         $store = SettingsPDF::create([
             'name' => $data['name'],
-            'margin_top' => $data['margin_top'],
-            'margin_bottom' => $data['margin_bottom'],
-            'margin_left' => $data['margin_left'],
-            'margin_right' => $data['margin_right'],
-            'header' => $data['header'],
-            'footer' => $data['footer'],
+            'margin_top' => $data['margin_top'] ?? null,
+            'margin_bottom' => $data['margin_bottom'] ?? null,
+            'margin_left' => $data['margin_left'] ?? null,
+            'margin_right' => $data['margin_right'] ?? null,
+            'header' => $data['header'] ?? null,
+            'footer' => $data['footer'] ?? null,
             'user_id' => auth()->user()->id,
         ]);
 
@@ -103,7 +103,7 @@ class PDFSettingsController extends Controller
             )->error();
         }
 
-        return back();
+        return redirect()->route('settings_pdf');
     }
 
     /**
@@ -168,7 +168,7 @@ class PDFSettingsController extends Controller
             )->error();
         }
 
-         return back();
+         return redirect()->route('settings_pdf');
     }
 
     /**

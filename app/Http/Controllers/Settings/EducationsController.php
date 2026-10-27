@@ -97,7 +97,7 @@ class EducationsController extends Controller
             )->error();
         }
 
-        return back();
+        return redirect()->route('settings_education');
     }
 
     /**
@@ -155,7 +155,7 @@ class EducationsController extends Controller
             )->error();
         }
 
-         return back();
+         return redirect()->route('settings_education');
     }
 
     /**

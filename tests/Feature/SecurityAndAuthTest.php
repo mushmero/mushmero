@@ -249,4 +249,156 @@ class SecurityAndAuthTest extends TestCase
         $res->assertSessionHasNoErrors();
         $this->assertDatabaseHas('objectives', ['id' => $obj->id, 'content' => 'Lead architecture teams']);
     }
+
+    /**
+     * Verify delete operations and show views across modules.
+     */
+    public function test_module_delete_and_show_operations(): void
+    {
+        $user = \App\Models\User::create([
+            'name' => 'Owner Delete',
+            'email' => 'owner_del@resumed.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $this->actingAs($user);
+
+        $persona = \App\Models\Personal::create([
+            'fullname' => 'Owner Del Persona',
+            'email' => 'owner_del@resumed.com',
+            'user_id' => $user->id,
+            'status' => 1,
+        ]);
+
+        $exp = \App\Models\Experiences::create([
+            'position' => 'Temporary Position',
+            'employer' => 'Short Corp',
+            'user_id' => $user->id,
+            'personal_id' => $persona->id,
+        ]);
+
+        // Test show
+        $showRes = $this->get('/experiences/' . $exp->id . '/show');
+        $showRes->assertStatus(200);
+
+        // Test delete
+        $delRes = $this->get('/experiences/' . $exp->id . '/delete');
+        $delRes->assertRedirect('/experiences');
+        $this->assertDatabaseMissing('experiences', ['id' => $exp->id]);
+    }
+
+    /**
+     * Verify CRUD operations on Settings lookups (education, language, project, social, pdf, template).
+     */
+    public function test_settings_lookups_crud(): void
+    {
+        $user = \App\Models\User::create([
+            'name' => 'Settings Admin',
+            'email' => 'settings_admin@resumed.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $this->actingAs($user);
+
+        // 1. Settings Education
+        $res = $this->post('/settings_education', ['name' => 'Master Degree', 'level' => 'Postgraduate']);
+        $res->assertSessionHasNoErrors();
+        $eduLevel = \App\Models\SettingsEducations::where('name', 'Master Degree')->first();
+        $this->assertNotNull($eduLevel);
+        $res = $this->put('/settings_education/' . $eduLevel->id, ['name' => 'Master of Science', 'level' => 'Postgraduate']);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_educations', ['id' => $eduLevel->id, 'name' => 'Master of Science']);
+
+        // 2. Settings Language
+        $res = $this->post('/settings_language', ['proficiency' => 'C2 Native']);
+        $res->assertSessionHasNoErrors();
+        $langLevel = \App\Models\SettingsLanguage::where('proficiency', 'C2 Native')->first();
+        $this->assertNotNull($langLevel);
+        $res = $this->put('/settings_language/' . $langLevel->id, ['proficiency' => 'C2 Fluent']);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_languages', ['id' => $langLevel->id, 'proficiency' => 'C2 Fluent']);
+
+        // 3. Settings Project Status
+        $res = $this->post('/settings_project', ['status' => 'Shipped']);
+        $res->assertSessionHasNoErrors();
+        $projStatus = \App\Models\SettingsProject::where('status', 'Shipped')->first();
+        $this->assertNotNull($projStatus);
+        $res = $this->put('/settings_project/' . $projStatus->id, ['status' => 'Production Live']);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_projects', ['id' => $projStatus->id, 'status' => 'Production Live']);
+
+        // 4. Settings Social Icon
+        $res = $this->post('/settings_social', ['name' => 'GitLab', 'fullname' => 'fab fa-gitlab', 'type' => 'brand']);
+        $res->assertSessionHasNoErrors();
+        $socialIcon = \App\Models\SettingsSocial::where('name', 'GitLab')->first();
+        $this->assertNotNull($socialIcon);
+        $res = $this->put('/settings_social/' . $socialIcon->id, ['name' => 'GitLab CE', 'fullname' => 'fab fa-gitlab', 'type' => 'brand']);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_socials', ['id' => $socialIcon->id, 'name' => 'GitLab CE']);
+
+        // 5. Settings PDF
+        $res = $this->post('/settings_pdf', ['name' => 'Custom Executive PDF', 'margin_top' => 10, 'margin_bottom' => 10]);
+        $res->assertSessionHasNoErrors();
+        $pdfSetting = \App\Models\SettingsPDF::where('name', 'Custom Executive PDF')->first();
+        $this->assertNotNull($pdfSetting);
+        $res = $this->put('/settings_pdf/' . $pdfSetting->id, ['name' => 'Custom Minimalist PDF', 'margin_top' => 15]);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_pdfs', ['id' => $pdfSetting->id, 'name' => 'Custom Minimalist PDF']);
+
+        // 6. Settings Template
+        $res = $this->post('/settings_template', [
+            'name' => 'Modern Minimalist',
+            'design' => '<div class="main-color profile-name profile-tagline"></div>',
+            'custom_css' => '',
+            'primary_colour' => 'bg-dark',
+            'secondary_colour' => 'bg-light',
+        ]);
+        if ($res->getSession() && $res->getSession()->get('errors')) {
+            fwrite(STDERR, "TEMPLATE ERRORS: " . json_encode($res->getSession()->get('errors')->all()) . "\n");
+        }
+        $template = \App\Models\SettingsTemplate::where('name', 'Modern Minimalist')->first();
+        $this->assertNotNull($template);
+        $res = $this->put('/settings_template/' . $template->id, [
+            'name' => 'Modern Dark',
+            'design' => '<div class="main-color profile-name profile-tagline"></div>',
+            'primary_colour' => 'bg-black',
+            'secondary_colour' => 'bg-light',
+        ]);
+        $res->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('settings_templates', ['id' => $template->id, 'name' => 'Modern Dark']);
+    }
+
+    /**
+     * Verify public landing page renders and leads submission endpoint works.
+     */
+    public function test_public_landing_and_leads_submission(): void
+    {
+        $user = \App\Models\User::create([
+            'name' => 'Public Creator',
+            'email' => 'creator@resumed.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $persona = \App\Models\Personal::create([
+            'fullname' => 'Alex Developer',
+            'tagline' => 'Full-Stack Engineer',
+            'email' => 'creator@resumed.com',
+            'user_id' => $user->id,
+            'status' => 1,
+        ]);
+
+        // Public page loads active persona
+        $response = $this->get('/');
+        $response->assertStatus(200);
+
+        // Submit leads interest form
+        $leadResponse = $this->postJson('/', [
+            'name' => 'Jane Recruiter',
+            'email' => 'jane.recruiter@hiring.com',
+        ]);
+
+        $leadResponse->assertStatus(200);
+        $leadResponse->assertJson(['success' => 'Thank you for your interest']);
+        $this->assertDatabaseHas('leads', ['email' => 'jane.recruiter@hiring.com']);
+    }
 }
