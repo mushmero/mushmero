@@ -28,6 +28,12 @@ trait PersonaTrait
         if (!$persona) {
             $persona = Personal::withTrashed()->where('status', 1)->first();
         }
+        if (!$persona) {
+            $persona = Personal::where('user_id', auth()->user()->id)->first();
+        }
+        if (!$persona) {
+            $persona = Personal::first();
+        }
         return $persona;
     }
 

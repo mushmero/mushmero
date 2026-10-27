@@ -144,16 +144,12 @@ class ExperiencesController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Experience created successfully',
-            )->success();
+            flash('Experience created successfully')->success();
+            return redirect()->route('experiences');
         }else{
-            flash(
-                'Unable to create Experience',
-            )->error();
+            flash('Unable to create Experience')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -244,7 +240,7 @@ class ExperiencesController extends Controller
     public function update(Request $request, $id)
     {
         $experience = Experiences::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $experience->user_id !== auth()->id()) {
+        if ($experience->user_id && $experience->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -283,7 +279,7 @@ class ExperiencesController extends Controller
     public function destroy($id)
     {
         $experience = Experiences::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $experience->user_id !== auth()->id()) {
+        if ($experience->user_id && $experience->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

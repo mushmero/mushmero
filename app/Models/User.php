@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, LogsActivity, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, LogsActivity, SoftDeletes, HasRoles;
 
     public function getActivitylogOptions(): LogOptions
     {

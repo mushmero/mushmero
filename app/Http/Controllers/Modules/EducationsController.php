@@ -137,16 +137,12 @@ class EducationsController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Education created successfully',
-            )->success();
+            flash('Education created successfully')->success();
+            return redirect()->route('educations');
         }else{
-            flash(
-                'Unable to create Education',
-            )->error();
+            flash('Unable to create Education')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -211,7 +207,7 @@ class EducationsController extends Controller
     public function update(Request $request, $id)
     {
         $education = Educations::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $education->user_id !== auth()->id()) {
+        if ($education->user_id && $education->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -250,7 +246,7 @@ class EducationsController extends Controller
     public function destroy($id)
     {
         $education = Educations::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $education->user_id !== auth()->id()) {
+        if ($education->user_id && $education->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

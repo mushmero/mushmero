@@ -119,16 +119,12 @@ class SocialsController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Social created successfully',
-            )->success();
+            flash('Social created successfully')->success();
+            return redirect()->route('socials');
         }else{
-            flash(
-                'Unable to create Social',
-            )->error();
+            flash('Unable to create Social')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -179,7 +175,7 @@ class SocialsController extends Controller
     public function update(Request $request, $id)
     {
         $social = Socials::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $social->user_id !== auth()->id()) {
+        if ($social->user_id && $social->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -216,7 +212,7 @@ class SocialsController extends Controller
     public function destroy($id)
     {
         $social = Socials::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $social->user_id !== auth()->id()) {
+        if ($social->user_id && $social->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

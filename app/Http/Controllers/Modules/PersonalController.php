@@ -142,7 +142,7 @@ class PersonalController extends Controller
     public function show($id)
     {
         $data = Personal::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $data->user_id !== auth()->id()) {
+        if ($data->user_id && $data->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -161,7 +161,7 @@ class PersonalController extends Controller
     public function edit($id)
     {
         $data = Personal::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $data->user_id !== auth()->id()) {
+        if ($data->user_id && $data->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -180,7 +180,7 @@ class PersonalController extends Controller
     public function update(Request $request, $id)
     {
         $personal = Personal::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+        if ($personal->user_id && $personal->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -223,7 +223,7 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         $personal = Personal::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+        if ($personal->user_id && $personal->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -235,7 +235,7 @@ class PersonalController extends Controller
     public function restore($id)
     {
         $personal = Personal::withTrashed()->findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $personal->user_id !== auth()->id()) {
+        if ($personal->user_id && $personal->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

@@ -48,7 +48,7 @@ return [
     */
 
     'google_fonts' => [
-        'allowed' => true,
+        'allowed' => env('ADMINLTE_GOOGLE_FONTS', true),
     ],
 
     /*

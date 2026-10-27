@@ -120,16 +120,12 @@ class LanguagesController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Language created successfully',
-            )->success();
+            flash('Language created successfully')->success();
+            return redirect()->route('languages');
         }else{
-            flash(
-                'Unable to create Language',
-            )->error();
+            flash('Unable to create Language')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -184,7 +180,7 @@ class LanguagesController extends Controller
     public function update(Request $request, $id)
     {
         $language = Languages::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $language->user_id !== auth()->id()) {
+        if ($language->user_id && $language->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -220,7 +216,7 @@ class LanguagesController extends Controller
     public function destroy($id)
     {
         $language = Languages::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $language->user_id !== auth()->id()) {
+        if ($language->user_id && $language->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

@@ -117,16 +117,12 @@ class SkillsController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Skill created successfully',
-            )->success();
+            flash('Skill created successfully')->success();
+            return redirect()->route('skills');
         }else{
-            flash(
-                'Unable to create Skill',
-            )->error();
+            flash('Unable to create Skill')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -177,7 +173,7 @@ class SkillsController extends Controller
     public function update(Request $request, $id)
     {
         $skill = Skills::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $skill->user_id !== auth()->id()) {
+        if ($skill->user_id && $skill->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -198,16 +194,12 @@ class SkillsController extends Controller
         $update = $skill->update($data);
 
         if($update){
-            flash(
-                'Skill updated successfully',
-            )->success();
+            flash('Skill updated successfully')->success();
         }else{
-            flash(
-                'Unable to update Skill',
-            )->error();
+            flash('Unable to update Skill')->error();
         }
 
-         return back();
+        return redirect()->route('skills');
     }
 
     /**
@@ -219,7 +211,7 @@ class SkillsController extends Controller
     public function destroy($id)
     {
         $skill = Skills::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $skill->user_id !== auth()->id()) {
+        if ($skill->user_id && $skill->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

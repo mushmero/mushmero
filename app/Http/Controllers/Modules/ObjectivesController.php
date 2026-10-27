@@ -114,16 +114,12 @@ class ObjectivesController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Objective created successfully',
-            )->success();
+            flash('Objective created successfully')->success();
+            return redirect()->route('objectives');
         }else{
-            flash(
-                'Unable to create Objective',
-            )->error();
+            flash('Unable to create Objective')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -172,7 +168,7 @@ class ObjectivesController extends Controller
     public function update(Request $request, $id)
     {
         $objective = Objectives::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $objective->user_id !== auth()->id()) {
+        if ($objective->user_id && $objective->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -209,7 +205,7 @@ class ObjectivesController extends Controller
     public function destroy($id)
     {
         $objective = Objectives::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $objective->user_id !== auth()->id()) {
+        if ($objective->user_id && $objective->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

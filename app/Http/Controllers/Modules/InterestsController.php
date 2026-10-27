@@ -110,16 +110,12 @@ class InterestsController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Interest created successfully',
-            )->success();
+            flash('Interest created successfully')->success();
+            return redirect()->route('interests');
         }else{
-            flash(
-                'Interest to create Skill',
-            )->error();
+            flash('Unable to create Interest')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -168,7 +164,7 @@ class InterestsController extends Controller
     public function update(Request $request, $id)
     {
         $interest = Interests::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $interest->user_id !== auth()->id()) {
+        if ($interest->user_id && $interest->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -203,7 +199,7 @@ class InterestsController extends Controller
     public function destroy($id)
     {
         $interest = Interests::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $interest->user_id !== auth()->id()) {
+        if ($interest->user_id && $interest->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 

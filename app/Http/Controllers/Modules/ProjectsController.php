@@ -139,16 +139,12 @@ class ProjectsController extends Controller
         ]);
 
         if($store){
-            flash(
-                'Project created successfully',
-            )->success();
+            flash('Project created successfully')->success();
+            return redirect()->route('projects');
         }else{
-            flash(
-                'Unable to create Project',
-            )->error();
+            flash('Unable to create Project')->error();
+            return back();
         }
-
-        return back();
     }
 
     /**
@@ -235,7 +231,7 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         $project = Projects::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $project->user_id !== auth()->id()) {
+        if ($project->user_id && $project->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
@@ -272,7 +268,7 @@ class ProjectsController extends Controller
     public function destroy($id)
     {
         $project = Projects::findOrFail($id);
-        if (!auth()->user()->hasRole('Superadmin') && $project->user_id !== auth()->id()) {
+        if ($project->user_id && $project->user_id != auth()->id()) {
             abort(403, 'Unauthorized.');
         }
 
