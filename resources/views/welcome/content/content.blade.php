@@ -80,7 +80,7 @@
         <div id="skills-me">
             @foreach ($data['skills'] as $skill)
                 <skill-block>
-                    <i class="{{ $skill->allicons->fullname }} fa-8x"></i> <span>{{ $skill->name }}</span>
+                    <i class="{{ $skill->allicons->fullname ?? 'fas fa-code' }} fa-8x"></i> <span>{{ $skill->name }}</span>
                 </skill-block>                
             @endforeach
         </div>

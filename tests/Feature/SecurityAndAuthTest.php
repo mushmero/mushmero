@@ -401,4 +401,51 @@ class SecurityAndAuthTest extends TestCase
         $leadResponse->assertJson(['success' => 'Thank you for your interest']);
         $this->assertDatabaseHas('leads', ['email' => 'jane.recruiter@hiring.com']);
     }
+
+    /**
+     * Verify DemoDataSeeder executes cleanly and renders the demo resume on the public page.
+     */
+    public function test_demo_data_seeder_executes_cleanly_and_renders_public_page(): void
+    {
+        $seeder = new \Database\Seeders\DemoDataSeeder();
+        $seeder->run();
+
+        // 1. Verify Demo User
+        $user = \App\Models\User::where('email', 'demo@resumed.com')->first();
+        $this->assertNotNull($user);
+        $this->assertTrue(\Illuminate\Support\Facades\Hash::check('demo123', $user->password));
+
+        // 2. Verify Demo Persona
+        $persona = \App\Models\Personal::where('email', 'demo.alex@resumed.com')->first();
+        $this->assertNotNull($persona);
+        $this->assertEquals(1, $persona->status);
+        $this->assertEquals($user->id, $persona->user_id);
+
+        // 3. Verify Seeded Modules
+        $this->assertGreaterThanOrEqual(3, \App\Models\Experiences::where('personal_id', $persona->id)->count());
+        $this->assertGreaterThanOrEqual(5, \App\Models\Skills::where('personal_id', $persona->id)->count());
+        $this->assertGreaterThanOrEqual(2, \App\Models\Projects::where('personal_id', $persona->id)->count());
+        $this->assertGreaterThanOrEqual(1, \App\Models\Educations::where('personal_id', $persona->id)->count());
+        $this->assertGreaterThanOrEqual(3, \App\Models\Socials::where('personal_id', $persona->id)->count());
+        $this->assertGreaterThanOrEqual(2, \App\Models\Languages::where('personal_id', $persona->id)->count());
+        $this->assertNotNull(\App\Models\Objectives::where('personal_id', $persona->id)->first());
+
+        // 4. Verify Public Page Renders Demo Persona
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('Alex Morgan');
+        $response->assertSee('Senior Full-Stack &amp; Cloud Architect', false);
+
+        // 5. Verify Demo User Can Log In and Access Dashboard
+        $this->actingAs($user);
+        $homeRes = $this->get('/home');
+        $homeRes->assertStatus(200);
+
+        // 6. Verify Template Preview Renders with Seeded Template
+        $template = \App\Models\SettingsTemplate::where('name', 'Modern Professional')->first();
+        $this->assertNotNull($template);
+        $previewRes = $this->get('/settings_template/' . $template->id . '/preview');
+        $previewRes->assertStatus(200);
+        $previewRes->assertSee('Alex Morgan');
+    }
 }
