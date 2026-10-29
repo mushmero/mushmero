@@ -207,7 +207,6 @@ class DemoDataSeeder extends Seeder
             [
                 'name' => 'Demo User',
                 'password' => Hash::make('demo123'),
-                'is_admin' => 1,
                 'created_at' => Carbon::now(),
             ]
         );
