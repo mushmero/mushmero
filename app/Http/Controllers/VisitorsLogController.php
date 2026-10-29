@@ -18,6 +18,12 @@ class VisitorsLogController extends Controller
     public function __construct()
     {
         $this->middleware('autologout');
+        $this->middleware(function ($request, $next) {
+            if (\Illuminate\Support\Facades\Gate::denies('view-logs')) {
+                abort(403, 'Logs are not accessible for demo users.');
+            }
+            return $next($request);
+        });
         $this->btnEdit = config('adminlte.btn-edit');
         $this->btnDelete = config('adminlte.btn-delete');
         $this->btnDetails = config('adminlte.btn-view');

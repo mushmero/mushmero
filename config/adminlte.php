@@ -399,6 +399,7 @@ return [
         [
             'text'  =>  'logs',
             'icon'  =>  'fas fa-fw fa-list',
+            'can'   =>  'view-logs',
             'submenu'   =>  [
                 [
                     'text'  =>  'user_access',

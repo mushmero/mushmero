@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Gate::define('view-logs', function ($user) {
+            return !config('app.is_demo') && $user->email !== 'demo@resumed.com';
+        });
+
+        Gate::define('delete-user', function ($user, $targetUser = null) {
+            if ((config('app.is_demo') || $user->email === 'demo@resumed.com') && $targetUser?->email === 'demo@resumed.com') {
+                return false;
+            }
+            return true;
+        });
     }
 }

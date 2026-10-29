@@ -482,4 +482,55 @@ class SecurityAndAuthTest extends TestCase
         $homeRes->assertStatus(200);
         $homeRes->assertSee('Demo Login');
     }
+
+    /**
+     * Verify that demo user cannot delete users and cannot access logs.
+     */
+    public function test_demo_user_restrictions_for_delete_and_logs(): void
+    {
+        $demoUser = \App\Models\User::firstOrCreate(
+            ['email' => 'demo@resumed.com'],
+            ['name' => 'Demo Restrict User', 'password' => bcrypt('demo123')]
+        );
+
+        $targetUser = \App\Models\User::create([
+            'name' => 'Target User',
+            'email' => 'target@resumed.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        // 1. As Demo User: deleting demo@resumed.com should be blocked
+        $this->actingAs($demoUser);
+        config(['app.is_demo' => true]);
+        $delDemoRes = $this->get('/settings_users/' . $demoUser->id . '/delete');
+        $delDemoRes->assertRedirect(route('users'));
+        $this->assertDatabaseHas('users', ['id' => $demoUser->id, 'deleted_at' => null]);
+
+        // But deleting a newly created test user is allowed in demo mode
+        $delTargetRes = $this->get('/settings_users/' . $targetUser->id . '/delete');
+        $delTargetRes->assertRedirect(route('users'));
+        $this->assertSoftDeleted('users', ['id' => $targetUser->id]);
+
+        // 2. As Demo User: logs should return 403 Forbidden
+        $accessRes = $this->get('/user_access');
+        $accessRes->assertStatus(403);
+
+        $visitorsRes = $this->get('/visitors');
+        $visitorsRes->assertStatus(403);
+
+        // 3. As Normal User (non-demo): logs are accessible
+        config(['app.is_demo' => false]);
+        $adminUser = \App\Models\User::create([
+            'name' => 'Real Admin',
+            'email' => 'realadmin@resumed.com',
+            'password' => bcrypt('password123'),
+        ]);
+
+        $this->actingAs($adminUser);
+        $adminAccessRes = $this->get('/user_access');
+        $adminAccessRes->assertStatus(200);
+
+        $adminVisitorsRes = $this->get('/visitors');
+        $adminVisitorsRes->assertStatus(200);
+    }
 }

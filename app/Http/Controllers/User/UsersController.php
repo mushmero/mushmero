@@ -39,12 +39,19 @@ class UsersController extends Controller
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
+        $isDemo = config('app.is_demo') || auth()->user()?->email === 'demo@resumed.com';
+
         foreach ($users as $user) {
+            $isProtectedDemoAccount = $isDemo && $user->email === 'demo@resumed.com';
+            $deleteAction = $isProtectedDemoAccount
+                ? '<a class="disabled" href="#" title="Primary demo account cannot be deleted">' . $this->btnDelete . '</a>'
+                : '<a class="" href="' . url('settings_users/' . $user->id . '/delete') . '">' . $this->btnDelete . '</a>';
+
             $data[] = array(
                 $user->name,
                 $user->email,
                 Carbon::parse($user->created_at)->format('d F Y'),
-                '<nobr><a href="' . url('settings_users/' . $user->id . '/restore') . '" class="' . (!$user->trashed() ? 'disabled' : '') . '">' . $this->btnRestore . '</a><a class="' . ($user->trashed() ? 'disabled' : '') . '" href="' . url('settings_users/' . $user->id . '/edit') . '">' . $this->btnEdit . '</a><a class="" href="' . url('settings_users/' . $user->id . '/delete') . '">' . $this->btnDelete . '</a><a class="" href="' . url('settings_users/' . $user->id . '/show') . '">' . $this->btnDetails . '</a></nobr>',
+                '<nobr><a href="' . url('settings_users/' . $user->id . '/restore') . '" class="' . (!$user->trashed() ? 'disabled' : '') . '">' . $this->btnRestore . '</a><a class="' . ($user->trashed() ? 'disabled' : '') . '" href="' . url('settings_users/' . $user->id . '/edit') . '">' . $this->btnEdit . '</a>' . $deleteAction . '<a class="" href="' . url('settings_users/' . $user->id . '/show') . '">' . $this->btnDetails . '</a></nobr>',
             );
         }
 
@@ -146,6 +153,13 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
+        $targetUser = User::withTrashed()->findOrFail($id);
+
+        if ((config('app.is_demo') || auth()->user()?->email === 'demo@resumed.com') && $targetUser->email === 'demo@resumed.com') {
+            flash('The primary demo account cannot be deleted.')->warning();
+            return redirect()->route('users');
+        }
+
         UsersTrait::delete($id);
         flash(
             'User deleted successfully',
