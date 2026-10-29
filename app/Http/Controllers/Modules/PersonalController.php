@@ -267,4 +267,28 @@ class PersonalController extends Controller
         Personal::findOrFail($targetId)->update(['status' => $status]);
         return response()->json(['success' => true]);
     }
+
+    public function switchActivePersona(Request $request, $id = null)
+    {
+        $targetId = $id ?? $request->input('id');
+        $userId = auth()->id();
+
+        $targetPersona = Personal::where('user_id', $userId)->findOrFail($targetId);
+
+        // Deactivate all personas for this user
+        Personal::where('user_id', $userId)->update(['status' => 0]);
+
+        // Activate target persona
+        $targetPersona->update(['status' => 1]);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Switched active persona to {$targetPersona->fullname}",
+            'persona' => [
+                'id' => $targetPersona->id,
+                'fullname' => $targetPersona->fullname,
+                'tagline' => $targetPersona->tagline,
+            ]
+        ]);
+    }
 }

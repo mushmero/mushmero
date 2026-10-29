@@ -403,6 +403,7 @@ Route::middleware(['auth'])->group(static function () {
                 Route::get('/countstatus', 'PersonalController@countstatus');
                 Route::get('/checkStatusById/{id}', 'PersonalController@checkStatusById');
                 Route::post('/updateStatusById/{id}', 'PersonalController@updateStatusById');
+                Route::post('/switch/{id}', 'PersonalController@switchActivePersona')->name('personal.switch');
             });
         });
         Route::get('/getAllCountries', 'HomeController@getCountryList');
