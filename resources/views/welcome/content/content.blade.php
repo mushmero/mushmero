@@ -1,6 +1,14 @@
 @extends('welcome.partials.layout', ['author' => $data['author'], 'description' => $data['description']])
 
 @section('content')
+    @if (config('app.is_demo'))
+        <div style="position: fixed; top: 18px; right: 20px; z-index: 99999;">
+            <a href="{{ route('login') }}" class="btn btn-primary btn-sm shadow" style="border-radius: 20px; padding: 6px 16px; font-weight: 600; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <i class="fas fa-sign-in-alt mr-1"></i> Demo Login
+            </a>
+        </div>
+    @endif
+
 
     <div id="main-background">
         <div class="flash-message">

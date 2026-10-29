@@ -22,13 +22,22 @@
 
 @section('auth_body')
     @include('flash::message')
+
+    @if (config('app.is_demo'))
+        <div class="alert alert-info py-2 px-3 mb-3 text-sm">
+            <div class="font-weight-bold mb-1"><i class="fas fa-info-circle mr-1"></i> Demo Access</div>
+            <div><strong>Email:</strong> <code>demo@resumed.com</code></div>
+            <div><strong>Password:</strong> <code>demo123</code></div>
+        </div>
+    @endif
+
     <form action="{{ $login_url }}" method="post">
         @csrf
 
         {{-- Email field --}}
         <div class="input-group mb-3">
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                   value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
+                   value="{{ old('email', config('app.is_demo') ? 'demo@resumed.com' : '') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
 
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -46,6 +55,7 @@
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                   value="{{ config('app.is_demo') ? 'demo123' : '' }}"
                    placeholder="{{ __('adminlte::adminlte.password') }}">
 
             <div class="input-group-append">

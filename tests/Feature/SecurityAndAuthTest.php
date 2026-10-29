@@ -448,4 +448,38 @@ class SecurityAndAuthTest extends TestCase
         $previewRes->assertStatus(200);
         $previewRes->assertSee('Alex Morgan');
     }
+
+    /**
+     * Verify that IS_DEMO controls login link on public page and credentials banner on login page.
+     */
+    public function test_is_demo_controls_login_link_and_credentials_visibility(): void
+    {
+        // 1. By default (is_demo = false)
+        config(['app.is_demo' => false]);
+        $response = $this->get('/login');
+        $response->assertStatus(200);
+        $response->assertDontSee('Demo Access');
+
+        // 2. In Demo Mode (is_demo = true)
+        config(['app.is_demo' => true]);
+        $loginRes = $this->get('/login');
+        $loginRes->assertStatus(200);
+        $loginRes->assertSee('Demo Access');
+        $loginRes->assertSee('demo@resumed.com');
+        $loginRes->assertSee('demo123');
+
+        // Verify public landing page renders Demo Login button
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => 'demo_btn@resumed.com'],
+            ['name' => 'Demo Btn', 'password' => bcrypt('password123')]
+        );
+        \App\Models\Personal::firstOrCreate(
+            ['email' => 'demo_btn_persona@resumed.com'],
+            ['fullname' => 'Demo User', 'user_id' => $user->id, 'status' => 1]
+        );
+
+        $homeRes = $this->get('/');
+        $homeRes->assertStatus(200);
+        $homeRes->assertSee('Demo Login');
+    }
 }

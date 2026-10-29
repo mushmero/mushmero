@@ -3,7 +3,7 @@
 @section('content')
     <div>
         <ul class="nav">
-            @if (Route::has('login'))
+            @if (Route::has('login') && (config('app.is_demo') || env('APP_ENV') == 'local'))
                 <li>
                     @auth
                         <a class="btn nav-link" href="{{ url('/home') }}"><i class="fas fa-fw fa-home"></i> Admin</a>
