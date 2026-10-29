@@ -12,16 +12,22 @@
 
     <link rel="shortcut icon" href="{!! asset('favicon.ico') !!}">
 
+    <!-- Google Fonts for Modern Full-Stack Tech Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- The Stylesheet -->
     <link rel="stylesheet" href="{!! asset('vendor/adminlte/dist/css/adminlte.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('welcome/welcome.css') !!}">
     <link rel="stylesheet" href="{!! asset('vendor/fontawesome-free/css/all.min.css') !!}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{!! asset('vendor/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('welcome/welcome.css') !!}">
 
     {{-- @yield ('additional_header') --}}
 </head>
-<body>
+<body class="tech-dark-body">
     @yield('content')
     @yield('footer')
     <script src="{!! asset('vendor/jquery/jquery.min.js') !!}"></script>

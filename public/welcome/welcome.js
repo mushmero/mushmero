@@ -3,7 +3,73 @@ $(document).ready(function() {
     blurModalButton('interestModal','interestTrigger');
     formSubmit($('#interestForm'), [$('#name'), $('#email')], ['text', 'email']);
     clearInputOnModalClose('interestModal',[$('#name'), $('#email')]);
+
+    // Mobile Navigation Toggle
+    $('#techMobileToggle').on('click', function() {
+        $('#techNavMenu').toggleClass('open');
+    });
+
+    // Close mobile nav when clicking a link
+    $('#techNavMenu a').on('click', function() {
+        $('#techNavMenu').removeClass('open');
+    });
+
+    // Scrollspy for active nav items
+    $(window).on('scroll', function() {
+        var scrollPos = $(document).scrollTop() + 100;
+        $('.tech-nav-menu a').each(function() {
+            var currLink = $(this);
+            var refElement = $(currLink.attr("href"));
+            if (refElement.length && refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+                $('.tech-nav-menu a').removeClass("active");
+                currLink.addClass("active");
+            }
+        });
+    });
 });
+
+/**
+ * Copy string to clipboard and show tech toast alert
+ */
+function copyToClipboard(text, message) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function() {
+            showTechToast(message || 'Copied to clipboard!');
+        }).catch(function() {
+            fallbackCopy(text, message);
+        });
+    } else {
+        fallbackCopy(text, message);
+    }
+}
+
+function fallbackCopy(text, message) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        showTechToast(message || 'Copied to clipboard!');
+    } catch (err) {
+        console.error('Fallback copy failed', err);
+    }
+    document.body.removeChild(textArea);
+}
+
+function showTechToast(msg) {
+    $('.tech-toast').remove();
+    var toast = $('<div class="tech-toast"><i class="fas fa-check-circle text-emerald-400"></i> ' + msg + '</div>');
+    $('body').append(toast);
+    setTimeout(function() {
+        toast.fadeOut(300, function() {
+            $(this).remove();
+        });
+    }, 2500);
+}
 
 function blurModalButton(modalID, triggerID){
     $('#'+modalID).on('shown.bs.modal', function (e) {
@@ -15,6 +81,8 @@ function blurModalButton(modalID, triggerID){
 
 function formSubmit(form, input, type){
     var form_elem = $(form);
+    if (!form_elem.length) return;
+    
     form_elem.submit(function(e){
         e.preventDefault();
 
@@ -100,7 +168,7 @@ function clearInputOnModalClose(modalID, input){
     $('#'+modalID).on('hide.bs.modal', function (e) {
         for(let i = 0; i < input.length; i++){
             input[i].val('');
-            input[i].removeClass().addClass('form-control');
+            input[i].removeClass('is-invalid');
             input[i].next('div').removeClass().addClass('invalid-feedback');
         }
     });

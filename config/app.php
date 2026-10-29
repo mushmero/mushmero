@@ -45,6 +45,10 @@ return [
 
     'is_demo' => (bool) env('IS_DEMO', false),
 
+    'available_for_hire' => (bool) env('AVAILABLE_FOR_HIRE', true),
+
+    'show_status_indicator' => (bool) env('SHOW_STATUS_INDICATOR', true),
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
