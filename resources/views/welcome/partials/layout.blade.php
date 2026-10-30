@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{!! asset('vendor/fontawesome-free/css/all.min.css') !!}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{!! asset('vendor/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('welcome/welcome.css') !!}">
+    <link rel="stylesheet" href="{!! asset('welcome/welcome.css') . '?v=' . filemtime(public_path('welcome/welcome.css')) !!}">
 
     {{-- @yield ('additional_header') --}}
 </head>
@@ -35,7 +35,7 @@
     <script src="{!! asset('vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') !!}"></script>
     <script src="{!! asset('vendor/bootstrap/js/bootstrap.bundle.min.js') !!}"></script>
     <script src="{!! asset('vendor/sweetalert2/sweetalert2.all.min.js') !!}"></script>
-    <script src="{!! asset('welcome/welcome.js') !!}"></script>
+    <script src="{!! asset('welcome/welcome.js') . '?v=' . filemtime(public_path('welcome/welcome.js')) !!}"></script>
 
 </body>
 </html>
