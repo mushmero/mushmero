@@ -4,7 +4,7 @@
     <!-- Demo Login Bar -->
     @if (config('app.is_demo'))
         <div class="demo-login-widget">
-            <a href="{{ route('login') }}" class="btn-tech btn-tech-emerald btn-tech-sm">
+            <a class="btn-tech btn-tech-emerald btn-tech-sm" href="{{ route('login') }}">
                 <i class="fas fa-sign-in-alt mr-1"></i> Demo Login
             </a>
         </div>
@@ -13,27 +13,29 @@
     <!-- Modern Sticky Tech Navbar -->
     <header class="tech-navbar">
         <div class="tech-nav-container">
-            <a href="#about" class="tech-brand">
+            <a class="tech-brand" href="#about">
                 <span class="tech-brand-icon">&lt;/&gt;</span>
-                <span class="tech-brand-text">{{ Str::upper(substr($data['name'], 0, 2)) }}.DEV</span>
+                <span class="tech-brand-text">mushmero</span>
             </a>
 
             <nav class="tech-nav-menu" id="techNavMenu">
-                <a href="#about" class="nav-link-tech active">About</a>
-                <a href="#experience" class="nav-link-tech">Timeline</a>
-                <a href="#skills" class="nav-link-tech">Skills</a>
-                @if(($data['educations'] && $data['educations']->count() > 0) || ($data['languages'] && $data['languages']->count() > 0))
-                    <a href="#academics" class="nav-link-tech">Academics</a>
+                <a class="nav-link-tech active" href="#about">About</a>
+                <a class="nav-link-tech" href="#experience">Timeline</a>
+                <a class="nav-link-tech" href="#skills">Skills</a>
+                @if (
+                    ($data['educations'] && $data['educations']->count() > 0) ||
+                        ($data['languages'] && $data['languages']->count() > 0))
+                    <a class="nav-link-tech" href="#academics">Academics</a>
                 @endif
-                @if(!empty($data['projects']) && count($data['projects']) > 0)
-                    <a href="#projects" class="nav-link-tech">Projects</a>
+                @if (!empty($data['projects']) && count($data['projects']) > 0)
+                    <a class="nav-link-tech" href="#projects">Projects</a>
                 @endif
-                <a href="#contact" class="nav-link-tech">Contact</a>
+                <a class="nav-link-tech" href="#contact">Contact</a>
             </nav>
 
             <div class="tech-nav-actions">
                 @if (!empty($data['email']))
-                    <a href="mailto:{{ $data['email'] }}" class="btn-tech btn-tech-emerald btn-tech-sm">
+                    <a class="btn-tech btn-tech-emerald btn-tech-sm" href="mailto:{{ $data['email'] }}">
                         <i class="fas fa-paper-plane mr-1"></i> Let's Talk
                     </a>
                 @endif
@@ -50,14 +52,16 @@
     </div>
 
     <!-- HERO SECTION -->
-    <section id="about" class="tech-hero-section">
+    <section class="tech-hero-section" id="about">
         <div class="tech-container">
             <div class="hero-grid">
                 <!-- Left: Profile & Description -->
                 <div class="hero-content">
                     @if (config('app.show_status_indicator', true))
-                        <div class="hero-status-pill {{ config('app.available_for_hire', true) ? '' : 'hero-status-neutral' }}">
-                            <span class="{{ config('app.available_for_hire', true) ? 'status-pulse-dot' : 'status-neutral-dot' }}"></span>
+                        <div
+                            class="hero-status-pill {{ config('app.available_for_hire', true) ? '' : 'hero-status-neutral' }}">
+                            <span
+                                class="{{ config('app.available_for_hire', true) ? 'status-pulse-dot' : 'status-neutral-dot' }}"></span>
                             <span class="font-mono text-xs">
                                 @if (config('app.available_for_hire', true))
                                     ONLINE // AVAILABLE FOR HIRE
@@ -75,13 +79,15 @@
                     </div>
 
                     <p class="hero-bio">
-                        Engineering resilient backends, distributed systems, and modern, performant web applications with a focus on code quality, scalability, and seamless user experience.
+                        Engineering resilient backends, distributed systems, and modern, performant web applications with a
+                        focus on code quality, scalability, and seamless user experience.
                     </p>
 
                     <!-- Contact & Metadata Badges -->
                     <div class="hero-meta-badges">
                         @if (!empty($data['email']))
-                            <div class="meta-badge-item" title="Click to copy email" onclick="copyToClipboard('{{ $data['email'] }}', 'Email copied to clipboard!')">
+                            <div class="meta-badge-item" title="Click to copy email"
+                                onclick="copyToClipboard('{{ $data['email'] }}', 'Email copied to clipboard!')">
                                 <i class="fas fa-envelope text-emerald-400"></i>
                                 <span class="badge-text">{{ $data['email'] }}</span>
                                 <i class="fas fa-copy copy-icon"></i>
@@ -89,7 +95,8 @@
                         @endif
 
                         @if (!empty($data['phone']))
-                            <div class="meta-badge-item" title="Click to copy phone" onclick="copyToClipboard('{{ $data['phone'] }}', 'Phone number copied!')">
+                            <div class="meta-badge-item" title="Click to copy phone"
+                                onclick="copyToClipboard('{{ $data['phone'] }}', 'Phone number copied!')">
                                 <i class="fas fa-phone text-cyan-400"></i>
                                 <span class="badge-text">{{ $data['phone'] }}</span>
                                 <i class="fas fa-copy copy-icon"></i>
@@ -97,7 +104,7 @@
                         @endif
 
                         @if (!empty($data['website']))
-                            <a href="{{ $data['website'] }}" target="_blank" class="meta-badge-item">
+                            <a class="meta-badge-item" href="{{ $data['website'] }}" target="_blank">
                                 <i class="fas fa-globe text-indigo-400"></i>
                                 <span class="badge-text">{{ preg_replace('#^https?://#', '', $data['website']) }}</span>
                                 <i class="fas fa-external-link-alt copy-icon"></i>
@@ -107,10 +114,10 @@
 
                     <!-- Quick Action CTAs -->
                     <div class="hero-action-row">
-                        <a href="#experience" class="btn-tech btn-tech-emerald">
+                        <a class="btn-tech btn-tech-emerald" href="#experience">
                             <i class="fas fa-route mr-2"></i> View Career Timeline
                         </a>
-                        <a href="#contact" class="btn-tech btn-tech-outline">
+                        <a class="btn-tech btn-tech-outline" href="#contact">
                             <i class="fas fa-envelope mr-2"></i> Get In Touch
                         </a>
                     </div>
@@ -121,7 +128,7 @@
                     <div class="tech-avatar-card">
                         <div class="avatar-glow"></div>
                         <div class="avatar-frame">
-                            <img src="{!! url($data['profile-image']) !!}" alt="{{ $data['name'] }}" class="avatar-img" />
+                            <img class="avatar-img" src="{!! url($data['profile-image']) !!}" alt="{{ $data['name'] }}" />
                         </div>
                         <div class="avatar-terminal-badge font-mono">
                             <span class="badge-dot"></span> {{ Str::slug($data['name'], '-') }}.profile
@@ -133,12 +140,13 @@
     </section>
 
     <!-- SECTION 01: CAREER STORY TIMELINE -->
-    <section id="experience" class="tech-section">
+    <section class="tech-section" id="experience">
         <div class="tech-container">
             <div class="section-header">
                 <div class="section-tag font-mono">// 01. CAREER_STORY</div>
                 <h2 class="section-title">Professional Experience & Milestones</h2>
-                <p class="section-desc">An unbroken chronological timeline of engineering roles, architectural contributions, and production achievements.</p>
+                <p class="section-desc">An unbroken chronological timeline of engineering roles, architectural
+                    contributions, and production achievements.</p>
             </div>
 
             <div class="career-timeline wide-timeline">
@@ -151,18 +159,24 @@
 
                         try {
                             if (!empty($experience->start) && preg_match('#^\d{2}/\d{2}/\d{4}$#', $experience->start)) {
-                                $formattedStart = \Carbon\Carbon::createFromFormat('d/m/Y', $experience->start)->format('M Y');
+                                $formattedStart = \Carbon\Carbon::createFromFormat('d/m/Y', $experience->start)->format(
+                                    'M Y',
+                                );
                             }
-                        } catch (\Throwable $e) {}
+                        } catch (\Throwable $e) {
+                        }
 
                         if (empty($experience->end) || strtolower(trim($experience->end)) === 'current') {
                             $formattedEnd = 'Present';
                         } else {
                             try {
                                 if (preg_match('#^\d{2}/\d{2}/\d{4}$#', $experience->end)) {
-                                    $formattedEnd = \Carbon\Carbon::createFromFormat('d/m/Y', $experience->end)->format('M Y');
+                                    $formattedEnd = \Carbon\Carbon::createFromFormat('d/m/Y', $experience->end)->format(
+                                        'M Y',
+                                    );
                                 }
-                            } catch (\Throwable $e) {}
+                            } catch (\Throwable $e) {
+                            }
                         }
                     @endphp
                     <div class="timeline-item timeline-item-wide">
@@ -181,7 +195,8 @@
                                     </div>
                                     <h3 class="timeline-role">{{ $experience->position }}</h3>
                                 </div>
-                                <div class="timeline-date-chip font-mono" title="{{ $experience->start }} - {{ $experience->end }}">
+                                <div class="timeline-date-chip font-mono"
+                                    title="{{ $experience->start }} - {{ $experience->end }}">
                                     <i class="fas fa-calendar-day mr-2 text-emerald-400"></i>
                                     <span>{{ $formattedStart }} &ndash; {{ $formattedEnd }}</span>
                                 </div>
@@ -203,12 +218,13 @@
     </section>
 
     <!-- SECTION 02: SKILLS & TECH STACK -->
-    <section id="skills" class="tech-section tech-section-alt">
+    <section class="tech-section tech-section-alt" id="skills">
         <div class="tech-container">
             <div class="section-header">
                 <div class="section-tag font-mono">// 02. SYSTEM_CAPABILITIES</div>
                 <h2 class="section-title">Core Tech Stack & Engineering Forte</h2>
-                <p class="section-desc">Tools, languages, frameworks, and architectural proficiencies utilized across projects.</p>
+                <p class="section-desc">Tools, languages, frameworks, and architectural proficiencies utilized across
+                    projects.</p>
             </div>
 
             <div class="skills-grid">
@@ -229,91 +245,96 @@
     </section>
 
     <!-- SECTION 03: EDUCATION & LANGUAGES -->
-    @if(($data['educations'] && $data['educations']->count() > 0) || ($data['languages'] && $data['languages']->count() > 0))
-    <section id="academics" class="tech-section">
-        <div class="tech-container">
-            <div class="section-header">
-                <div class="section-tag font-mono">// 03. ACADEMICS_&_COMMUNICATION</div>
-                <h2 class="section-title">Education & Language Proficiencies</h2>
-                <p class="section-desc">Academic background and verbal/written communication fluencies.</p>
-            </div>
-
-            <div class="academics-grid">
-                <!-- Education Column -->
-                <div class="academics-col">
-                    <div class="academics-col-header font-mono">
-                        <i class="fas fa-graduation-cap text-emerald-400 mr-2"></i> EDUCATION
-                    </div>
-                    <div class="space-y-4">
-                        @foreach ($data['educations'] as $education)
-                            <div class="academic-card">
-                                <div class="academic-header">
-                                    <h4 class="academic-title">{{ $education->name }}</h4>
-                                    <span class="academic-period font-mono">{{ $education->start }} - {{ $education->end }}</span>
-                                </div>
-                                <div class="academic-institution">
-                                    <i class="fas fa-university text-slate-400 mr-1.5"></i> {{ $education->institution }}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+    @if (
+        ($data['educations'] && $data['educations']->count() > 0) ||
+            ($data['languages'] && $data['languages']->count() > 0))
+        <section class="tech-section" id="academics">
+            <div class="tech-container">
+                <div class="section-header">
+                    <div class="section-tag font-mono">// 03. ACADEMICS_&_COMMUNICATION</div>
+                    <h2 class="section-title">Education & Language Proficiencies</h2>
+                    <p class="section-desc">Academic background and verbal/written communication fluencies.</p>
                 </div>
 
-                <!-- Languages Column -->
-                <div class="academics-col">
-                    <div class="academics-col-header font-mono">
-                        <i class="fas fa-comments text-cyan-400 mr-2"></i> LANGUAGES
+                <div class="academics-grid">
+                    <!-- Education Column -->
+                    <div class="academics-col">
+                        <div class="academics-col-header font-mono">
+                            <i class="fas fa-graduation-cap text-emerald-400 mr-2"></i> EDUCATION
+                        </div>
+                        <div class="space-y-4">
+                            @foreach ($data['educations'] as $education)
+                                <div class="academic-card">
+                                    <div class="academic-header">
+                                        <h4 class="academic-title">{{ $education->name }}</h4>
+                                        <span class="academic-period font-mono">{{ $education->start }} -
+                                            {{ $education->end }}</span>
+                                    </div>
+                                    <div class="academic-institution">
+                                        <i class="fas fa-university text-slate-400 mr-1.5"></i>
+                                        {{ $education->institution }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="space-y-4">
-                        @foreach ($data['languages'] as $language)
-                            <div class="language-card">
-                                <div class="language-info">
-                                    <span class="language-name font-semibold">{{ $language->name }}</span>
-                                    <span class="language-level font-mono text-emerald-400">
-                                        {{ $language->allproficiency->proficiency ?? 'Fluent' }}
-                                    </span>
+
+                    <!-- Languages Column -->
+                    <div class="academics-col">
+                        <div class="academics-col-header font-mono">
+                            <i class="fas fa-comments text-cyan-400 mr-2"></i> LANGUAGES
+                        </div>
+                        <div class="space-y-4">
+                            @foreach ($data['languages'] as $language)
+                                <div class="language-card">
+                                    <div class="language-info">
+                                        <span class="language-name font-semibold">{{ $language->name }}</span>
+                                        <span class="language-level font-mono text-emerald-400">
+                                            {{ $language->allproficiency->proficiency ?? 'Fluent' }}
+                                        </span>
+                                    </div>
+                                    <div class="tech-meter-track">
+                                        <div class="tech-meter-bar" style="width: 90%;"></div>
+                                    </div>
                                 </div>
-                                <div class="tech-meter-track">
-                                    <div class="tech-meter-bar" style="width: 90%;"></div>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
 
     <!-- SECTION 04: PROJECTS & HOBBIES -->
     @if (!empty($data['projects']) && count($data['projects']) > 0)
-    <section id="projects" class="tech-section tech-section-alt">
-        <div class="tech-container">
-            <div class="section-header">
-                <div class="section-tag font-mono">// 04. LABS_&_PROJECTS</div>
-                <h2 class="section-title">Featured Projects & Practical Work</h2>
-                <p class="section-desc">Selected builds, applications, open-source initiatives, and leisure pursuits.</p>
-            </div>
+        <section class="tech-section tech-section-alt" id="projects">
+            <div class="tech-container">
+                <div class="section-header">
+                    <div class="section-tag font-mono">// 04. LABS_&_PROJECTS</div>
+                    <h2 class="section-title">Featured Projects & Practical Work</h2>
+                    <p class="section-desc">Selected builds, applications, open-source initiatives, and leisure pursuits.
+                    </p>
+                </div>
 
-            <div class="projects-grid">
-                @foreach ($data['projects'] as $project)
-                    <div class="project-card">
-                        <div class="project-card-header">
-                            <div class="project-icon">
-                                <i class="fas fa-code-branch text-emerald-400"></i>
+                <div class="projects-grid">
+                    @foreach ($data['projects'] as $project)
+                        <div class="project-card">
+                            <div class="project-card-header">
+                                <div class="project-icon">
+                                    <i class="fas fa-code-branch text-emerald-400"></i>
+                                </div>
+                                <h3 class="project-title">{{ $project['name'] }}</h3>
                             </div>
-                            <h3 class="project-title">{{ $project['name'] }}</h3>
+                            @if (!empty($project['description']))
+                                <div class="project-desc">
+                                    {!! $project['description'] !!}
+                                </div>
+                            @endif
                         </div>
-                        @if (!empty($project['description']))
-                            <div class="project-desc">
-                                {!! $project['description'] !!}
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
     @endif
 @endsection
 
