@@ -62,7 +62,7 @@ function fallbackCopy(text, message) {
 
 function showTechToast(msg) {
     $('.tech-toast').remove();
-    var toast = $('<div class="tech-toast"><i class="fas fa-check-circle text-emerald-400"></i> ' + msg + '</div>');
+    var toast = $('<div class="tech-toast"><i class="fas fa-check-circle text-amber-400"></i> ' + msg + '</div>');
     $('body').append(toast);
     setTimeout(function() {
         toast.fadeOut(300, function() {
