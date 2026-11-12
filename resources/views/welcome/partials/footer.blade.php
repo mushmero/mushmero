@@ -10,13 +10,13 @@
                     <span class="dot dot-green"></span>
                     <span class="terminal-title font-mono">contact.init()</span>
                 </div>
-                <div class="terminal-status font-mono text-emerald-400 text-xs">
+                <div class="terminal-status font-mono text-amber-400 text-xs">
                     <span class="status-pulse-dot"></span> PING OK
                 </div>
             </div>
 
             <div class="terminal-box-body">
-                <div class="contact-prompt font-mono text-emerald-400 mb-2">// 05. CONNECT & COLLABORATE</div>
+                <div class="contact-prompt font-mono text-amber-400 mb-2">// 05. CONNECT & COLLABORATE</div>
                 <h3 class="contact-heading">Let's build something remarkable together.</h3>
                 <p class="contact-subheading">
                     Whether you're looking for engineering leadership, system architecture, or full-stack development, feel free to reach out.
@@ -39,7 +39,7 @@
             <div class="subfooter-copy">
                 <span>© {{ date('Y') }} <strong>{{ $data['name'] }}</strong></span>
                 <span class="separator">•</span>
-                <span>Powered by <a href="https://mushmero.com" target="_blank" rel="noopener" class="text-emerald-400 hover:underline">Resumed</a> by Mushmero</span>
+                <span>Powered by <a href="https://mushmero.com" target="_blank" rel="noopener" class="text-amber-400 hover:underline">Resumed</a> by Mushmero</span>
                 <span class="separator">•</span>
                 <span class="font-mono text-xs text-slate-500">v{{ Helper::appVer() }}</span>
             </div>
@@ -53,13 +53,13 @@
                     @endif
                     <span class="separator">|</span>
                     @auth
-                        <a href="{{ route('home') }}" class="text-emerald-400 hover:underline"><i class="fas fa-tachometer-alt mr-1"></i> Admin</a>
+                        <a href="{{ route('home') }}" class="text-amber-400 hover:underline"><i class="fas fa-tachometer-alt mr-1"></i> Admin</a>
                     @else
                         <a href="{{ route('login') }}" class="text-slate-400 hover:text-white"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
                     @endauth
                 @elseif (config('app.is_demo'))
                     @auth
-                        <a href="{{ route('home') }}" class="text-emerald-400 hover:underline"><i class="fas fa-tachometer-alt mr-1"></i> Admin</a>
+                        <a href="{{ route('home') }}" class="text-amber-400 hover:underline"><i class="fas fa-tachometer-alt mr-1"></i> Admin</a>
                     @else
                         <a href="{{ route('login') }}" class="text-slate-400 hover:text-white"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
                     @endauth

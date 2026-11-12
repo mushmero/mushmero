@@ -4,7 +4,7 @@
     <!-- Demo Login Bar -->
     @if (config('app.is_demo'))
         <div class="demo-login-widget">
-            <a class="btn-tech btn-tech-emerald btn-tech-sm" href="{{ route('login') }}">
+            <a class="btn-tech btn-tech-primary btn-tech-sm" href="{{ route('login') }}">
                 <i class="fas fa-sign-in-alt mr-1"></i> Demo Login
             </a>
         </div>
@@ -35,7 +35,7 @@
 
             <div class="tech-nav-actions">
                 @if (!empty($data['email']))
-                    <a class="btn-tech btn-tech-emerald btn-tech-sm" href="mailto:{{ $data['email'] }}">
+                    <a class="btn-tech btn-tech-primary btn-tech-sm" href="mailto:{{ $data['email'] }}">
                         <i class="fas fa-paper-plane mr-1"></i> Let's Talk
                     </a>
                 @endif
@@ -73,7 +73,7 @@
                     @endif
 
                     <div class="hero-title-group">
-                        <div class="font-mono text-emerald-400 text-sm mb-1">// FULL-STACK SOFTWARE ENGINEER</div>
+                        <div class="font-mono text-amber-400 text-sm mb-1">// FULL-STACK SOFTWARE ENGINEER</div>
                         <h1 class="hero-name">{{ $data['name'] }}</h1>
                         <h2 class="hero-position">{{ $data['position'] }}</h2>
                     </div>
@@ -88,7 +88,7 @@
                         @if (!empty($data['email']))
                             <div class="meta-badge-item" title="Click to copy email"
                                 onclick="copyToClipboard('{{ $data['email'] }}', 'Email copied to clipboard!')">
-                                <i class="fas fa-envelope text-emerald-400"></i>
+                                <i class="fas fa-envelope text-amber-400"></i>
                                 <span class="badge-text">{{ $data['email'] }}</span>
                                 <i class="fas fa-copy copy-icon"></i>
                             </div>
@@ -97,15 +97,15 @@
                         @if (!empty($data['phone']))
                             <div class="meta-badge-item" title="Click to copy phone"
                                 onclick="copyToClipboard('{{ $data['phone'] }}', 'Phone number copied!')">
-                                <i class="fas fa-phone text-cyan-400"></i>
+                                <i class="fas fa-phone text-slate-400"></i>
                                 <span class="badge-text">{{ $data['phone'] }}</span>
                                 <i class="fas fa-copy copy-icon"></i>
                             </div>
                         @endif
 
                         @if (!empty($data['website']))
-                            <a class="meta-badge-item" href="{{ $data['website'] }}" target="_blank">
-                                <i class="fas fa-globe text-indigo-400"></i>
+                            <a class="meta-badge-item" href="{{ $data['website'] }}" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-globe text-slate-400"></i>
                                 <span class="badge-text">{{ preg_replace('#^https?://#', '', $data['website']) }}</span>
                                 <i class="fas fa-external-link-alt copy-icon"></i>
                             </a>
@@ -114,8 +114,11 @@
 
                     <!-- Quick Action CTAs -->
                     <div class="hero-action-row">
-                        <a class="btn-tech btn-tech-emerald" href="#experience">
+                        <a class="btn-tech btn-tech-primary" href="#experience">
                             <i class="fas fa-route mr-2"></i> View Career Timeline
+                        </a>
+                        <a class="btn-tech btn-tech-outline" href="https://resumed-demo.mushmero.com" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-laptop-code mr-2"></i> Live Demo <i class="fas fa-external-link-alt ml-1.5 text-xs opacity-70"></i>
                         </a>
                         <a class="btn-tech btn-tech-outline" href="#contact">
                             <i class="fas fa-envelope mr-2"></i> Get In Touch
@@ -126,7 +129,6 @@
                 <!-- Right: Profile Avatar Frame -->
                 <div class="hero-avatar-wrapper">
                     <div class="tech-avatar-card">
-                        <div class="avatar-glow"></div>
                         <div class="avatar-frame">
                             <img class="avatar-img" src="{!! url($data['profile-image']) !!}" alt="{{ $data['name'] }}" />
                         </div>
@@ -190,14 +192,14 @@
                             <div class="timeline-card-header">
                                 <div class="timeline-role-group">
                                     <div class="timeline-company-badge font-mono">
-                                        <i class="fas fa-building text-cyan-400 mr-2"></i>
+                                        <i class="fas fa-building text-amber-400 mr-2"></i>
                                         <span>{{ $experience->employer }}</span>
                                     </div>
                                     <h3 class="timeline-role">{{ $experience->position }}</h3>
                                 </div>
                                 <div class="timeline-date-chip font-mono"
                                     title="{{ $experience->start }} - {{ $experience->end }}">
-                                    <i class="fas fa-calendar-day mr-2 text-emerald-400"></i>
+                                    <i class="fas fa-calendar-day mr-2 text-amber-400"></i>
                                     <span>{{ $formattedStart }} &ndash; {{ $formattedEnd }}</span>
                                 </div>
                             </div>
@@ -260,7 +262,7 @@
                     <!-- Education Column -->
                     <div class="academics-col">
                         <div class="academics-col-header font-mono">
-                            <i class="fas fa-graduation-cap text-emerald-400 mr-2"></i> EDUCATION
+                            <i class="fas fa-graduation-cap text-amber-400 mr-2"></i> EDUCATION
                         </div>
                         <div class="space-y-4">
                             @foreach ($data['educations'] as $education)
@@ -282,14 +284,14 @@
                     <!-- Languages Column -->
                     <div class="academics-col">
                         <div class="academics-col-header font-mono">
-                            <i class="fas fa-comments text-cyan-400 mr-2"></i> LANGUAGES
+                            <i class="fas fa-comments text-amber-400 mr-2"></i> LANGUAGES
                         </div>
                         <div class="space-y-4">
                             @foreach ($data['languages'] as $language)
                                 <div class="language-card">
                                     <div class="language-info">
                                         <span class="language-name font-semibold">{{ $language->name }}</span>
-                                        <span class="language-level font-mono text-emerald-400">
+                                        <span class="language-level font-mono text-amber-400">
                                             {{ $language->allproficiency->proficiency ?? 'Fluent' }}
                                         </span>
                                     </div>
@@ -321,7 +323,7 @@
                         <div class="project-card">
                             <div class="project-card-header">
                                 <div class="project-icon">
-                                    <i class="fas fa-code-branch text-emerald-400"></i>
+                                    <i class="fas fa-code-branch text-amber-400"></i>
                                 </div>
                                 <h3 class="project-title">{{ $project['name'] }}</h3>
                             </div>
